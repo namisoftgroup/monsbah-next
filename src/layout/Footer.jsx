@@ -2,6 +2,10 @@
 
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { FaXTwitter, FaYoutube } from "react-icons/fa6";
+import { IoLogoTiktok } from "react-icons/io5";
+import { FaInstagram } from "react-icons/fa";
+import { PiYoutubeLogo } from "react-icons/pi";
 
 export default function Footer() {
   const t = useTranslations();
@@ -129,7 +133,7 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       aria-label="YouTube"
                     >
-                      <i className="fa-brands fa-youtube" />
+                      <FaYoutube />
                     </a>
                   </li>
                   <li>
@@ -139,7 +143,7 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       aria-label="Instagram"
                     >
-                      <i className="fa-brands fa-instagram" />
+                      <FaInstagram />
                     </a>
                   </li>
                   <li>
@@ -149,7 +153,7 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       aria-label="TikTok"
                     >
-                      <i className="fa-brands fa-tiktok" />
+                      <IoLogoTiktok />
                     </a>
                   </li>
                   <li>
@@ -159,7 +163,7 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       aria-label="Twitter"
                     >
-                      <i className="fa-brands fa-twitter" />
+                      <FaXTwitter />
                     </a>
                   </li>
                 </ul>

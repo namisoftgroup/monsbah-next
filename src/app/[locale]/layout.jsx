@@ -4,11 +4,11 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
 import Providers from "@/providers/Providers";
+import AuthModal from "@/components/auth/AuthModal";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "@/assets/styles/all.min.css";
 import "@/assets/styles/main.css";
 
 export const metadata = {
@@ -81,6 +81,7 @@ export default async function RootLayout({ children, params }) {
           <Header />
           <main>{children}</main>
           <Footer />
+          <AuthModal />
         </Providers>
       </body>
     </html>
