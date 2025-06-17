@@ -26,7 +26,10 @@ export default function Login() {
 
   useEffect(() => {
     if (selectedCountry) {
-      register("phone", { required: true });
+      register("country_code", {
+        required: true,
+        value: selectedCountry.country_code,
+      });
     }
   }, [selectedCountry]);
 

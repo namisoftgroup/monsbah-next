@@ -1,5 +1,5 @@
+import axiosInstance from "@/utils/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../../utils/axiosInstance";
 
 function useGetSliders() {
   const { isLoading, data, error } = useQuery({

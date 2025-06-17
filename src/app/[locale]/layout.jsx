@@ -8,8 +8,13 @@ import AuthModal from "@/components/auth/AuthModal";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/effect-fade";
+
 import "bootstrap/dist/css/bootstrap.min.css";
-import "@/assets/styles/all.min.css"
+import "@/assets/styles/all.min.css";
 import "@/assets/styles/main.css";
 
 export const metadata = {
