@@ -6,7 +6,19 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { NextIntlClientProvider } from "next-intl";
 
 export default function ReactQueryProvider({ children, locale, messages }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: false,
+            refetchOnWindowFocus: false,
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+          },
+        },
+      })
+  );
 
   return (
     <NextIntlClientProvider
@@ -16,7 +28,7 @@ export default function ReactQueryProvider({ children, locale, messages }) {
       messages={messages}
     >
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
+        <ReactQueryDevtools initialIsOpen={false} />
         {children}
       </QueryClientProvider>
     </NextIntlClientProvider>

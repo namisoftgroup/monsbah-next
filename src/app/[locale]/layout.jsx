@@ -9,6 +9,7 @@ import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "@/assets/styles/all.min.css"
 import "@/assets/styles/main.css";
 
 export const metadata = {

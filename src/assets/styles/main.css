@@ -778,6 +778,10 @@ button {
   font-weight: 600;
 }
 
+.invalid-feedback {
+  display: block;
+}
+
 body {
   position: relative;
   overflow-x: hidden;

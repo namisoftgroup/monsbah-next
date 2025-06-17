@@ -780,8 +780,13 @@ button {
     }
   }
 }
+
 .ad-modal-header {
   margin: 16px;
   color: $main;
   font-weight: 600;
+}
+
+.invalid-feedback {
+  display: block;
 }

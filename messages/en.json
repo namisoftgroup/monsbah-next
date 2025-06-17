@@ -15,6 +15,11 @@
     "aboutUs": "About Us",
     "companies": "Companies"
   },
+  "validations": {
+    "required": "This field is required",
+    "invalid_phone": "Invalid phone number",
+    "password_too_short": "Password must be at least 6 characters"
+  },
   "aboutApp": "A women's community for recycling and selling household items such as clothes, dresses, fashion, watches, shoes, and accessories, while providing everything you need to prepare for occasions.",
   "appName": "Monasba",
   "viewRates": "view rates",

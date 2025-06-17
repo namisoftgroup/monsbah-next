@@ -5,10 +5,13 @@ import { useTranslations } from "next-intl";
 import { FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { IoLogoTiktok } from "react-icons/io5";
 import { FaInstagram } from "react-icons/fa";
-import { PiYoutubeLogo } from "react-icons/pi";
+import { GrYoutube } from "react-icons/gr";
+import useGetCategories from "@/hooks/queries/settings/useGetCategories";
 
 export default function Footer() {
   const t = useTranslations();
+  const { data: categories } = useGetCategories();
+
   return (
     <footer>
       <div className="container">
@@ -78,14 +81,19 @@ export default function Footer() {
             <div className="col">
               <h3>{t("popularCategories")}</h3>
               <ul>
-                {/* {categories?.map((category) => (
+                {categories?.map((category) => (
                   <li key={category.id}>
-                    <Link href={`/?category=${category.id}`} aria-label="Category">
-                      <span><i className="fa-sharp fa-light fa-arrow-right" /></span>
+                    <Link
+                      href={`/?category=${category.id}`}
+                      aria-label="Category"
+                    >
+                      <span>
+                        <i className="fa-sharp fa-light fa-arrow-right" />
+                      </span>
                       {category.name}
                     </Link>
                   </li>
-                ))} */}
+                ))}
               </ul>
             </div>
           </div>
@@ -119,7 +127,7 @@ export default function Footer() {
               <p>
                 {t("copyRights")} &copy;
                 {new Date().getFullYear()}. {t("allRights")}{" "}
-                <Link aria-label="Home" to="/">
+                <Link aria-label="Home" href="/">
                   {t("appName")}
                 </Link>
               </p>
@@ -133,7 +141,7 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       aria-label="YouTube"
                     >
-                      <FaYoutube />
+                      <GrYoutube />
                     </a>
                   </li>
                   <li>
