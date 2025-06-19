@@ -2,8 +2,16 @@ import { API_URL } from "@/utils/constants";
 import { getLocale } from "next-intl/server";
 
 export async function fetcher(endpoint, options = {}) {
-  const url = `${API_URL}${endpoint}`;
+  const url = new URL(`${API_URL}${endpoint}`);
   let lang = "ar";
+
+  if (options.params && typeof options.params === "object") {
+    Object.entries(options.params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        url.searchParams.append(key, String(value));
+      }
+    });
+  }
 
   try {
     const locale = await getLocale();
@@ -29,7 +37,7 @@ export async function fetcher(endpoint, options = {}) {
     config.body = JSON.stringify(options.body);
   }
 
-  const res = await fetch(url, config);
+  const res = await fetch(url.toString(), config);
 
   if (!res.ok) {
     const errorText = await res.text().catch(() => "");

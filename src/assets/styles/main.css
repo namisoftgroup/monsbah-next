@@ -5906,8 +5906,10 @@ body main .blogs_section .blog_card .blog_content p {
   font-size: 18rem;
   margin-bottom: 15px;
 }
-body main .blogs_section .blog_card .blog_content a {
+body main .blogs_section .blog_card .blog_content .read_more {
   color: #1abc9c;
+  font-size: 16px;
+  cursor: pointer;
   text-decoration: none;
 }
 body main .blog_details {
