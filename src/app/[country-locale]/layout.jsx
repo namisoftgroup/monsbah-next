@@ -80,11 +80,11 @@ export default async function RootLayout(props) {
   }
 
   const lang = fullLocale.split("-")[1];
-  
+
   const messages = await getMessages(lang);
   setRequestLocale(fullLocale);
 
-  const categories = await getCategories(lang);
+  const categories = await getCategories();
 
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>

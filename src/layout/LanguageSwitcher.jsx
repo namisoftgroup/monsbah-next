@@ -10,8 +10,6 @@ export default function LanguageSwitcher() {
   const pathname = usePathname();
   const locale = useLocale();
 
-  
-
   function handleLanguageChange(lang) {
     router.replace(pathname, {
       locale: locale.split("-")[0] + "-" + lang,
