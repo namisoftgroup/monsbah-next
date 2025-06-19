@@ -56,7 +56,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 .modal-header .btn-close {
   box-shadow: none !important;
-  background-image: url("/images/icons/close.svg");
+  background-image: url("/icons/close.svg");
   margin-inline-start: auto !important;
   margin-inline-end: 0 !important;
 }
@@ -379,7 +379,7 @@ button {
 }
 .form-check-input:checked {
   background-position: right center;
-  background-image: url("/images/icons/check-checked-icon.svg");
+  background-image: url("/icons/check-checked-icon.svg");
   border-color: #1abc9c;
 }
 
@@ -1742,7 +1742,7 @@ body .form.reverse-form .form-check-input:focus {
 }
 body .form.reverse-form .form-check-input:checked {
   background-position: right center;
-  background-image: url("/images/icons/check-checked-icon.svg");
+  background-image: url("/icons/check-checked-icon.svg");
   border-color: #1abc9c;
 }
 body .form.reverse-form .dropdown button {
