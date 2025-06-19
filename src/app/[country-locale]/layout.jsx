@@ -2,6 +2,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { getCategories } from "@/libs/getCategories";
 
 import Providers from "@/providers/Providers";
 import AuthModal from "@/components/auth/AuthModal";
@@ -70,23 +71,28 @@ export const viewport = {
   themeColor: "#000000",
 };
 
-export default async function RootLayout({ children, params }) {
-  const { locale } = await params;
+export default async function RootLayout(props) {
+  const params = await props.params;
+  const fullLocale = params["country-locale"];
 
-  if (!hasLocale(routing.locales, locale)) {
+  if (!hasLocale(routing.locales, fullLocale)) {
     notFound();
   }
 
-  const messages = await getMessages(locale);
-  setRequestLocale(locale);
+  const lang = fullLocale.split("-")[1];
+  
+  const messages = await getMessages(lang);
+  setRequestLocale(fullLocale);
+
+  const categories = await getCategories(lang);
 
   return (
-    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+    <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <body>
-        <Providers locale={locale} messages={messages}>
+        <Providers locale={fullLocale} messages={messages}>
           <Header />
-          <main>{children}</main>
-          <Footer />
+          <main>{props.children}</main>
+          <Footer categories={categories} />
           <AuthModal />
         </Providers>
       </body>

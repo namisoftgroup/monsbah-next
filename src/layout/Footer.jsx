@@ -6,11 +6,9 @@ import { FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { IoLogoTiktok } from "react-icons/io5";
 import { FaInstagram } from "react-icons/fa";
 import { GrYoutube } from "react-icons/gr";
-import useGetCategories from "@/hooks/queries/settings/useGetCategories";
 
-export default function Footer() {
+export default function Footer({ categories }) {
   const t = useTranslations();
-  const { data: categories } = useGetCategories();
 
   return (
     <footer>

@@ -2,14 +2,11 @@
 
 import { useAuthModal } from "@/stores/useAuthModal";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import GetApp from "@/ui/modals/GetApp";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
-  const [show, setShow] = useState(false);
   const t = useTranslations("header");
   const handleShowAuthModal = useAuthModal((state) => state.onOpen);
 
@@ -101,8 +98,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-
-      <GetApp show={show} setShow={setShow} />
     </header>
   );
 }
