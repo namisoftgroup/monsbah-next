@@ -1,5 +1,6 @@
+"use client";
+
 import { Link } from "@/i18n/navigation";
-import React from "react";
 
 export default function SubCategoriesList({ subCategories, selectedCategory }) {
   return (
@@ -9,13 +10,13 @@ export default function SubCategoriesList({ subCategories, selectedCategory }) {
           <div className=" col-xl-3 col-md-4 col-6 p-1" key={sub.id}>
             <Link
               aria-label="subcategory"
-              href={`/?category=${selectedCategory}&sub_category=${sub?.name}`}
+              href={`/?category=${selectedCategory}&sub_category=${sub?.slug}`}
               className="category sub d-flex align-items-center flex-column gap-2"
             >
               <div className="image-wrapper">
-                <img src={sub?.image} alt={sub?.name} />
+                <img src={sub?.image} alt={sub?.slug} />
               </div>
-              <h6>{sub?.name}</h6>
+              <h6>{sub?.slug}</h6>
             </Link>
           </div>
         ))}

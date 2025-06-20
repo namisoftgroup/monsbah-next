@@ -46,7 +46,7 @@ export default function SideBar({ categoryList }) {
           <buttton
             key={category.id}
             onClick={() => {
-              handleSelectCategory(category?.name);
+              handleSelectCategory(category?.slug);
             }}
             className={`category ${
               category?.name === selectedCategory ? "active" : ""

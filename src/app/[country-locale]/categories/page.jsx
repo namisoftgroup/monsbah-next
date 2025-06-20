@@ -8,7 +8,7 @@ export default async function Categories({ searchParams }) {
   const selectedCategory = paramsObj?.category;
 
   const categories = await getCategories();
-  const subCategories = await getSubCategories({ category_id: 2 });
+  const subCategories = await getSubCategories({ category_slug: selectedCategory });
 
   return (
     <section className="categories-page explore_ads">
