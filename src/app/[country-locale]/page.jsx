@@ -9,9 +9,12 @@ export default async function Home({ searchParams }) {
   const selectedCategory = paramsObj?.category;
 
   const categories = await getCategories("/client/categories");
-  const subCategories = await getSubCategories("/client/sub-categories", {
-    category_slug: selectedCategory,
-  });
+  const subCategories = await getSubCategories(
+    {
+      category_slug: selectedCategory,
+    },
+    "/client/sub-categories"
+  );
 
   return (
     <>

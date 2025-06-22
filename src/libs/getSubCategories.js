@@ -1,8 +1,8 @@
 import { fetcher } from "@/utils/fetchers";
 
 export async function getSubCategories(
-  endPoint = "/client/sub-categories",
-  params
+  params,
+  endPoint = "/client/sub-categories"
 ) {
   const res = await fetcher(endPoint, {
     params,
