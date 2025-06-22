@@ -3,13 +3,15 @@
 import CategoriesSlider from "./CategoriesSlider";
 import SubCategoriesSlider from "./SubCategoriesSlider";
 import AdvancedFilter from "./AdvancedFilter";
+import useGetCountries from "@/hooks/queries/settings/useGetCountries";
 
 export default function FilterSection({
   categories,
-  countries,
   subCategories,
   selectedCategory,
 }) {
+  const { data: countries } = useGetCountries();
+  
   return (
     <section className="explore_ads">
       <div className="container d-flex flex-column gap-2">
@@ -17,7 +19,10 @@ export default function FilterSection({
         {selectedCategory && (
           <SubCategoriesSlider subCategories={subCategories} />
         )}
-        <AdvancedFilter countries={countries} />
+        <AdvancedFilter
+          countries={countries}
+          selectedCategory={selectedCategory}
+        />
       </div>
     </section>
   );

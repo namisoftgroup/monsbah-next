@@ -22,6 +22,7 @@ export default function CategoriesSlider({ categories }) {
         params.set("category", newValue);
       }
 
+      params.delete("sub_category");
       router.push(`?${params.toString()}`);
     },
     [router, searchParams]

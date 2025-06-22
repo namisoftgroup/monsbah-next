@@ -1,17 +1,53 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useMemo, useCallback } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { Dropdown } from "react-bootstrap";
+import Select from "react-select";
 import CountrySwitcher from "./CountrySwitcher";
 
-export default function AdvancedFilter({ countries }) {
+export default function AdvancedFilter({ countries, selectedCategory }) {
   const t = useTranslations();
+  const searchParams = useSearchParams();
+  const locale = useLocale();
+  const lang = locale.split("-")[1];
+
+  const productType = searchParams.get("type") || "";
+
+  const productTypeOptions = useMemo(
+    () => [
+      { value: "", label: t("all") },
+      { value: "sale", label: t("sale") },
+      { value: "rent", label: t("rent") },
+    ],
+    [t]
+  );
+
+  const updateURLParam = useCallback(
+    (key, value, removeKeys = []) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (value === "") {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+
+      removeKeys.forEach((k) => params.delete(k));
+
+      const newUrl = `?${params.toString()}`;
+      window.history.pushState(null, "", newUrl);
+    },
+    [searchParams]
+  );
 
   return (
     <div className="filter">
       <div className="selects">
         <CountrySwitcher countries={countries} />
-        
-        {/* {selectedCategory === "1" && (
+
+        {(selectedCategory === "dress" || selectedCategory === "فساتين") && (
           <Select
             aria-label="Product Type"
             className="basic-single"
@@ -19,78 +55,49 @@ export default function AdvancedFilter({ countries }) {
             isSearchable={false}
             isRtl={lang === "ar"}
             placeholder={t("productType")}
-            onChange={(e) => handleSetParams(e?.value, "type")}
-            value={productType}
-            options={[
-              { value: "", label: t("all") },
-              { value: "sale", label: t("sale") },
-              { value: "rent", label: t("rent") },
-            ]}
+            options={productTypeOptions}
+            value={productTypeOptions.find((opt) => opt.value === productType)}
+            onChange={(e) => updateURLParam("type", e?.value || "")}
           />
-        )} */}
+        )}
       </div>
 
-      {/* <div className="grid_view">
+      <div className="grid_view">
         <Dropdown>
-          <Dropdown.Toggle aria-label="Filter">
+          <Dropdown.Toggle aria-label="Sort Filter">
             <i className="fa-regular fa-arrow-up-wide-short"></i>
           </Dropdown.Toggle>
+
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleSetParams("near", "sort")}>
+            <Dropdown.Item onClick={() => updateURLParam("sort", "near")}>
               <i className="fa-regular fa-calendar"></i>
               <span>{t("latest")}</span>
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleSetParams("new", "sort")}>
+
+            <Dropdown.Item onClick={() => updateURLParam("sort", "new")}>
               <i className="fa-regular fa-location-dot"></i>
               <span>{t("fromNearest")}</span>
             </Dropdown.Item>
 
             <Dropdown.Item
-              onClick={() => handleSetParams("highest_rated", "sort")}
+              onClick={() => updateURLParam("sort", "highest_rated")}
             >
               <i className="fa-regular fa-star"></i>
               <span>{t("highestRate")}</span>
             </Dropdown.Item>
 
-            <Dropdown.Item
-              onClick={() => handleSetParams("high_price", "sort")}
-            >
+            <Dropdown.Item onClick={() => updateURLParam("sort", "high_price")}>
               <i className="fa-regular fa-arrow-up-wide-short"></i>
               <span>{t("high_price")}</span>
             </Dropdown.Item>
 
-            <Dropdown.Item onClick={() => handleSetParams("low_price", "sort")}>
+            <Dropdown.Item onClick={() => updateURLParam("sort", "low_price")}>
               <i className="fa-regular fa-arrow-down-wide-short"></i>
               <span>{t("low_price")}</span>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-
-        <Dropdown>
-          <Dropdown.Toggle aria-label="Filter Country">
-            <i className="fa-sharp fa-light fa-filter"></i>
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu>
-            <Dropdown.Item
-              onClick={() => {
-                searchParams.delete("city");
-                setSearchParams(searchParams);
-              }}
-            >
-              {t("all")}
-            </Dropdown.Item>
-            {cities?.map(({ id, name }) => (
-              <Dropdown.Item
-                key={id}
-                onClick={() => handleSetParams(id, "city")}
-              >
-                {name}
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-      </div> */}
+      </div>
     </div>
   );
 }

@@ -1,18 +1,17 @@
+import axiosInstance from "@/utils/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { useParams, useSearchParams } from "react-router-dom";
-import axiosInstance from "../../../utils/axiosInstance";
+import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 
 function useGetCompanyProducts(isMyCompany) {
-  const { id } = useParams();
-  const [searchParams] = useSearchParams();
-  const myCompany = useSelector((state) => state.clientData.client);
-  const lang = useSelector((state) => state.language.lang);
+  const loacle = useLocale();
+  const lang = loacle.split("-")[1];
 
-  const country_id = searchParams.get("country");
-  const type = searchParams.get("type");
-  const sort = searchParams.get("sort");
-  const city_id = searchParams.get("city");
+  const searchParams = useSearchParams();
+  // const country_id = searchParams.get("country");
+  // const type = searchParams.get("type");
+  // const sort = searchParams.get("sort");
+  // const city_id = searchParams.get("city");
   const category_id = searchParams.get("category");
   const sub_category_id = searchParams.get("sub_category");
 
@@ -26,11 +25,11 @@ function useGetCompanyProducts(isMyCompany) {
   } = useInfiniteQuery({
     queryKey: [
       "company-products",
-      country_id,
-      type,
-      sort,
-      city_id,
-      id,
+      // country_id,
+      // type,
+      // sort,
+      // city_id,
+      // id,
       category_id,
       sub_category_id,
       lang,
@@ -39,13 +38,13 @@ function useGetCompanyProducts(isMyCompany) {
     queryFn: async ({ pageParam = 1 }) => {
       const res = await axiosInstance.get("/company/products", {
         params: {
-          type: type,
-          sort: sort,
+          // type: type,
+          // sort: sort,
+          // city_id: city_id,
+          // country_id: country_id,
+          // company_id: isMyCompany ? myCompany?.id : id,
           page: pageParam,
-          city_id: city_id,
-          country_id: country_id,
           category_id: category_id,
-          company_id: isMyCompany ? myCompany?.id : id,
           sub_category_id: sub_category_id,
         },
       });

@@ -1,11 +1,12 @@
+import axiosInstance from "@/utils/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import axiosInstance from "../../../utils/axiosInstance";
+import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 
 function useGetCompanies() {
-  const lang = useSelector((state) => state.language.lang);
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const locale = useLocale();
+  const lang = locale.split("-")[1];
 
   const country_id = searchParams.get("country");
   const city_id = searchParams.get("city");

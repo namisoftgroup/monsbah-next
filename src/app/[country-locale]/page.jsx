@@ -1,5 +1,4 @@
 import { getCategories } from "@/libs/getCategories";
-import { getCountries } from "@/libs/getCountries";
 import { getSubCategories } from "@/libs/getSubCategories";
 import FilterSection from "@/components/home/FilterSection";
 import HeroSection from "@/components/home/HeroSection";
@@ -9,9 +8,8 @@ export default async function Home({ searchParams }) {
   const paramsObj = await searchParams;
   const selectedCategory = paramsObj?.category;
 
-  const categories = await getCategories();
-  const countries = await getCountries();
-  const subCategories = await getSubCategories({
+  const categories = await getCategories("/client/categories");
+  const subCategories = await getSubCategories("/client/sub-categories", {
     category_slug: selectedCategory,
   });
 
@@ -21,7 +19,6 @@ export default async function Home({ searchParams }) {
       <FilterSection
         selectedCategory={selectedCategory}
         categories={categories}
-        countries={countries}
         subCategories={subCategories}
       />
       <ProductsSection />

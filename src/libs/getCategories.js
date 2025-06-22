@@ -1,6 +1,6 @@
 import { fetcher } from "@/utils/fetchers";
 
-export async function getCategories() {
-  const res = await fetcher("/client/categories");
+export async function getCategories(endPoint = "/client/categories") {
+  const res = await fetcher(endPoint);
   return res?.data || [];
 }
