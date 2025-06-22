@@ -23,6 +23,7 @@
     "name_too_short": "Name must be at least 3 characters",
     "message_too_short": "Message must be at least 10 characters"
   },
+  "somethingWentWrong": "Something went wrong, please try again later.",
   "aboutApp": "A women's community for recycling and selling household items such as clothes, dresses, fashion, watches, shoes, and accessories, while providing everything you need to prepare for occasions.",
   "appName": "Monasba",
   "viewRates": "view rates",

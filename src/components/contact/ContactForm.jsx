@@ -56,7 +56,6 @@ export default function ContactForm() {
                 placeholder={t("phone")}
                 selectedCountry={selectedCountry}
                 setSelectedCountry={setSelectedCountry}
-                limit={selectedCountry?.number_limit}
                 {...register("phone")}
                 error={error?.phone?.message}
               />

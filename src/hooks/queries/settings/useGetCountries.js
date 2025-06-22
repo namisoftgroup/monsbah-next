@@ -1,9 +1,9 @@
 import axiosInstance from "@/utils/axiosInstance";
-import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { useLocale } from "next-intl";
 
 function useGetCountries() {
-  const lang = usePathname().split("/")[1];
+  const lang = useLocale().split("-")[1] || "en";
 
   const { isLoading, data, error } = useQuery({
     queryKey: ["countries", lang],

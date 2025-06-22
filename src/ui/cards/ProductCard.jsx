@@ -7,7 +7,7 @@ import { useState } from "react";
 import ImageLoad from "../loaders/ImageLoad";
 
 function ProductCard({ product }) {
-  const  t  = useTranslations();
+  const t = useTranslations();
   const [isImageLoaded, setIsImageLoaded] = useState(true);
 
   const handleImageLoad = () => {
@@ -17,10 +17,14 @@ function ProductCard({ product }) {
   return (
     <Link
       aria-label="Product"
-      href={`/product/${product.id}`}
+      href={`/${product.slug}`}
       className={`product_vertical`}
     >
-      <Link aria-label="Product" href={`/product/${product.id}`} className="img">
+      <Link
+        aria-label="Product"
+        href={`/${product.slug}`}
+        className="img"
+      >
         {isValidVideoExtension(product?.image) ? (
           <video
             src={product.image}
@@ -49,12 +53,11 @@ function ProductCard({ product }) {
       <div className="content">
         <Link
           aria-label="Product"
-          href={`/product/${product.id}`}
+          href={`/${product.slug}`}
           className="title"
           onClick={(e) => e.stopPropagation()}
         >
           <h3>{product.name}</h3>
-         
         </Link>
 
         <h3 className="price">
@@ -65,14 +68,10 @@ function ProductCard({ product }) {
           <li className="w-100">
             <i className="fa-light fa-location-dot"> </i>{" "}
             {product.country?.name}
-            
           </li>
 
           <li style={{ flex: 1 }}>
-            <Link
-              aria-label="Profile"
-              href="/profile"
-            >
+            <Link aria-label="Profile" href="/profile">
               <i className="fa-light fa-user"></i> {product.user?.username}
             </Link>
           </li>
