@@ -1,18 +1,22 @@
+"use client";
+
+import axiosInstance from "@/utils/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import axiosInstance from "../../../utils/axiosInstance";
+import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 
 function useGetProducts() {
-  const [searchParams] = useSearchParams();
-  const lang = useSelector((state) => state.language.lang);
+  const searchParams = useSearchParams();
+  const lang = useLocale().split("-")[1];
 
-  const country_id = searchParams.get("country");
-  const type = searchParams.get("type");
-  const sort = searchParams.get("sort");
-  const city_id = searchParams.get("city");
-  const category_id = searchParams.get("category");
-  const sub_category_id = searchParams.get("sub_category");
+  // const country_id = searchParams.get("country");
+  // const type = searchParams.get("type");
+  // const sort = searchParams.get("sort");
+  // const city_id = searchParams.get("city");
+  const category_slug = searchParams.get("category");
+  const sub_category_slug = searchParams.get("sub_category");
+
+  
 
   const {
     isLoading,
@@ -24,27 +28,27 @@ function useGetProducts() {
   } = useInfiniteQuery({
     queryKey: [
       "products",
-      country_id,
-      type,
-      sort,
-      city_id,
-      category_id,
-      sub_category_id,
       lang,
+      // country_id,
+      // type,
+      // sort,
+      // city_id,
+      category_slug,
+      sub_category_slug,
     ],
 
     queryFn: async ({ pageParam = 1 }) => {
       const res = await axiosInstance.get(
-        `/${localStorage.getItem("userType")}/products`,
+        `/client/products`,
         {
           params: {
-            type: type,
-            sort: sort,
             page: pageParam,
-            city_id: city_id,
-            country_id: country_id,
-            category_id: category_id,
-            sub_category_id: sub_category_id,
+            // country_id: country_id,
+            // type: type,
+            // sort: sort,
+            // city_id: city_id,
+            category_slug: category_slug,
+            sub_category_slug: sub_category_slug,
           },
         }
       );

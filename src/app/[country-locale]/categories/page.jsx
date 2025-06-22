@@ -8,13 +8,16 @@ export default async function Categories({ searchParams }) {
   const selectedCategory = paramsObj?.category;
 
   const categories = await getCategories();
-  const subCategories = await getSubCategories({ category_slug: selectedCategory });
+  const subCategories = await getSubCategories({
+    category_slug: selectedCategory,
+  });
 
   return (
     <section className="categories-page explore_ads">
       <div className="container">
         <div className="row">
           <SideBar categoryList={categories} />
+
           <SubCategoriesList
             subCategories={subCategories}
             selectedCategory={selectedCategory}
