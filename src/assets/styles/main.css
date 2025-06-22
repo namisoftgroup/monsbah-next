@@ -6313,7 +6313,6 @@ body main .contact_section .contact_form {
 }
 body main .contact_section .contact_form h3,
 body main .contact_section .contact_form p {
-  text-align: center;
   text-wrap: balance;
 }
 body main .contact_section .contact_form p {
@@ -6321,8 +6320,6 @@ body main .contact_section .contact_form p {
   color: #666b88;
 }
 body main .contact_section .contact_form .contact_btn {
-  width: -moz-fit-content;
-  width: fit-content;
   height: auto;
   padding: 12px 42px;
   border-radius: 50px;

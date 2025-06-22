@@ -1,5 +1,6 @@
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
+import { Toaster } from "sonner";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { getCategories } from "@/libs/getCategories";
@@ -90,6 +91,7 @@ export default async function RootLayout(props) {
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <body>
         <Providers locale={fullLocale} messages={messages}>
+          <Toaster expand={false} richColors position="bottom-right" />
           <Header />
           <main>{props.children}</main>
           <Footer categories={categories} />
