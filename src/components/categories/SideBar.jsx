@@ -43,7 +43,7 @@ export default function SideBar({ categoryList }) {
         </button>
 
         {categoryList?.map((category) => (
-          <buttton
+          <button
             key={category.id}
             onClick={() => {
               handleSelectCategory(category?.slug);
@@ -56,7 +56,7 @@ export default function SideBar({ categoryList }) {
               <img src={category?.image} alt="" />
             </div>
             <h6>{category?.name}</h6>
-          </buttton>
+          </button>
         ))}
       </div>
     </div>

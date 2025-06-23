@@ -1,10 +1,8 @@
-"use client";
-
 import { useTranslations } from "next-intl";
-import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
-export default function AboutSection() {
-  const t = useTranslations("about");
+export default async function AboutSection() {
+  const t = await getTranslations("about");
 
   return (
     <div className="heading-section">

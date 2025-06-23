@@ -1,9 +1,7 @@
-"use client";
+import { getTranslations } from "next-intl/server";
 
-import { useTranslations } from "next-intl";
-
-export default function HowItWorks() {
-  const t = useTranslations("about");
+export default async function HowItWorks() {
+  const t = await getTranslations("about");
 
   return (
     <div className="how-it-works">

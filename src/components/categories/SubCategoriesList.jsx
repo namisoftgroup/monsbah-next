@@ -1,8 +1,10 @@
-"use client";
-
 import { Link } from "@/i18n/navigation";
+import { getSubCategories } from "@/libs/getSubCategories";
 
-export default function SubCategoriesList({ subCategories, selectedCategory }) {
+export default async function SubCategoriesList({ selectedCategory }) {
+  const subCategories = await getSubCategories({
+    category_slug: selectedCategory,
+  });
   return (
     <div className="col-lg-10 col-md-9 col-8 p-lg-2 p-1">
       <div className="categories_slider subcategories_slider">

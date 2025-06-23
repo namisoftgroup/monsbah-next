@@ -1,10 +1,12 @@
-"use client";
-
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { getCountries } from "@/libs/getCountries";
+import { getTranslations } from "next-intl/server";
 
-export default function Countries({ countries }) {
-  const t = useTranslations();
+export default async function Countries() {
+  const t = await getTranslations();
+  console.log(t);
+
+  const countries = await getCountries();
 
   return (
     <div className="countries-section">

@@ -3,7 +3,8 @@
 import { useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function CategoriesSlider({ categories }) {
   const t = useTranslations();

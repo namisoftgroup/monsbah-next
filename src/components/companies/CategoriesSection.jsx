@@ -1,10 +1,8 @@
-"use client";
-import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 
-export default function CategoriesSection({ categories }) {
-  const t = useTranslations();
-
+export default async function CategoriesSection({ categories }) {
+  const t = await getTranslations();
   return (
     <section className="categories-page">
       <div className="sections">

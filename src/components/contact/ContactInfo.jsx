@@ -1,10 +1,8 @@
-"use client";
-
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export default function ContactInfo() {
-  const t = useTranslations("contact");
+export default async function ContactInfo() {
+  const t = await getTranslations("contact");
 
   return (
     <div className="col-lg-6 p-2">
