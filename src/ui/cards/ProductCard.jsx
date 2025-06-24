@@ -3,28 +3,31 @@
 import { Link } from "@/i18n/navigation";
 import { isValidVideoExtension } from "@/utils/helpers";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ImageLoad from "../loaders/ImageLoad";
 
 function ProductCard({ product }) {
   const t = useTranslations();
+  const router = useRouter();
   const [isImageLoaded, setIsImageLoaded] = useState(true);
 
-  const handleImageLoad = () => {
-    setIsImageLoaded(false);
+  const handleImageLoad = () => setIsImageLoaded(false);
+
+  const handleCardClick = () => {
+    router.push(`/${product.slug}`);
   };
 
   return (
-    <Link
-      aria-label="Product"
-      href={`/${product.slug}`}
-      className={`product_vertical`}
+    <div
+      role="link"
+      aria-label={`View product: ${product.name}`}
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={(e) => e.key === "Enter" && handleCardClick()}
+      className="product_vertical cursor-pointer outline-none"
     >
-      <Link
-        aria-label="Product"
-        href={`/${product.slug}`}
-        className="img"
-      >
+      <div className="img">
         {isValidVideoExtension(product?.image) ? (
           <video
             src={product.image}
@@ -35,30 +38,29 @@ function ProductCard({ product }) {
             onLoadedMetadata={handleImageLoad}
           />
         ) : (
-          <img src={product.image} onLoad={handleImageLoad} alt="" />
+          <img
+            src={product.image}
+            onLoad={handleImageLoad}
+            alt={product.name}
+          />
         )}
 
         <ImageLoad isImageLoaded={isImageLoaded} />
 
         <div className="thums_pro">
           <span className="type">{t(`${product?.type}`)}</span>
-          {product?.is_popular ? (
+          {product?.is_popular && (
             <span className="popular">
               <img src="/icons/crown.svg" alt="" /> {t("popular")}
             </span>
-          ) : null}
+          )}
         </div>
-      </Link>
+      </div>
 
       <div className="content">
-        <Link
-          aria-label="Product"
-          href={`/${product.slug}`}
-          className="title"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="title">
           <h3>{product.name}</h3>
-        </Link>
+        </div>
 
         <h3 className="price">
           <span>{product?.price}</span> {product?.currency?.name}
@@ -66,22 +68,28 @@ function ProductCard({ product }) {
 
         <ul>
           <li className="w-100">
-            <i className="fa-light fa-location-dot"> </i>{" "}
+            <i className="fa-light fa-location-dot" aria-hidden="true" />{" "}
             {product.country?.name}
           </li>
 
           <li style={{ flex: 1 }}>
-            <Link aria-label="Profile" href="/profile">
-              <i className="fa-light fa-user"></i> {product.user?.username}
+            <Link
+              href="/profile"
+              aria-label={`Go to ${product.user?.username}'s profile`}
+              onClick={(e) => e.stopPropagation()} // Prevent card navigation
+            >
+              <i className="fa-light fa-user" aria-hidden="true" />{" "}
+              {product.user?.username}
             </Link>
           </li>
 
           <li>
-            <i className="fa-light fa-clock"></i> {product.date}
+            <i className="fa-light fa-clock" aria-hidden="true" />{" "}
+            {product.date}
           </li>
         </ul>
       </div>
-    </Link>
+    </div>
   );
 }
 

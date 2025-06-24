@@ -49,6 +49,7 @@ export default function AdvancedFilter({ countries, selectedCategory }) {
 
         {(selectedCategory === "dress" || selectedCategory === "فساتين") && (
           <Select
+            instanceId="product-type-select"
             aria-label="Product Type"
             className="basic-single"
             classNamePrefix="select"
