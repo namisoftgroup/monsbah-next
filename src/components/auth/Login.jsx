@@ -12,12 +12,14 @@ import PhoneInput from "@/ui/forms/PhoneInput";
 import ChooseUserType from "./ChooseUserType";
 import useLoginForm from "@/hooks/controllers/useLoginForm";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
+import { getErrorMessage } from "@/utils/get-error-message";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function Login() {
   const t = useTranslations("auth");
-  const setFormType = useAuthModal((state) => state.setFormType);
+  const { setFormType, onClose } = useAuthModal((state) => state);
   const router = useRouter();
-
+  const loginState = useAuthStore((state) => state.login);
   const [loading, setLoading] = useState(false);
   const [, setErrors] = useState({});
 
@@ -65,6 +67,7 @@ export default function Login() {
     })
       .then(async (res) => {
         const data = await res.json();
+
         if (!res.ok) {
           console.error(data);
           if (data?.data) {
@@ -75,7 +78,14 @@ export default function Login() {
         return data;
       })
       .then((data) => {
-        loginState(data?.data?.token, data?.data?.user);
+        console.log(data);
+
+        loginState(data?.data?.token, data?.data?.client_data);
+        localStorage.setItem(
+          "user_type",
+          data?.data?.client_data?.user_type === "user" ? "client" : "company"
+        );
+        onClose(false);
         router.push("/");
       })
       .catch((error) => {

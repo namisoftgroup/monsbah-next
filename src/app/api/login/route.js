@@ -46,8 +46,20 @@ export async function POST(request) {
           expires: new Date(data?.data?.refresh_token_expires_at),
           httpOnly: true,
           sameSite: "lax",
-        }
+        } , 
       );
+      cookieStore.set(
+        "user_type",
+        data?.data?.client_data?.user_type,
+        {
+          path: "/",
+          expires: new Date(data?.data?.refresh_token_expires_at),
+          httpOnly: true,
+          sameSite: "lax",
+        } , 
+      );
+      
+
     }
 
     return NextResponse.json(data, { status: res.status });

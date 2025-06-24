@@ -1,23 +1,23 @@
-import { getMessages, setRequestLocale } from "next-intl/server";
-import { hasLocale } from "next-intl";
-import { Toaster } from "sonner";
-import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { getCategories } from "@/libs/getCategories";
+import { hasLocale } from "next-intl";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { Toaster } from "sonner";
 
-import Providers from "@/providers/Providers";
 import AuthModal from "@/components/auth/AuthModal";
-import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
+import Header from "@/layout/Header";
+import Providers from "@/providers/Providers";
 
 import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import "@/assets/styles/all.min.css";
 import "@/assets/styles/main.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export const metadata = {
   metadataBase: new URL("https://monsbah.com"),

@@ -1,7 +1,12 @@
 import { API_URL } from "@/utils/constants";
 import { getLocale } from "next-intl/server";
+import { cookies } from "next/headers";
 
-export async function fetcher(endpoint, options = {}) {
+export async function fetcher(endpoint, options = {}, skipAuth = true) {
+  console.log(endpoint);
+  const cookiesStore = await cookies();
+  let token = cookiesStore.get("token")?.value;
+
   const url = new URL(`${API_URL}${endpoint}`);
   let lang = "ar";
 
@@ -20,12 +25,22 @@ export async function fetcher(endpoint, options = {}) {
     console.warn("⚠️ Failed to get locale:", err);
   }
 
-  const headers = {
+  let headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
     lang,
     ...options.headers,
   };
+
+  if (!skipAuth) {
+    const token = await getAuthToken();
+    if (token) {
+      headers = {
+        ...headers,
+        Authorization: `Bearer ${token}`,
+      };
+    }
+  }
 
   const config = {
     method: options.method || "GET",

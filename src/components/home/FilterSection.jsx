@@ -18,7 +18,7 @@ export default async function FilterSection({ selectedCategory }) {
   return (
     <section className="explore_ads">
       <div className="container d-flex flex-column gap-2">
-        <CategoriesSlider categories={categories} />
+        {/* <CategoriesSlider categories={categories} /> */}
         {selectedCategory && (
           <SubCategoriesSlider subCategories={subCategories} />
         )}

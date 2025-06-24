@@ -1,14 +1,15 @@
 "use client";
 
 import { useCallback } from "react";
-import { useTranslations } from "next-intl";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function CategoriesSlider({ categories }) {
-  const t = useTranslations();
+  console.log(categories);
 
+  const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get("category");

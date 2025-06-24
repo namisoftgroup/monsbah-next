@@ -1,11 +1,10 @@
+import { useAuthStore } from "@/stores/useAuthStore";
+import axiosInstance from "@/utils/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
-import useAuth from "../useAuth";
 
 function useGetNotifications() {
-  const lang = useSelector((state) => state.language.lang);
-  const { isAuthed } = useAuth();
+  const token = useAuthStore((state) => state.token);
+  console.log("tokn -------------- ", token);
 
   const {
     isLoading,
@@ -15,7 +14,7 @@ function useGetNotifications() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["notifications", lang],
+    queryKey: ["notifications"],
 
     queryFn: async ({ pageParam = 1 }) => {
       const res = await axiosInstance.get(
@@ -23,6 +22,9 @@ function useGetNotifications() {
         {
           params: {
             page: pageParam,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -46,7 +48,6 @@ function useGetNotifications() {
     refetchOnMount: false,
     refetchOnReconnect: false,
     retry: false,
-    enabled: isAuthed,
   });
 
   return {
