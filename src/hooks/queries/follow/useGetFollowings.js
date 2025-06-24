@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 function useGetFollowings() {
   const lang = useSelector((state) => state.language.lang);
 
@@ -18,7 +18,7 @@ function useGetFollowings() {
     queryKey: ["followings", lang, user],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get("/client/followers", {
+      const res = await clientAxios.get("/client/followers", {
         params: {
           page: pageParam,
           profile_id: user?.id,

@@ -58,8 +58,6 @@ export async function POST(request) {
           sameSite: "lax",
         } , 
       );
-      
-
     }
 
     return NextResponse.json(data, { status: res.status });

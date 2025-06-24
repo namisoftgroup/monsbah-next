@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetUserProducts(enabled) {
   const lang = useSelector((state) => state.language.lang);
@@ -16,7 +16,7 @@ function useGetUserProducts(enabled) {
     queryKey: ["user-products", lang],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get("/client/user-products", {
+      const res = await clientAxios.get("/client/user-products", {
         params: {
           page: pageParam,
         },

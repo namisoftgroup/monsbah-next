@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetCompanyCategories() {
   const lang = useSelector((state) => state.language.lang);
@@ -9,7 +9,7 @@ function useGetCompanyCategories() {
     queryKey: ["company-categories", lang],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get("/company/categories");
+        const res = await clientAxios.get("/company/categories");
         if (res.status === 200) {
           return res.data?.data?.data;
         }

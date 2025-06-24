@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetCompanyProfile(enabled) {
   const { id } = useParams();
@@ -9,7 +9,7 @@ function useGetCompanyProfile(enabled) {
     queryKey: ["company-profile", id],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get("/client/company_profile", {
+        const res = await clientAxios.get("/client/company_profile", {
           params: {
             company_id: +id,
           },

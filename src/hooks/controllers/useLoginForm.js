@@ -5,15 +5,24 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 
-export default function useLoginForm() {
-  const t = useTranslations("validations");
+const DEFAULT_VALUES = {
+  phone: "",
+  password: "",
+  country_code: "",
+  fcm_token: "",
+};
 
-  const schema = z.object({
+const getSchecma = (t) => {
+  return z.object({
     phone: z.string().nonempty(t("required")),
     password: z.string().min(6, t("password_too_short")),
     country_code: z.string().nonempty(),
     fcm_token: z.string().optional(),
   });
+};
+
+export default function useLoginForm() {
+  const t = useTranslations("validations");
 
   const {
     register,
@@ -21,14 +30,9 @@ export default function useLoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(getSchecma(t)),
     mode: "onChange",
-    defaultValues: {
-      phone: "",
-      password: "",
-      country_code: "",
-      fcm_token: "",
-    },
+    defaultValues: DEFAULT_VALUES,
   });
 
   return {

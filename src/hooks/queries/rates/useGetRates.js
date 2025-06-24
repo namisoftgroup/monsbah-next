@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
@@ -19,7 +19,7 @@ function useGetRates(id) {
     queryKey: ["rates", lang, search, id],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get("/client/rates", {
+      const res = await clientAxios.get("/client/rates", {
         params: {
           page: pageParam,
           search: search,

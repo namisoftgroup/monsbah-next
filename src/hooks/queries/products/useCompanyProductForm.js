@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 import useGetProduct from "./useGetProduct";
 
 const initialFormState = {
@@ -171,7 +171,7 @@ export default function useCompanyProductForm(product_id) {
     }
 
     try {
-      const res = await axiosInstance.post(
+      const res = await clientAxios.post(
         `/company/${product_id ? "update-product" : "store-product"}`,
         requestBody,
         {

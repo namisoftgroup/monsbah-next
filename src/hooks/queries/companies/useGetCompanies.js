@@ -1,4 +1,4 @@
-import axiosInstance from "@/utils/axiosInstance";
+import clientAxios from "@/utils/axios/clientAxios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -23,7 +23,7 @@ function useGetCompanies() {
     queryKey: ["companies", country_id, city_id, category_id, lang],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get("/client/companies", {
+      const res = await clientAxios.get("/client/companies", {
         params: {
           page: pageParam,
           city_id: city_id,

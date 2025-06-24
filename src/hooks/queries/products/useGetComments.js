@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 export default function useGetComments() {
   const { id } = useParams();
@@ -12,7 +12,7 @@ export default function useGetComments() {
 
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get(
+        const res = await clientAxios.get(
           `/${localStorage.getItem("userType")}/comments?product_id=${id}`
         );
         if (res.status === 200) {

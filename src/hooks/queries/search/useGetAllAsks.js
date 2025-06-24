@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetAllAsks(id, enabled) {
   const { isLoading, data, error } = useQuery({
     queryKey: ["allQuestions"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/client/questions", {
+      const res = await clientAxios.get("/client/questions", {
         params: {
           user_id: id,
         },

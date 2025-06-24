@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetSubCategories(category, enabled, page) {
   const lang = useSelector((state) => state.language.lang);
@@ -9,7 +9,7 @@ function useGetSubCategories(category, enabled, page) {
     queryKey: ["sub-categories", category, lang],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get(
+        const res = await clientAxios.get(
           `${
             page === "companies" ? "company" : localStorage.getItem("userType")
           }/sub-categories${category ? `?category_id=${category}` : ""}`

@@ -1,15 +1,14 @@
-import { useSelector } from "react-redux";
+import clientAxios from "@/utils/axios/clientAxios";
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../../utils/axiosInstance";
+import { useLocale } from "next-intl";
 
 function useGetCities(countryId, enabled) {
-  const lang = useSelector((state) => state.language.lang);
-
+  const lang = useLocale().split("-")[1] || "en";
   const { isLoading, data, error } = useQuery({
     queryKey: ["cities", countryId, lang],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get(
+        const res = await clientAxios.get(
           `/client/cities?country_id=${countryId}`
         );
         if (res.status === 200) {
@@ -19,11 +18,7 @@ function useGetCities(countryId, enabled) {
         throw new Error(error);
       }
     },
-    retry: false,
-    enabled: enabled,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false
+    enabled,
   });
 
   return { isLoading, data, error };

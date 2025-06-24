@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstance from "@/utils/axiosInstance";
+import clientAxios from "@/utils/axios/clientAxios";
 
 export default function useContactForm(numberLimit = 10) {
   const t = useTranslations("validations");
@@ -38,7 +38,7 @@ export default function useContactForm(numberLimit = 10) {
 
   const { mutate: submitContact, isPending } = useMutation({
     mutationFn: async (data) => {
-      await axiosInstance.post("/client/store-contact", data);
+      await clientAxios.post("/client/store-contact", data);
     },
     onSuccess: () => {
       reset();

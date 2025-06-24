@@ -36,15 +36,17 @@ const NotificationsDropDown = () => {
         ) : null}
       </Dropdown.Toggle>
       <Dropdown.Menu className="drop_Message_Menu">
-        <div className="scroll_menu">
-          {notifications?.map((item) => (
-            <NotificationCard
-              key={item.id}
-              item={item}
-              onClick={() => setShowNotificationDropdown(false)}
-            />
-          ))}
-        </div>
+        {notifications && (
+          <div className="scroll_menu">
+            {notifications?.map((item) => (
+              <NotificationCard
+                key={item.id}
+                item={item}
+                onClick={() => setShowNotificationDropdown(false)}
+              />
+            ))}
+          </div>
+        )}
         <Link
           aria-label="Show All"
           className="showall"

@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 export default function useGetAuthedUser(enabled) {
   const { isLoading, data, error, refetch, isFetched } = useQuery({
     queryKey: ["authed-user"],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get(
+        const res = await clientAxios.get(
           `/${localStorage.getItem("userType")}/auth/profile`
         );
         if (res.status === 200) {

@@ -1,11 +1,11 @@
-import axiosInstance from "@/utils/axiosInstance";
+import clientAxios from "@/utils/axios/clientAxios";
 import { useQuery } from "@tanstack/react-query";
 
 function useGetSliders() {
   const { isLoading, data, error } = useQuery({
     queryKey: ["sliders"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/client/sliders");
+      const res = await clientAxios.get("/client/sliders");
       if (res.status === 200) {
         return {
           data: res.data,

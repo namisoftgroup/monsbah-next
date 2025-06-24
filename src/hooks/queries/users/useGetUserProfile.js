@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 import { useParams } from "react-router-dom";
 
 function useGetUserProfile(enabled) {
@@ -9,7 +9,7 @@ function useGetUserProfile(enabled) {
     queryKey: ["user-profile", id],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get("/client/UserProfile", {
+        const res = await clientAxios.get("/client/UserProfile", {
           params: {
             profile_id: +id,
           },

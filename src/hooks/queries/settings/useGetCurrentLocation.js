@@ -1,13 +1,13 @@
 "use client";
 
-import axiosInstance from "@/utils/axiosInstance";
+import clientAxios from "@/utils/axios/clientAxios";
 import { useQuery } from "@tanstack/react-query";
 
 function useGetCurrentLocation() {
   const { isLoading, data, error } = useQuery({
     queryKey: ["current-location"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/client/current_location");
+      const res = await clientAxios.get("/client/current_location");
       if (res.status === 200) {
         return res.data?.data;
       } else {

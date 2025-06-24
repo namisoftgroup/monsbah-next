@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 export default function useGetBlogs() {
   const lang = useSelector((state) => state.language.lang);
@@ -9,7 +9,7 @@ export default function useGetBlogs() {
     queryKey: ["blogs", lang],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get(`/client/blogs`);
+        const res = await clientAxios.get(`/client/blogs`);
         if (res.status === 200) {
           return res.data.data || {};
         }

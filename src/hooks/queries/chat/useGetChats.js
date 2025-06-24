@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetChats() {
   const lang = useSelector((state) => state.language.lang);
@@ -16,7 +16,7 @@ function useGetChats() {
     queryKey: ["chats", lang],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get("/client/chat", {
+      const res = await clientAxios.get("/client/chat", {
         params: {
           page: pageParam,
         },

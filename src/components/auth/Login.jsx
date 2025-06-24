@@ -17,15 +17,15 @@ import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function Login() {
   const t = useTranslations("auth");
-  const { setFormType, onClose } = useAuthModal((state) => state);
   const router = useRouter();
-  const loginState = useAuthStore((state) => state.login);
-  const [loading, setLoading] = useState(false);
-  const [, setErrors] = useState({});
 
+  const [loading, setLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  // const [, setErrors] = useState({});
   const [userType, setUserType] = useState("client");
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { setFormType, onClose } = useAuthModal((state) => state);
+  const loginState = useAuthStore((state) => state.login);
 
   const { data: currentLocation } = useGetCurrentLocation();
   const { register, handleSubmit, errors, watch } = useLoginForm();
@@ -45,61 +45,47 @@ export default function Login() {
     }
   }, [selectedCountry]);
 
-  async function onSubmit(e) {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
+    try {
+      setLoading(true);
 
-    const endPoint =
-      userType === "company" ? "/company/auth/login" : "/client/auth/login";
+      const formData = new FormData();
+      const endPoint =
+        userType === "company" ? "/company/auth/login" : "/client/auth/login";
 
-    formData.append("phone", selectedCountry.country_code + watch("phone"));
-    formData.append("password", watch("password"));
-    formData.append("country_code", selectedCountry.country_code || "");
-    formData.append("fcm_token", watch("fcm_token") || "");
-    formData.append("endPoint", endPoint);
+      formData.append("phone", selectedCountry.country_code + watch("phone"));
+      formData.append("password", watch("password"));
+      formData.append("country_code", selectedCountry.country_code || "");
+      formData.append("fcm_token", watch("fcm_token") || "");
+      formData.append("endPoint", endPoint);
 
-    setErrors({});
-    setLoading(true);
-
-    await fetch("/api/login", {
-      method: "POST",
-      body: formData,
-    })
-      .then(async (res) => {
-        const data = await res.json();
-
-        if (!res.ok) {
-          console.error(data);
-          if (data?.data) {
-            setErrors(data.data);
-          }
-          throw new Error(data?.message);
-        }
-        return data;
-      })
-      .then((data) => {
-        console.log(data);
-
-        loginState(data?.data?.token, data?.data?.client_data);
-        localStorage.setItem(
-          "user_type",
-          data?.data?.client_data?.user_type === "user" ? "client" : "company"
-        );
-        onClose(false);
-        router.push("/");
-      })
-      .catch((error) => {
-        const message = getErrorMessage(error);
-        if (message) {
-          toast.error(message);
-        } else {
-          toast.error(t("errors.somethingWentWrong"));
-        }
-      })
-      .finally(() => {
-        setLoading(false);
+      const response = await fetch("/api/login", {
+        method: "POST",
+        body: formData,
       });
-  }
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result?.message);
+      }
+
+      loginState(result?.data?.token, result?.data?.client_data);
+
+      localStorage.setItem(
+        "user_type",
+        result?.data?.client_data?.user_type === "user" ? "client" : "company"
+      );
+
+      onClose(false);
+      router.push("/");
+    } catch (error) {
+      toast.error(getErrorMessage(error) || t("somethingWentWrong"));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -113,7 +99,7 @@ export default function Login() {
       <ChooseUserType setUserType={setUserType} />
 
       <form className="form" onSubmit={onSubmit}>
-        <PhoneInput
+       <PhoneInput
           label={t("phone")}
           placeholder={t("phone")}
           selectedCountry={selectedCountry}
@@ -129,7 +115,7 @@ export default function Login() {
           error={errors.password?.message}
           {...register("password")}
         />
-
+ 
         <span
           className="forgetpass"
           style={{ cursor: "pointer" }}

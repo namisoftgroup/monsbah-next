@@ -1,6 +1,6 @@
 "use client";
 
-import axiosInstance from "@/utils/axiosInstance";
+import clientAxios from "@/utils/axios/clientAxios";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 
@@ -11,7 +11,7 @@ function useGetCategories() {
     queryKey: ["categories", lang],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get("/client/categories", {
+        const res = await clientAxios.get("/client/categories", {
           headers: {
             lang,
           },

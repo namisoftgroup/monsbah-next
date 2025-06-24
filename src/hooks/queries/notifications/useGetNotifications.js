@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/stores/useAuthStore";
-import axiosInstance from "@/utils/axiosInstance";
+import clientAxios from "@/utils/axios/clientAxios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 function useGetNotifications() {
@@ -17,7 +17,7 @@ function useGetNotifications() {
     queryKey: ["notifications"],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get(
+      const res = await clientAxios.get(
         `/${localStorage.getItem("userType")}/notifications`,
         {
           params: {

@@ -5,10 +5,9 @@ import { useAuthModal } from "@/stores/useAuthModal";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
-import NavLinks from "./NavLinks";
 import MoreActions from "./MoreActions";
+import NavLinks from "./NavLinks";
 import NotificationsDropDown from "./NotificationsDropDown";
 
 export default function Header() {
@@ -29,7 +28,7 @@ export default function Header() {
             />
           </Link>
 
-          <Link
+          {/* <Link
             aria-label="companies categories"
             href="/companies-categories"
             className="categories_button d-none"
@@ -38,7 +37,7 @@ export default function Header() {
               <Image src="/branding/icon.svg" width={20} height={20} alt="" />
             </div>
             <span>{t("categories")}</span>
-          </Link>
+          </Link> */}
 
           <NavLinks />
 
@@ -51,7 +50,7 @@ export default function Header() {
               <Image src="/icons/search.svg" width={16} height={16} alt="" />
             </Link>
 
-            {user ? <NotificationsDropDown /> : null}
+            {/* {user ? <NotificationsDropDown /> : null} */}
 
             <button
               aria-label="Login"

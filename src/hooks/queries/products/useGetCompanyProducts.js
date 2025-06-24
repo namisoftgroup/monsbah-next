@@ -1,4 +1,4 @@
-import axiosInstance from "@/utils/axiosInstance";
+import clientAxios from "@/utils/axios/clientAxios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -36,7 +36,7 @@ function useGetCompanyProducts(isMyCompany) {
     ],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get("/company/products", {
+      const res = await clientAxios.get("/company/products", {
         params: {
           // type: type,
           // sort: sort,

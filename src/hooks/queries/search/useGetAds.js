@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetAds() {
   const lang = useSelector((state) => state.language.lang);
@@ -19,7 +19,7 @@ function useGetAds() {
     queryKey: ["ads", lang, search],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get(
+      const res = await clientAxios.get(
         `/${localStorage.getItem("userType")}/products`,
         {
           params: {

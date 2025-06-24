@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 export default function useGetChat() {
   const lang = useSelector((state) => state.language.lang);
@@ -12,7 +12,7 @@ export default function useGetChat() {
     queryKey: ["chat", lang, userId],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get(`/client/chat/details`, {
+        const res = await clientAxios.get(`/client/chat/details`, {
           params: {
             user_id: userId,
             user_type:

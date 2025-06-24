@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetSettings() {
   const lang = useSelector((state) => state.language.lang);
@@ -9,7 +9,7 @@ function useGetSettings() {
     queryKey: ["settings", lang],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get("/client/setting");
+        const res = await clientAxios.get("/client/setting");
         if (res.status === 200) {
           return res.data?.data;
         }

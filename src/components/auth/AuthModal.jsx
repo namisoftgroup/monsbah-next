@@ -4,6 +4,10 @@ import { useAuthModal } from "@/stores/useAuthModal";
 import { Modal } from "react-bootstrap";
 import { GoX } from "react-icons/go";
 import Login from "./Login";
+import Image from "next/image";
+import { useEffect } from "react";
+import ChooseRegisterType from "./ChooseRegisterType";
+import Register from "./Register";
 
 export default function AuthModal() {
   const show = useAuthModal((state) => state.isOpen);
@@ -28,8 +32,9 @@ export default function AuthModal() {
         </button>
         <section className="auth_section">
           <div className={`img_wrapper ${formType}`}>
-            <img
-              loading="lazy"
+            <Image
+              width={500}
+              height={600}
               className="bg-img"
               alt="auth-banner"
               src="/auth-benner.png"
@@ -38,6 +43,8 @@ export default function AuthModal() {
 
           <div className={`form_wrapper ${formType}`}>
             {formType === "login" && <Login />}
+            {formType === "register-type" && <ChooseRegisterType />}
+            {formType === "register" && <Register />}
           </div>
         </section>
       </Modal.Body>

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetAskComments(id) {
   const lang = useSelector((state) => state.language.lang);
@@ -9,7 +9,7 @@ function useGetAskComments(id) {
     queryKey: ["ask-comments", lang, id],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get("/client/question-comments", {
+        const res = await clientAxios.get("/client/question-comments", {
           params: {
             question_id: id,
           },

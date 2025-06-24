@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetAllRates({ id, enabled }) {
   const { isLoading, data, error } = useQuery({
     queryKey: ["allRates"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/client/rates", {
+      const res = await clientAxios.get("/client/rates", {
         params: {
           profile_id: id,
         },

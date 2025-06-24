@@ -1,4 +1,4 @@
-import axiosInstance from "@/utils/axiosInstance";
+import clientAxios from "@/utils/axios/clientAxios";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 
@@ -9,7 +9,7 @@ function useGetCountries() {
     queryKey: ["countries", lang],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get("/client/countries", {
+        const res = await clientAxios.get("/client/countries", {
           headers: {
             lang,
           },

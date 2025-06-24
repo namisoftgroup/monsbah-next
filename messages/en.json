@@ -21,7 +21,19 @@
     "password_too_short": "Password must be at least 6 characters",
     "invalid_email": "Invalid email address",
     "name_too_short": "Name must be at least 3 characters",
-    "message_too_short": "Message must be at least 10 characters"
+    "message_too_short": "Message must be at least 10 characters",
+    "nameRequired": "Name is required",
+    "usernameTooShort": "Username must be at least 3 characters",
+    "usernameEnglishOnly": "Username must contain only English letters, numbers, or underscores",
+    "countryCodeRequired": "Country code is required",
+    "phoneRequired": "Phone number is required",
+    "invalidEmail": "Invalid email address",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "countryRequired": "Country is required",
+    "cityRequired": "City is required",
+    "stateRequired": "State is required",
+    "genderRequired": "Gender is required",
+    "passwordsDoNotMatch": "Passwords do not match"
   },
   "somethingWentWrong": "Something went wrong, please try again later.",
   "aboutApp": "A women's community for recycling and selling household items such as clothes, dresses, fashion, watches, shoes, and accessories, while providing everything you need to prepare for occasions.",
@@ -446,5 +458,12 @@
   "packages": {
     "monthly": "monthly",
     "yearly": "yearly"
+  },
+  "footer": {
+    "aboutUs": "About Us",
+    "blogs": "Blogs",
+    "asks": "FAQs",
+    "contactUs": "Contact Us",
+    "tearmsAndConditions": "Terms and Conditions"
   }
 }

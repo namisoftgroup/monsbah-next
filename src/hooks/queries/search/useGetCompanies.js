@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetCompanies() {
   const lang = useSelector((state) => state.language.lang);
@@ -20,7 +20,7 @@ function useGetCompanies() {
     queryKey: ["companies", search, lang],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get("/client/companies", {
+      const res = await clientAxios.get("/client/companies", {
         params: {
           page: pageParam,
           search: search,

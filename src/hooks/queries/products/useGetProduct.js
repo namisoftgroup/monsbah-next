@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 export default function useGetProduct(product_id) {
   const { id } = useParams();
@@ -11,7 +11,7 @@ export default function useGetProduct(product_id) {
     queryKey: ["product", lang, product_id || id],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get(`/client/product-details`, {
+        const res = await clientAxios.get(`/client/product-details`, {
           params: {
             product_id: product_id ? product_id : id,
           },

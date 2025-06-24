@@ -1,7 +1,7 @@
 // import { useInfiniteQuery } from "@tanstack/react-query";
 // import { useSelector } from "react-redux";
 // import { useSearchParams } from "react-router-dom";
-// import axiosInstance from "../../utils/axiosInstance";
+// import clientAxios from "../../utils/clientAxios";
 
 // function useGetAsks(country) {
 //   const lang = useSelector((state) => state.language.lang);
@@ -19,7 +19,7 @@
 //     queryKey: ["asks", lang, search, country],
 
 //     queryFn: async ({ pageParam = 1 }) => {
-//       const res = await axiosInstance.get("/client/questions", {
+//       const res = await clientAxios.get("/client/questions", {
 //         params: {
 //           page: pageParam,
 //           search: search,

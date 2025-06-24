@@ -6,8 +6,8 @@ import { notFound } from "next/navigation";
 import { Toaster } from "sonner";
 
 import AuthModal from "@/components/auth/AuthModal";
-import Footer from "@/layout/Footer";
-import Header from "@/layout/Header";
+import Footer from "@/layout/Footer/Footer";
+import Header from "@/layout/Header/Header";
 import Providers from "@/providers/Providers";
 
 import "swiper/css";
@@ -81,11 +81,9 @@ export default async function RootLayout(props) {
   }
 
   const lang = fullLocale.split("-")[1];
-
   const messages = await getMessages(lang);
-  setRequestLocale(fullLocale);
 
-  const categories = await getCategories();
+  setRequestLocale(fullLocale);
 
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
@@ -94,7 +92,7 @@ export default async function RootLayout(props) {
           <Toaster expand={false} richColors position="bottom-right" />
           <Header />
           <main>{props.children}</main>
-          <Footer categories={categories} />
+          <Footer />
           <AuthModal />
         </Providers>
       </body>

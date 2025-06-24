@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import axiosInstance from "../../../utils/axiosInstance";
+import clientAxios from "../../../utils/axios/clientAxios";
 
 function useGetFavorites(enabled) {
   const lang = useSelector((state) => state.language.lang);
@@ -16,7 +16,7 @@ function useGetFavorites(enabled) {
     queryKey: ["user-favorites", lang, localStorage.getItem("userType")],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await axiosInstance.get(
+      const res = await clientAxios.get(
         `/${localStorage.getItem("userType")}/favorites`,
         {
           params: {
