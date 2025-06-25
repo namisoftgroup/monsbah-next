@@ -6,9 +6,9 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import PasswordField from "@/ui/forms/PasswordField";
-import SubmitButton from "@/ui/forms/SubmitButton";
-import PhoneInput from "@/ui/forms/PhoneInput";
+import PasswordField from "@/components/shared/forms/PasswordField";
+import SubmitButton from "@/components/shared/forms/SubmitButton";
+import PhoneInput from "@/components/shared/forms/PhoneInput";
 import ChooseUserType from "./ChooseUserType";
 import useLoginForm from "@/hooks/controllers/useLoginForm";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
@@ -104,16 +104,6 @@ export default function Login() {
             />
           )}
         />
-
-        {/* <PhoneInput
-          label={t("phone")}
-          placeholder={t("phone")}
-          selectedCountry={selectedCountry}
-          setSelectedCountry={setSelectedCountry}
-          error={errors.phone?.message}
-          limit={selectedCountry?.number_limit}
-          {...register("phone")}
-        /> */}
 
         <PasswordField
           label={t("password")}

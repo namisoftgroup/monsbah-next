@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import ProductCard from "@/ui/cards/ProductCard";
-import ProductLoader from "@/ui/loaders/ProductLoader";
+import ProductCard from "@/components/shared/cards/ProductCard";
+import ProductLoader from "@/components/shared/loaders/ProductLoader";
 import useGetProducts from "@/hooks/queries/products/useGetProducts";
 
 export default function ProductsSection() {

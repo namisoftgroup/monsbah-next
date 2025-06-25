@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { getSubCategories } from "@/libs/getSubCategories";
+import { getSubCategories } from "@/services/getSubCategories";
 
 export default async function SubCategoriesList({ selectedCategory }) {
   const subCategories = await getSubCategories({

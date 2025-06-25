@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import InputField from "@/ui/forms/InputField";
-import PhoneInput from "@/ui/forms/PhoneInput";
-import SubmitButton from "@/ui/forms/SubmitButton";
+import InputField from "@/components/shared/forms/InputField";
+import PhoneInput from "@/components/shared/forms/PhoneInput";
+import SubmitButton from "@/components/shared/forms/SubmitButton";
 import useContactForm from "@/hooks/controllers/useContactForm";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
 

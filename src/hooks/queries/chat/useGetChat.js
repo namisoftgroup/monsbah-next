@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import clientAxios from "../../../utils/axios/clientAxios";
+import clientAxios from "../../../libs/axios/clientAxios";
 
 export default function useGetChat() {
   const lang = useSelector((state) => state.language.lang);

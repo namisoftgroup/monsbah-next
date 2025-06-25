@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import clientAxios from "../../../utils/axios/clientAxios";
+import clientAxios from "../../../libs/axios/clientAxios";
 
 function useGetCompanyProfile(enabled) {
   const { id } = useParams();

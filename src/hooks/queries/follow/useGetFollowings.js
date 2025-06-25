@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 
-import clientAxios from "../../../utils/axios/clientAxios";
+import clientAxios from "../../../libs/axios/clientAxios";
 function useGetFollowings() {
   const lang = useSelector((state) => state.language.lang);
 

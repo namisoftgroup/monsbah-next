@@ -1,8 +1,8 @@
 "use client";
 import { useAuthModal } from "@/stores/useAuthModal";
-import OtpContainer from "@/ui/forms/OtpContainer";
-import SubmitButton from "@/ui/forms/SubmitButton";
-import clientAxios from "@/utils/axios/clientAxios";
+import OtpContainer from "@/components/shared/forms/OtpContainer";
+import SubmitButton from "@/components/shared/forms/SubmitButton";
+import clientAxios from "@/libs/axios/clientAxios";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";

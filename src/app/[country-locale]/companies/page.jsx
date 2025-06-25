@@ -1,7 +1,7 @@
 import CompaniesSection from "@/components/companies/CompaniesSection";
 import FilterSection from "@/components/home/FilterSection";
-import { getCategories } from "@/libs/getCategories";
-import { getSubCategories } from "@/libs/getSubCategories";
+import { getCategories } from "@/services/getCategories";
+import { getSubCategories } from "@/services/getSubCategories";
 
 export default async function Companies({ searchParams }) {
   const paramsObj = await searchParams;

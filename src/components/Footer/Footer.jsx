@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { getCategories } from "@/libs/getCategories";
+import { getCategories } from "@/services/getCategories";
 import { getTranslations } from "next-intl/server";
 
 import AboutCompany from "./AboutCompany";

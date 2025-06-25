@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
-import clientAxios from "@/utils/axios/clientAxios";
+import clientAxios from "@/libs/axios/clientAxios";
 
 export default function useContactForm(numberLimit = 10) {
   const t = useTranslations("validations");

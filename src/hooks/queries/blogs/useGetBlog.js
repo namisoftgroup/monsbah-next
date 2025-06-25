@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import clientAxios from "../../../utils/axios/clientAxios";
+import clientAxios from "../../../libs/axios/clientAxios";
 import { useParams } from "react-router-dom";
 
 export default function useGetBlog() {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import clientAxios from "../../../utils/axios/clientAxios";
+import clientAxios from "../../../libs/axios/clientAxios";
 
 function useGetAllAsks(id, enabled) {
   const { isLoading, data, error } = useQuery({

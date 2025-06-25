@@ -1,6 +1,6 @@
 "use client";
 
-import BlogCard from "@/ui/cards/BlogCard";
+import BlogCard from "@/components/shared/cards/BlogCard";
 import { useTranslations } from "next-intl";
 
 export default function BlogsList({ blogs }) {

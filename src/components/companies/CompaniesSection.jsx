@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import ProductCard from "@/ui/cards/ProductCard";
-import ProductLoader from "@/ui/loaders/ProductLoader";
-import CompanyLoader from "@/ui/loaders/CompanyLoader";
+import ProductCard from "@/components/shared/cards/ProductCard";
+import ProductLoader from "@/components/shared/loaders/ProductLoader";
+import CompanyLoader from "@/components/shared/loaders/CompanyLoader";
 import useGetCompanies from "@/hooks/queries/companies/useGetCompanies";
 import useGetCompanyProducts from "@/hooks/queries/products/useGetCompanyProducts";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import clientAxios from "@/utils/axios/clientAxios";
+import clientAxios from "@/libs/axios/clientAxios";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 

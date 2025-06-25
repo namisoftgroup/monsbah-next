@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import clientAxios from "../../../utils/axios/clientAxios";
+import clientAxios from "../../../libs/axios/clientAxios";
 import { useParams } from "react-router-dom";
 
 function useGetUserProfile(enabled) {

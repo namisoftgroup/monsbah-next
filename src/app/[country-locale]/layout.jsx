@@ -1,13 +1,12 @@
 import { routing } from "@/i18n/routing";
-import { getCategories } from "@/libs/getCategories";
 import { hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Toaster } from "sonner";
 
 import AuthModal from "@/components/auth/AuthModal";
-import Footer from "@/layout/Footer/Footer";
-import Header from "@/layout/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
 import Providers from "@/providers/Providers";
 
 import "swiper/css";

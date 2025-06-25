@@ -1,5 +1,5 @@
-import { getCategories } from "@/libs/getCategories";
-import { getSubCategories } from "@/libs/getSubCategories";
+import { getCategories } from "@/services/getCategories";
+import { getSubCategories } from "@/services/getSubCategories";
 import FilterSection from "@/components/home/FilterSection";
 import HeroSection from "@/components/home/HeroSection";
 import ProductsSection from "@/components/home/ProductsSection";

@@ -1,10 +1,10 @@
-import { getCategories } from "@/libs/getCategories";
-import { getSubCategories } from "@/libs/getSubCategories";
+import { getCategories } from "@/services/getCategories";
+import { getSubCategories } from "@/services/getSubCategories";
 import SideBar from "@/components/categories/SideBar";
 import SubCategoriesList from "@/components/categories/SubCategoriesList";
 import { Suspense } from "react";
-import DataLoader from "@/ui/loaders/DataLoader";
-import ProductLoader from "@/ui/loaders/ProductLoader";
+import DataLoader from "@/components/shared/loaders/DataLoader";
+import ProductLoader from "@/components/shared/loaders/ProductLoader";
 export default async function Categories({ searchParams }) {
   const paramsObj = await searchParams;
   const selectedCategory = paramsObj?.category;

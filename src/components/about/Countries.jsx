@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { getCountries } from "@/libs/getCountries";
+import { getCountries } from "@/services/getCountries";
 import { getTranslations } from "next-intl/server";
 
 export default async function Countries() {

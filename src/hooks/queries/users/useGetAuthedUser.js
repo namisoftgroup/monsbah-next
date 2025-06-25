@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import clientAxios from "../../../utils/axios/clientAxios";
+import clientAxios from "../../../libs/axios/clientAxios";
 
 export default function useGetAuthedUser(enabled) {
   const { isLoading, data, error, refetch, isFetched } = useQuery({

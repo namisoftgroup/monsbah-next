@@ -11,14 +11,24 @@ import Register from "./Register";
 import { FormProvider } from "react-hook-form";
 import { useRegisterForm } from "@/hooks/controllers/useRegisterForm";
 import RegisterOTPConfirm from "./RegisterOTPConfirm";
+import RegisterCompany from "./RegisterCompany";
+import useCompanyRegisterForm from "@/hooks/controllers/useCompanyRegisterForm";
 
 export default function AuthModal() {
   const {
     isOpen: show,
-    onClose: handleClose,
+    onClose,
+    setFormType,
     formType,
   } = useAuthModal((state) => state);
   const methods = useRegisterForm();
+  const companyFormMethods = useCompanyRegisterForm();
+  const handleClose = () => {
+    onClose();
+    setFormType("login");
+    methods.reset();
+  };
+
   return (
     <Modal
       centered
@@ -52,6 +62,9 @@ export default function AuthModal() {
             <FormProvider {...methods}>
               {formType === "register" && <Register />}
               {formType === "registerOtp" && <RegisterOTPConfirm />}
+            </FormProvider>
+            <FormProvider {...companyFormMethods}>
+              {formType === "register-company" && <RegisterCompany />}
             </FormProvider>
           </div>
         </section>

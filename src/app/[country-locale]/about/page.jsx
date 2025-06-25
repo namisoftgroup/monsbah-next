@@ -1,4 +1,4 @@
-import { getCountries } from "@/libs/getCountries";
+import { getCountries } from "@/services/getCountries";
 import AboutSection from "@/components/about/AboutSection";
 import Countries from "@/components/about/Countries";
 import HowItWorks from "@/components/about/HowItWorks";

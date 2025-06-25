@@ -1,4 +1,4 @@
-import { getCategories } from "@/libs/getCategories";
+import { getCategories } from "@/services/getCategories";
 import CategoriesSection from "@/components/companies/CategoriesSection";
 
 export default async function CompanyCategories() {

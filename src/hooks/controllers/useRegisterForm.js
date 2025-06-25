@@ -7,7 +7,7 @@ import { z } from "zod";
 const DEFAULT_VALUES = {
   name: "",
   username: "",
-  country_code: "",
+  country_code: "965",
   phone: "",
   email: "",
   password: "",

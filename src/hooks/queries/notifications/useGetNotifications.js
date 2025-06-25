@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/stores/useAuthStore";
-import clientAxios from "@/utils/axios/clientAxios";
+import clientAxios from "@/libs/axios/clientAxios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 function useGetNotifications() {

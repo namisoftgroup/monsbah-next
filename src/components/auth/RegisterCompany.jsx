@@ -1,41 +1,48 @@
-"use client";
-
-import { useRegisterForm } from "@/hooks/controllers/useRegisterForm";
-import useGetCities from "@/hooks/queries/settings/useGetCities";
-import useGetCountries from "@/hooks/queries/settings/useGetCountries";
-import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
-import useGetStates from "@/hooks/queries/settings/useGetStates";
 import { Link } from "@/i18n/navigation";
-import { useAuthModal } from "@/stores/useAuthModal";
+import ImageUpload from "@/components/shared/forms/ImageUpload";
 import InputField from "@/components/shared/forms/InputField";
 import PasswordField from "@/components/shared/forms/PasswordField";
 import PhoneInput from "@/components/shared/forms/PhoneInput";
 import SelectField from "@/components/shared/forms/SelectField";
 import SubmitButton from "@/components/shared/forms/SubmitButton";
-import clientAxios from "@/libs/axios/clientAxios";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import { toast } from "sonner";
-import { DevTool } from "@hookform/devtools";
 import { Controller, useFormContext } from "react-hook-form";
+import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
+import { useAuthModal } from "@/stores/useAuthModal";
+import useGetCountries from "@/hooks/queries/settings/useGetCountries";
+import useGetCities from "@/hooks/queries/settings/useGetCities";
+import useGetStates from "@/hooks/queries/settings/useGetStates";
+import { DevTool } from "@hookform/devtools";
+import useGetCategories from "@/hooks/queries/settings/useGetCategories";
 
-const Register = () => {
+const RegisterCompany = () => {
+  const { setFormType, onClose } = useAuthModal((state) => state);
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    control,
+    setValue,
+  } = useFormContext();
 
-  const { setFormType } = useAuthModal((state) => state);
-  const { register, errors, handleSubmit, watch, control } = useFormContext();
-
-  const { country_id, city_id } = watch();
+  const city_id = watch("city_id");
+  const country_id = watch("country_id");
+  const avatar = watch("image");
+  const cover = watch("cover");
+  console.log(watch());
 
   const [selectedCountry, setSelectedCountry] = useState(null);
-
   const { data: countries } = useGetCountries();
   const { data: cities, isLoading: citiesLoading } = useGetCities(
     country_id,
     country_id ? true : false
   );
+  const { data: categories, isLoading: isCategoriesLoading } =
+    useGetCategories();
   const { data: currentLocation } = useGetCurrentLocation();
   const { data: states, isLoading: areasLoading } = useGetStates(
     city_id,
@@ -59,43 +66,27 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-
-    setLoading(true);
-    const payload = { ...data, new_version: 1 };
-    payload.phone = data.country_code + data.phone;
-
-    try {
-      const res = await clientAxios.post("/client/auth/sign-up", payload);
-      if (res.status === 200) {
-        toast.success(res.data?.message);
-        setFormType("registerOtp");
-      }
-    } catch (error) {
-      console.log(error.response?.data?.data);
-      if (error.response?.data?.data) {
-        const message = error.response?.data?.data
-          ?.map((item) => `${item}<br />`)
-          .join(" ");
-        toast.error(
-          <div
-            style={{ textAlign: "start !important" }}
-            dangerouslySetInnerHTML={{ __html: message }}
-          />
-        );
-      } else {
-        toast.error(error.response.data.message);
-      }
-    } finally {
-      setLoading(false);
-    }
   };
-
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-1">
         <p className="sub-head">{t("auth.registerSubtitle")}</p>
       </div>
+
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <ImageUpload
+          name="image"
+          value={avatar}
+          coverValue={cover}
+          onChange={(file) => setValue("image", file, { shouldValidate: true })}
+          onCoverChange={(file) =>
+            setValue("cover", file, { shouldValidate: true })
+          }
+          error={errors?.image}
+          setValue={setValue}
+          uploadOnly={true}
+        />
+
         <div className="form_group">
           <InputField
             label={t("auth.userName")}
@@ -106,26 +97,34 @@ const Register = () => {
           />
 
           <InputField
-            label={t("auth.fullName")}
-            placeholder={t("auth.fullName")}
-            id="name"
-            {...register("name")}
-            error={errors?.name?.message}
+            label={t("auth.companyName")}
+            placeholder={t("auth.companyName")}
+            id="companyName"
+            {...register("name_ar")}
+            onChange={(e) => {
+              setValue("name_ar", e.target.value);
+              setValue("name_en", e.target.value);
+            }}
+            error={errors?.name_ar?.message}
           />
 
-          <InputField
-            label={t("auth.email")}
-            placeholder={t("auth.email")}
-            id="email"
-            {...register("email")}
-            error={errors?.email?.message}
+          <SelectField
+            label={t("auth.category")}
+            id="category_id"
+            name="category_id"
+            {...register("category_id")}
+            options={categories?.map((c) => ({
+              name: c?.name,
+              value: c?.id,
+            }))}
+            error={errors?.category_id?.message}
           />
         </div>
+
         <div className="form_group">
           <SelectField
             label={t("auth.country")}
             id="country_id"
-            name="country_id"
             {...register("country_id")}
             options={countries?.map((country) => ({
               name: country?.name,
@@ -138,8 +137,8 @@ const Register = () => {
             loading={citiesLoading}
             loadingText={t("isLoading")}
             label={t("auth.city")}
-            id="city_id"
             {...register("city_id")}
+            id="city_id"
             options={cities?.map((city) => ({
               name: city?.name,
               value: city?.id,
@@ -160,6 +159,7 @@ const Register = () => {
             error={errors?.state_id?.message}
           />
         </div>
+
         <div className="form_group">
           <Controller
             name="country_code"
@@ -180,38 +180,35 @@ const Register = () => {
               />
             )}
           />
-
-          <div className="input-field">
-            <label htmlFor="type">{t("auth.gender")}</label>
-            <div className="radios">
-              <label htmlFor="male">
-                <input
-                  type="radio"
-                  id="male"
-                  value="male"
-                  {...register("gender")}
-                />
-
-                <span>{t("auth.male")}</span>
-              </label>
-              <label htmlFor="female">
-                <input
-                  type="radio"
-                  id="female"
-                  value="female"
-                  {...register("gender")}
-                />
-
-                <span>{t("auth.female")}</span>
-              </label>
-            </div>{" "}
-            {errors?.gender && (
-              <Form.Control.Feedback type="invalid">
-                {errors?.gender?.message}
-              </Form.Control.Feedback>
+          <Controller
+            name="whats_country_code"
+            control={control}
+            render={({ field }) => (
+              <PhoneInput
+                label={t("auth.whatsapp")}
+                id="whats_number"
+                placeholder={t("auth.whatsapp")}
+                selectedCountry={selectedCountry}
+                setSelectedCountry={setSelectedCountry}
+                limit={selectedCountry?.number_limit}
+                {...register("whats_number")}
+                onCountryChange={(country) =>
+                  field.onChange(country?.country_code)
+                }
+                error={errors?.whats_number?.message}
+              />
             )}
-          </div>
+          />
+
+          <InputField
+            label={t("auth.email")}
+            placeholder={t("auth.email")}
+            id="email"
+            {...register("email")}
+            error={errors?.email?.message}
+          />
         </div>
+
         <div className="form_group">
           <PasswordField
             label={t("auth.password")}
@@ -220,6 +217,7 @@ const Register = () => {
             {...register("password")}
             error={errors?.password?.message}
           />
+
           <PasswordField
             label={t("auth.passwordConfirmation")}
             placeholder={t("auth.passwordConfirmation")}
@@ -228,16 +226,32 @@ const Register = () => {
             error={errors?.password_confirmation?.message}
           />
         </div>
+
+        <div className="form_group">
+          <InputField
+            as={"textarea"}
+            id="about"
+            label={t("auth.companyDec")}
+            placeholder={t("auth.enterDescription")}
+            {...register("about_ar")}
+            onChange={(e) => {
+              setValue("about_ar", e.target.value);
+              setValue("about_en", e.target.value);
+            }}
+          />
+        </div>
+
         <span className="noAccount mt-2">
           {t("auth.byContinueYouAccept")}{" "}
           <Link
             aria-label="Terms and Conditions"
             to="/terms-and-conditions"
-            onClick={() => setShow(false)}
+            onClick={() => onClose()}
           >
             {t("tearmsAndConditions")}
           </Link>
         </span>
+
         <div className="d-flex gap-2">
           <button
             className="back_btn"
@@ -246,11 +260,11 @@ const Register = () => {
             <i className="fal fa-arrow-right"></i>
           </button>
           <SubmitButton text={t("auth.register")} loading={loading} />
-        </div>{" "}
+        </div>
         <DevTool control={control} />
       </form>
     </>
   );
 };
 
-export default Register;
+export default RegisterCompany;

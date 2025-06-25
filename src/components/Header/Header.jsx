@@ -5,10 +5,10 @@ import { useAuthModal } from "@/stores/useAuthModal";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import LanguageSwitcher from "./LanguageSwitcher";
 import MoreActions from "./MoreActions";
 import NavLinks from "./NavLinks";
 import NotificationsDropDown from "./NotificationsDropDown";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
   const t = useTranslations("header");

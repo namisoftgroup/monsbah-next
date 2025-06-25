@@ -1,4 +1,4 @@
-import { getSliders } from "@/libs/getSliders";
+import { getSliders } from "@/services/getSliders";
 import HeroSlider from "./HeroSlider";
 
 export default async function HeroSection() {
