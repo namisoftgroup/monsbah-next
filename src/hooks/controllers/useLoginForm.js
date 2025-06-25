@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 const DEFAULT_VALUES = {
   phone: "",
   password: "",
-  country_code: "",
+  country_code: "965",
   fcm_token: "",
 };
 
@@ -28,6 +28,7 @@ export default function useLoginForm() {
     register,
     watch,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(getSchecma(t)),
@@ -39,6 +40,7 @@ export default function useLoginForm() {
     register,
     watch,
     handleSubmit,
+    control,
     errors,
   };
 }

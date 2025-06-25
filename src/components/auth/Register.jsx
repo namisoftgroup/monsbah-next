@@ -18,14 +18,15 @@ import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { toast } from "sonner";
 import { DevTool } from "@hookform/devtools";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 const Register = () => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
   const { setFormType } = useAuthModal((state) => state);
-  const { register, errors, handleSubmit, watch, control } = useRegisterForm();
+  const { register, errors, handleSubmit, watch, control } = useFormContext();
+
   const { country_id, city_id, gender } = watch();
 
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -101,7 +102,7 @@ const Register = () => {
             placeholder={t("auth.userNamePlaceHolder")}
             id="username"
             {...register("username")}
-            error={errors.username?.message}
+            error={errors?.username?.message}
           />
 
           <InputField
@@ -109,7 +110,7 @@ const Register = () => {
             placeholder={t("auth.fullName")}
             id="name"
             {...register("name")}
-            error={errors.name?.message}
+            error={errors?.name?.message}
           />
 
           <InputField
@@ -117,7 +118,7 @@ const Register = () => {
             placeholder={t("auth.email")}
             id="email"
             {...register("email")}
-            error={errors.email?.message}
+            error={errors?.email?.message}
           />
         </div>
         <div className="form_group">
@@ -130,7 +131,7 @@ const Register = () => {
               name: country?.name,
               value: country?.id,
             }))}
-            error={errors.country_id?.message}
+            error={errors?.country_id?.message}
           />
 
           <SelectField
@@ -143,7 +144,7 @@ const Register = () => {
               name: city?.name,
               value: city?.id,
             }))}
-            error={errors.city_id?.message}
+            error={errors?.city_id?.message}
           />
 
           <SelectField
@@ -156,7 +157,7 @@ const Register = () => {
               name: state?.name,
               value: state?.id,
             }))}
-            error={errors.state_id?.message}
+            error={errors?.state_id?.message}
           />
         </div>
         <div className="form_group">
@@ -175,7 +176,7 @@ const Register = () => {
                 onCountryChange={(country) =>
                   field.onChange(country?.country_code)
                 }
-                error={errors.phone?.message}
+                error={errors?.phone?.message}
               />
             )}
           />
@@ -204,7 +205,7 @@ const Register = () => {
                 <span>{t("auth.female")}</span>
               </label>
             </div>{" "}
-            {errors.gender && (
+            {errors?.gender && (
               <Form.Control.Feedback type="invalid">
                 {errors?.gender?.message}
               </Form.Control.Feedback>

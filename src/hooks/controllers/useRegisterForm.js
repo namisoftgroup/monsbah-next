@@ -46,16 +46,10 @@ const getSchema = (t) => {
 
 export const useRegisterForm = () => {
   const t = useTranslations("validations");
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm({
+  const methods = useForm({
     resolver: zodResolver(getSchema(t)),
     defaultValues: DEFAULT_VALUES,
   });
 
-  return { register, handleSubmit, errors, watch, control };
+  return methods;
 };

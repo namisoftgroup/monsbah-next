@@ -8,12 +8,17 @@ import Image from "next/image";
 import { useEffect } from "react";
 import ChooseRegisterType from "./ChooseRegisterType";
 import Register from "./Register";
+import { FormProvider } from "react-hook-form";
+import { useRegisterForm } from "@/hooks/controllers/useRegisterForm";
+import RegisterOTPConfirm from "./RegisterOTPConfirm";
 
 export default function AuthModal() {
-  const show = useAuthModal((state) => state.isOpen);
-  const formType = useAuthModal((state) => state.formType);
-  const handleClose = useAuthModal((state) => state.onClose);
-
+  const {
+    isOpen: show,
+    onClose: handleClose,
+    formType,
+  } = useAuthModal((state) => state);
+  const methods = useRegisterForm();
   return (
     <Modal
       centered
@@ -44,7 +49,10 @@ export default function AuthModal() {
           <div className={`form_wrapper ${formType}`}>
             {formType === "login" && <Login />}
             {formType === "register-type" && <ChooseRegisterType />}
-            {formType === "register" && <Register />}
+            <FormProvider {...methods}>
+              {formType === "register" && <Register />}
+              {formType === "registerOtp" && <RegisterOTPConfirm />}
+            </FormProvider>
           </div>
         </section>
       </Modal.Body>

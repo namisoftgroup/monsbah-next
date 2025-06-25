@@ -14,6 +14,8 @@ import useLoginForm from "@/hooks/controllers/useLoginForm";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
 import { getErrorMessage } from "@/utils/get-error-message";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { Controller } from "react-hook-form";
+import { handleLogin } from "@/services/auth/LoginService";
 
 export default function Login() {
   const t = useTranslations("auth");
@@ -28,7 +30,7 @@ export default function Login() {
   const loginState = useAuthStore((state) => state.login);
 
   const { data: currentLocation } = useGetCurrentLocation();
-  const { register, handleSubmit, errors, watch } = useLoginForm();
+  const { register, handleSubmit, errors, watch, control } = useLoginForm();
 
   useEffect(() => {
     if (currentLocation) {
@@ -45,39 +47,23 @@ export default function Login() {
     }
   }, [selectedCountry]);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     try {
       setLoading(true);
 
-      const formData = new FormData();
-      const endPoint =
-        userType === "company" ? "/company/auth/login" : "/client/auth/login";
-
-      formData.append("phone", selectedCountry.country_code + watch("phone"));
-      formData.append("password", watch("password"));
-      formData.append("country_code", selectedCountry.country_code || "");
-      formData.append("fcm_token", watch("fcm_token") || "");
-      formData.append("endPoint", endPoint);
-
-      const response = await fetch("/api/login", {
-        method: "POST",
-        body: formData,
+      const data = await handleLogin({
+        userType,
+        phone: watch("phone"),
+        country_code: watch("country_code"),
+        password: watch("password"),
+        fcm_token: watch("fcm_token"),
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result?.message);
-      }
-
-      loginState(result?.data?.token, result?.data?.client_data);
-
+      loginState(data.token, data.client_data);
       localStorage.setItem(
         "user_type",
-        result?.data?.client_data?.user_type === "user" ? "client" : "company"
+        data.client_data?.user_type === "user" ? "client" : "company"
       );
-
       onClose(false);
       router.push("/");
     } catch (error) {
@@ -98,8 +84,28 @@ export default function Login() {
 
       <ChooseUserType setUserType={setUserType} />
 
-      <form className="form" onSubmit={onSubmit}>
-       <PhoneInput
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="country_code"
+          control={control}
+          render={({ field }) => (
+            <PhoneInput
+              label={t("phone")}
+              id="phone"
+              placeholder={t("phone")}
+              selectedCountry={selectedCountry}
+              setSelectedCountry={setSelectedCountry}
+              limit={selectedCountry?.number_limit}
+              {...register("phone")}
+              onCountryChange={(country) =>
+                field.onChange(country?.country_code)
+              }
+              error={errors?.phone?.message}
+            />
+          )}
+        />
+
+        {/* <PhoneInput
           label={t("phone")}
           placeholder={t("phone")}
           selectedCountry={selectedCountry}
@@ -107,7 +113,7 @@ export default function Login() {
           error={errors.phone?.message}
           limit={selectedCountry?.number_limit}
           {...register("phone")}
-        />
+        /> */}
 
         <PasswordField
           label={t("password")}
@@ -115,7 +121,7 @@ export default function Login() {
           error={errors.password?.message}
           {...register("password")}
         />
- 
+
         <span
           className="forgetpass"
           style={{ cursor: "pointer" }}
