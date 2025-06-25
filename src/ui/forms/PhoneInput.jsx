@@ -9,6 +9,7 @@ export default function PhoneInput({
   selectedCountry,
   setSelectedCountry,
   error,
+  onCountryChange,
   ...props
 }) {
   const dropdownRef = useRef(null);
@@ -18,6 +19,7 @@ export default function PhoneInput({
 
   const handleSelectCountry = (country) => {
     setSelectedCountry(country);
+    onCountryChange?.(country);
     setShowDropDownMenu(false);
   };
 
@@ -35,7 +37,7 @@ export default function PhoneInput({
   }, [dropdownRef]);
 
   return (
-    <div>
+    <div className="w-100 ">
       <div className="phone_field">
         <div className="input-field">
           {label && <label htmlFor={props?.id}>{label}</label>}

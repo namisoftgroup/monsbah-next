@@ -17,15 +17,16 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { toast } from "sonner";
+import { DevTool } from "@hookform/devtools";
+import { Controller } from "react-hook-form";
 
 const Register = () => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
 
   const { setFormType } = useAuthModal((state) => state);
-  const { register, errors, handleSubmit, watch } = useRegisterForm();
+  const { register, errors, handleSubmit, watch, control } = useRegisterForm();
   const { country_id, city_id, gender } = watch();
-  console.log("gender", gender);
 
   const [selectedCountry, setSelectedCountry] = useState(null);
 
@@ -55,13 +56,12 @@ const Register = () => {
     }
   }, [selectedCountry]);
 
-  console.log(errors);
   const onSubmit = async (data) => {
     console.log(data);
 
     setLoading(true);
-    const payload = { ...formData, new_version: 1 };
-    payload.phone = formData.country_code + formData.phone;
+    const payload = { ...data, new_version: 1 };
+    payload.phone = data.country_code + data.phone;
 
     try {
       const res = await clientAxios.post("/client/auth/sign-up", payload);
@@ -120,7 +120,6 @@ const Register = () => {
             error={errors.email?.message}
           />
         </div>
-
         <div className="form_group">
           <SelectField
             label={t("auth.country")}
@@ -160,17 +159,25 @@ const Register = () => {
             error={errors.state_id?.message}
           />
         </div>
-
         <div className="form_group">
-          <PhoneInput
-            label={t("auth.phone")}
-            id="phone"
-            placeholder={t("auth.phone")}
-            selectedCountry={selectedCountry}
-            setSelectedCountry={setSelectedCountry}
-            limit={selectedCountry?.number_limit}
-            {...register("phone")}
-            error={errors.phone?.message}
+          <Controller
+            name="country_code"
+            control={control}
+            render={({ field }) => (
+              <PhoneInput
+                label={t("auth.phone")}
+                id="phone"
+                placeholder={t("auth.phone")}
+                selectedCountry={selectedCountry}
+                setSelectedCountry={setSelectedCountry}
+                limit={selectedCountry?.number_limit}
+                {...register("phone")}
+                onCountryChange={(country) =>
+                  field.onChange(country?.country_code)
+                }
+                error={errors.phone?.message}
+              />
+            )}
           />
 
           <div className="input-field">
@@ -237,8 +244,9 @@ const Register = () => {
           >
             <i className="fal fa-arrow-right"></i>
           </button>
-          <SubmitButton name={t("auth.register")} loading={loading} />
-        </div>
+          <SubmitButton text={t("auth.register")} loading={loading} />
+        </div>{" "}
+        <DevTool control={control} />
       </form>
     </>
   );

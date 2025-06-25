@@ -47,6 +47,7 @@ const getSchema = (t) => {
 export const useRegisterForm = () => {
   const t = useTranslations("validations");
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -56,5 +57,5 @@ export const useRegisterForm = () => {
     defaultValues: DEFAULT_VALUES,
   });
 
-  return { register, handleSubmit, errors, watch };
+  return { register, handleSubmit, errors, watch, control };
 };

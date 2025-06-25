@@ -3,7 +3,6 @@ import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 
 export async function fetcher(endpoint, options = {}, skipAuth = true) {
-  console.log(endpoint);
   const cookiesStore = await cookies();
   let token = cookiesStore.get("token")?.value;
 
