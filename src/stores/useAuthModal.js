@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export const useAuthModal = create((set) => ({
   isOpen: false,
-  formType: "login",
+  formType: "reset",
   userType: "client",
 
   onOpen: () => set({ isOpen: true }),

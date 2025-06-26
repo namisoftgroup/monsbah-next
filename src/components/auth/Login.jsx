@@ -23,10 +23,10 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
-  // const [, setErrors] = useState({});
-  const [userType, setUserType] = useState("client");
 
-  const { setFormType, onClose } = useAuthModal((state) => state);
+  const { setFormType, onClose, userType, setUserType } = useAuthModal(
+    (state) => state
+  );
   const loginState = useAuthStore((state) => state.login);
 
   const { data: currentLocation } = useGetCurrentLocation();
@@ -60,6 +60,9 @@ export default function Login() {
       });
 
       loginState(data.token, data.client_data);
+      setUserType(
+        data.client_data?.user_type === "user" ? "client" : "company"
+      );
       localStorage.setItem(
         "user_type",
         data.client_data?.user_type === "user" ? "client" : "company"

@@ -17,6 +17,8 @@ import ResetPassword from "./ResetPassword";
 import OTPConfirm from "./OTPConfirm";
 import ForgetPassword from "./ForgetPassword";
 import CompanyOTPConfirm from "./CompanyOTPConfirm";
+import { useForgetPasswordForm } from "@/hooks/controllers/useForgetPasswordForm";
+import { useTranslations } from "next-intl";
 
 export default function AuthModal() {
   const {
@@ -27,6 +29,7 @@ export default function AuthModal() {
   } = useAuthModal((state) => state);
   const methods = useRegisterForm();
   const companyFormMethods = useCompanyRegisterForm();
+  const forgetPassordMethods = useForgetPasswordForm();
   const handleClose = () => {
     onClose();
     setFormType("login");
@@ -71,10 +74,11 @@ export default function AuthModal() {
               {formType === "register-company" && <RegisterCompany />}{" "}
               {formType === "companyOtp" && <CompanyOTPConfirm />}
             </FormProvider>
-            {formType === "forget" && <ForgetPassword />}
+            <FormProvider {...forgetPassordMethods}>
+              {formType === "forget" && <ForgetPassword />}
 
-            {formType === "otp" && <OTPConfirm />}
-
+              {formType === "otp" && <OTPConfirm />}
+            </FormProvider>
             {formType === "reset" && <ResetPassword />}
           </div>
         </section>
