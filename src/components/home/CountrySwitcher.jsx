@@ -24,7 +24,6 @@ export default function CountrySwitcher({ countries }) {
       classNamePrefix="select"
       isSearchable={false}
       placeholder={t("selectCountry")}
-      
       //   isRtl={lang === "ar"}
       //   value={
       //     country
@@ -38,9 +37,8 @@ export default function CountrySwitcher({ countries }) {
       onChange={(e) => {
         handleCountryChange(e?.value);
       }}
-
-      options={countries?.map(({ name }) => ({
-        value: name,
+      options={countries?.map(({ name, iso_code }) => ({
+        value: iso_code,
         label: name,
       }))}
     />
