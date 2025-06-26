@@ -12,51 +12,51 @@ export async function GET(request) {
   let userType = cookieStore.get("user_type")?.value;
 
   if (!token) {
-    if (cookieStore.get("refreshToken")?.value) {
-      const newTokenData = await refreshToken();
-      if (newTokenData) {
-        token = newTokenData.token;
-        cookieStore.set("token", newTokenData.token, {
-          path: "/",
-          expires: new Date(newTokenData.expires),
-          httpOnly: true,
-          sameSite: "lax",
-        });
-      } else {
-        cookieStore.delete("token");
-        cookieStore.delete("refreshToken");
-        return NextResponse.json({ message: "Unauthorized", status: 401 });
-      }
-    } else {
-      return NextResponse.json(
-        { message: "errors.noUserLoggedIn" },
-        { status: 200 }
-      );
-    }
+    return NextResponse.json(
+      { message: t("noUserLoggedIn") },
+      { status: 401 }
+    );
   }
-
-  try {
-    const res = await fetch(
-      API_URL + `/${userType === "user" ? "client" : "company"}/auth/profile`,
+  const fetchProfile = async (accessToken) => {
+    return fetch(
+      `${API_URL}/${userType === "user" ? "client" : "company"}/auth/profile`,
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
+  };
 
-    const data = await res.json();
-    console.log("Profile data:", data);
+  let res = await fetchProfile(token);
 
+  if (res.status === 401) {
+    const newTokenData = await refreshToken();
+    if (!newTokenData?.token) {
+      cookieStore.delete("token");
+      return NextResponse.json({ message: t("unauthorized") }, { status: 401 });
+    }
+    token = newTokenData.token;
+    cookieStore.set("token", token, {
+      path: "/",
+      expires: newTokenData.expires
+        ? new Date(newTokenData.expires)
+        : undefined,
+      httpOnly: true,
+      sameSite: "lax",
+    });
+
+    res = await fetchProfile(token);
+  }
+
+  if (!res.ok) {
     return NextResponse.json(
-      { user: data?.data, token },
+      { message: t("somethingWentWrong") },
       { status: res.status }
     );
-  } catch (e) {
-    return NextResponse.json(
-      { message: "errors.somethingWentWrong", data: e },
-      { status: 500 }
-    );
   }
+
+  const data = await res.json();
+  return NextResponse.json({ user: data?.data, token }, { status: 200 });
 }

@@ -9,17 +9,16 @@ export async function refreshToken() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ token: cookiesStore.get("refreshToken")?.value }),
+    body: JSON.stringify({ token: cookiesStore.get("token")?.value }),
   });
 
   const data = await res.json();
   console.log("------------data", data);
 
   const newToken = data.data?.token;
-  const newExpires = data.data?.token_expires_at;
 
   if (newToken) {
-    return { token: newToken, expires: newExpires };
+    return { token: newToken };
   } else {
     return null;
   }

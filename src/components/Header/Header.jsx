@@ -14,6 +14,7 @@ export default function Header() {
   const t = useTranslations("header");
   const handleShowAuthModal = useAuthModal((state) => state.onOpen);
   const user = useAuthStore((state) => state.user);
+  console.log(user);
 
   return (
     <header>

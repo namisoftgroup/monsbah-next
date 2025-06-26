@@ -31,33 +31,13 @@ export async function POST(request) {
         sameSite: "lax",
       });
 
-      cookieStore.set("refreshToken", data?.data?.refresh_token, {
+  
+      cookieStore.set("user_type", data?.data?.client_data?.user_type, {
         path: "/",
         expires: new Date(data?.data?.refresh_token_expires_at),
         httpOnly: true,
         sameSite: "lax",
       });
-
-      cookieStore.set(
-        "refreshTokenExpiresAt",
-        data?.data?.refresh_token_expires_at,
-        {
-          path: "/",
-          expires: new Date(data?.data?.refresh_token_expires_at),
-          httpOnly: true,
-          sameSite: "lax",
-        } , 
-      );
-      cookieStore.set(
-        "user_type",
-        data?.data?.client_data?.user_type,
-        {
-          path: "/",
-          expires: new Date(data?.data?.refresh_token_expires_at),
-          httpOnly: true,
-          sameSite: "lax",
-        } , 
-      );
     }
 
     return NextResponse.json(data, { status: res.status });
