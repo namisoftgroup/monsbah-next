@@ -1,20 +1,17 @@
-"use client";
-import { useAuthModal } from "@/stores/useAuthModal";
-import OtpContainer from "@/components/shared/forms/OtpContainer";
-import SubmitButton from "@/components/shared/forms/SubmitButton";
-import clientAxios from "@/libs/axios/clientAxios";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import React, { useState } from "react";
 import ResendCodeTimer from "./ResendCodeTimer";
-import { handleLogin } from "@/services/auth/LoginService";
-import { toast } from "sonner";
+import OtpContainer from "../shared/forms/OtpContainer";
+import { useAuthModal } from "@/stores/useAuthModal";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { useRouter } from "@/i18n/navigation";
+import { useFormContext } from "react-hook-form";
+import { toast } from "sonner";
+import { handleLogin } from "@/services/auth/LoginService";
+import { useTranslations } from "next-intl";
+import SubmitButton from "../shared/forms/SubmitButton";
+import clientAxios from "@/libs/axios/clientAxios";
 
-const RegisterOTPConfirm = () => {
+const CompanyOTPConfirm = () => {
   const t = useTranslations();
-  const router = useRouter();
   const { setFormType, onClose, userType } = useAuthModal((state) => state);
   const loginState = useAuthStore((state) => state.login);
   const [otpVerifyCode, setOtpVerifyCode] = useState("");
@@ -28,7 +25,11 @@ const RegisterOTPConfirm = () => {
     payload.phone = formData.country_code + formData.phone;
 
     try {
-      const res = await clientAxios.post("/client/auth/sign-up", payload);
+      const res = await clientAxios.post("/company/auth/sign-up", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (res.status === 200) {
         toast.success(t("otpResendSuccess"));
@@ -40,18 +41,25 @@ const RegisterOTPConfirm = () => {
       setLoading(false);
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await clientAxios.post("/client/auth/sign-up/verify-phone", {
-        ...formData,
-        phone: formData.country_code + formData.phone,
-        new_version: 1,
-        otp: +otpVerifyCode.code,
-      });
+      const res = await clientAxios.post(
+        "/company/auth/sign-up/verify-phone",
+        {
+          ...formData,
+          phone: formData.country_code + formData.phone,
+          new_version: 1,
+          otp: +otpVerifyCode.code,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       if (res.status === 200) {
         const data = await handleLogin({
           userType,
@@ -60,6 +68,7 @@ const RegisterOTPConfirm = () => {
           password: formData?.password,
           fcm_token: formData?.fcm_token,
         });
+        console.log("success    confirm code ");
 
         toast.success(data?.message);
         loginState(data.token, data.client_data);
@@ -68,7 +77,7 @@ const RegisterOTPConfirm = () => {
           data.client_data?.user_type === "user" ? "client" : "company"
         );
         onClose(false);
-        router.push("/");
+        // router.push("/");
         setFormType("login");
       }
     } catch (error) {
@@ -112,4 +121,4 @@ const RegisterOTPConfirm = () => {
   );
 };
 
-export default RegisterOTPConfirm;
+export default CompanyOTPConfirm;

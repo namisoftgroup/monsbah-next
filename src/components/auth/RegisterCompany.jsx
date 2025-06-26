@@ -15,6 +15,8 @@ import useGetCities from "@/hooks/queries/settings/useGetCities";
 import useGetStates from "@/hooks/queries/settings/useGetStates";
 import { DevTool } from "@hookform/devtools";
 import useGetCategories from "@/hooks/queries/settings/useGetCategories";
+import clientAxios from "@/libs/axios/clientAxios";
+import { toast } from "sonner";
 
 const RegisterCompany = () => {
   const { setFormType, onClose } = useAuthModal((state) => state);
@@ -66,6 +68,41 @@ const RegisterCompany = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
+    setLoading(true);
+
+    const payload = { ...data, new_version: 1 };
+    payload.phone = data.country_code + data.phone;
+    payload.whats_number = data.whats_country_code + data.whats_number;
+
+    try {
+      const res = await clientAxios.post("/company/auth/sign-up", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.status === 200) {
+        toast.success(res.data?.message);
+        setFormType("companyOtp");
+      }
+    } catch (error) {
+      console.log(error.response?.data?.data);
+      if (error.response?.data?.data) {
+        const message = error.response?.data?.data
+          ?.map((item) => `${item}<br />`)
+          .join(" ");
+        toast.error(
+          <div
+            style={{ textAlign: "start !important" }}
+            dangerouslySetInnerHTML={{ __html: message }}
+          />
+        );
+      } else {
+        toast.error(error.response.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>

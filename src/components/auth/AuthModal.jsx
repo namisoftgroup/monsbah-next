@@ -13,6 +13,10 @@ import { useRegisterForm } from "@/hooks/controllers/useRegisterForm";
 import RegisterOTPConfirm from "./RegisterOTPConfirm";
 import RegisterCompany from "./RegisterCompany";
 import useCompanyRegisterForm from "@/hooks/controllers/useCompanyRegisterForm";
+import ResetPassword from "./ResetPassword";
+import OTPConfirm from "./OTPConfirm";
+import ForgetPassword from "./ForgetPassword";
+import CompanyOTPConfirm from "./CompanyOTPConfirm";
 
 export default function AuthModal() {
   const {
@@ -64,8 +68,14 @@ export default function AuthModal() {
               {formType === "registerOtp" && <RegisterOTPConfirm />}
             </FormProvider>
             <FormProvider {...companyFormMethods}>
-              {formType === "register-company" && <RegisterCompany />}
+              {formType === "register-company" && <RegisterCompany />}{" "}
+              {formType === "companyOtp" && <CompanyOTPConfirm />}
             </FormProvider>
+            {formType === "forget" && <ForgetPassword />}
+
+            {formType === "otp" && <OTPConfirm />}
+
+            {formType === "reset" && <ResetPassword />}
           </div>
         </section>
       </Modal.Body>
