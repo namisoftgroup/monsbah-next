@@ -53,7 +53,7 @@ export default function Header() {
             {user ? (
               <Link
                 aria-label="Profile"
-                to="/profile"
+                href="/profile"
                 className="link profile-link"
               >
                 <Image width={40} height={40} src={user?.image} alt="user" />
