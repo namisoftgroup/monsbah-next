@@ -23,24 +23,24 @@ export async function POST(request) {
 
     const data = await res.json();
 
+    const response = NextResponse.json(data, { status: res.status });
+
     if (res.ok) {
       cookieStore.set("token", data?.data?.token, {
         path: "/",
-        expires: new Date(data?.data?.token_expires_at),
+        maxAge: 60 * 60 * 24 * 7,
         httpOnly: true,
         sameSite: "lax",
       });
 
-  
       cookieStore.set("user_type", data?.data?.client_data?.user_type, {
         path: "/",
-        expires: new Date(data?.data?.refresh_token_expires_at),
+        maxAge: 60 * 60 * 24 * 7,
         httpOnly: true,
         sameSite: "lax",
       });
     }
-
-    return NextResponse.json(data, { status: res.status });
+    return response;
   } catch (e) {
     return NextResponse.json(
       { message: t("somethingWentWrong") },

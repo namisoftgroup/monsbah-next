@@ -1,24 +1,22 @@
 "use client";
 
-import { useAuthModal } from "@/stores/useAuthModal";
-import { Modal } from "react-bootstrap";
-import { GoX } from "react-icons/go";
-import Login from "./Login";
-import Image from "next/image";
-import { useEffect } from "react";
-import ChooseRegisterType from "./ChooseRegisterType";
-import Register from "./Register";
-import { FormProvider } from "react-hook-form";
-import { useRegisterForm } from "@/hooks/controllers/useRegisterForm";
-import RegisterOTPConfirm from "./RegisterOTPConfirm";
-import RegisterCompany from "./RegisterCompany";
 import useCompanyRegisterForm from "@/hooks/controllers/useCompanyRegisterForm";
-import ResetPassword from "./ResetPassword";
-import OTPConfirm from "./OTPConfirm";
-import ForgetPassword from "./ForgetPassword";
-import CompanyOTPConfirm from "./CompanyOTPConfirm";
 import { useForgetPasswordForm } from "@/hooks/controllers/useForgetPasswordForm";
-import { useTranslations } from "next-intl";
+import { useRegisterForm } from "@/hooks/controllers/useRegisterForm";
+import { useAuthModal } from "@/stores/useAuthModal";
+import Image from "next/image";
+import { Modal } from "react-bootstrap";
+import { FormProvider } from "react-hook-form";
+import { GoX } from "react-icons/go";
+import ChooseRegisterType from "./ChooseRegisterType";
+import CompanyOTPConfirm from "./CompanyOTPConfirm";
+import ForgetPassword from "./ForgetPassword";
+import Login from "./Login";
+import OTPConfirm from "./OTPConfirm";
+import Register from "./Register";
+import RegisterCompany from "./RegisterCompany";
+import RegisterOTPConfirm from "./RegisterOTPConfirm";
+import ResetPassword from "./ResetPassword";
 
 export default function AuthModal() {
   const {

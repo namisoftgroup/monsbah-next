@@ -4,7 +4,6 @@ import { getTranslations } from "next-intl/server";
 
 export default async function Countries() {
   const t = await getTranslations();
-  console.log(t);
 
   const countries = await getCountries();
 

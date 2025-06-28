@@ -21,7 +21,6 @@ import { META_DATA_CONTENT } from "@/utils/constants";
 
 export async function generateMetadata({ params }) {
   const locale = await params;
-  console.log(locale);
 
   const lang = locale["country-locale"].split("-")[1];
   const content = META_DATA_CONTENT[lang];

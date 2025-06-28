@@ -141,7 +141,7 @@
   "profile": {
     "followers": "Followers",
     "followings": "Following",
-    "mainInfo": "Personal Information",
+    "main": "Personal Information",
     "ads": "Ads",
     "questions": "Questions",
     "favorites": "Favorites",
@@ -167,7 +167,8 @@
     "noQuestionsForMe": "You didn't add any questions, yet.",
     "noFavoritesYet": "You don't have any favorite ads, yet.",
     "noNotificationsYet": "You don't have any notifications, yet.",
-    "noRatesYet": "There is no rates, yet."
+    "noRatesYet": "There is no rates, yet.",
+    "notifications": "notifications"
   },
   "contact": {
     "titleHint": "Contact Us",

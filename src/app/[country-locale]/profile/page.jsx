@@ -1,23 +1,7 @@
-import ProfileTabs from "@/components/profile/ProfileTabs";
+import MainInfoTab from "@/components/profile/main/MainInfoTab";
+import { redirect } from "next/navigation";
+import React from "react";
 
-export async function generateMetadata({ params }) {
-  const locale = await params;
-
-  const lang = locale["country-locale"].split("-")[1];
-
-  return {
-    title: lang === "ar" ? "الملف الشخصي" : "Profile",
-  };
-}
-
-export default function Profile() {
-  return (
-    <div className="profile-page">
-      <div className="container ">
-        <div className="row m-0">
-          <ProfileTabs />
-        </div>
-      </div>
-    </div>
-  );
+export default function ProfileRootPage() {
+  return redirect("/profile/main");
 }

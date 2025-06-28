@@ -68,7 +68,6 @@ const CompanyOTPConfirm = () => {
           password: formData?.password,
           fcm_token: formData?.fcm_token,
         });
-        console.log("success    confirm code ");
 
         toast.success(data?.message);
         loginState(data.token, data.client_data);

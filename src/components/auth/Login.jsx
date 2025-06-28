@@ -85,9 +85,9 @@ export default function Login() {
         <p className="sub-head">{t("loginSubtitle")}</p>
       </div>
 
-      <ChooseUserType setUserType={setUserType} />
 
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="form"  onSubmit={handleSubmit(onSubmit)}>
+      <ChooseUserType setUserType={setUserType} />
         <Controller
           name="country_code"
           control={control}

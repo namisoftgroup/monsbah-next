@@ -4,7 +4,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 function useGetNotifications() {
   const token = useAuthStore((state) => state.token);
-  console.log("tokn -------------- ", token);
 
   const {
     isLoading,
@@ -18,7 +17,7 @@ function useGetNotifications() {
 
     queryFn: async ({ pageParam = 1 }) => {
       const res = await clientAxios.get(
-        `/${localStorage.getItem("userType")}/notifications`,
+        `/${localStorage.getItem("user_type")}/notifications`,
         {
           params: {
             page: pageParam,

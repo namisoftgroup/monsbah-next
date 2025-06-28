@@ -42,13 +42,11 @@ export const META_DATA_CONTENT = {
 };
 
 export const PROFILE_TABS = [
-  { key: "main", icon: "user" },
-  { key: "ads", icon: "bullhorn" },
-  { key: "addAd", icon: "plus" },
-  { key: "questions", icon: "message-question" },
-  { key: "notifications", icon: "bell" },
-  { key: "favorites", icon: "heart" },
-  { key: "settings", icon: "gear" },
-  { key: "verification", icon: "badge-check" },
-  { key: "logout", icon: "arrow-right-from-bracket" },
+  { key: "main", icon: "fa-user" },
+  { key: "ads", icon: "fa-bullhorn" },
+  { key: "addAd", icon: "fa-plus" },
+  { key: "favorites", icon: "fa-heart" },
+  { key: "settings", icon: "fa-gear" },
+  { key: "verification", icon: "fa-badge-check" },
+  { key: "notifications", icon: "fa-bell" },
 ];

@@ -38,7 +38,6 @@ const ForgetPassword = () => {
   }, [selectedCountry]);
 
   const onSubmit = async (data) => {
-    console.log(data);
     setLoading(true);
     const payload = {
       phone: data.country_code + data.phone,

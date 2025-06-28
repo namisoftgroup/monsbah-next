@@ -13,11 +13,12 @@ const serverAxios = axios.create({
 serverAxios.interceptors.request.use(
   async (config) => {
     const cookiesStore = await cookies();
-    const lang = cookiesStore.get("NEXT_LOCALE")?.value || "ar";
+    const lang = cookiesStore.get("NEXT_LOCALE")?.value.split("-")[1] || "ar";
     const token = cookiesStore.get("token")?.value || "";
 
     config.headers["Accept-Language"] = lang;
-    config.headers["Authorization"] = `${token}`;
+    config.headers["lang"] = lang;
+    config.headers["Authorization"] = `Bearer ${token}`;
     return config;
   },
   (error) => {

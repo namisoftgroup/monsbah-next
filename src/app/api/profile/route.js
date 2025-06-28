@@ -1,9 +1,20 @@
 import { API_URL } from "@/utils/constants";
 import { refreshToken } from "@/utils/refreshTokens";
-import { log } from "console";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+
+export const fetchProfile = async (accessToken, userType) => {
+  return fetch(
+    `${API_URL}/${userType === "user" ? "client" : "company"}/auth/profile`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
 
 export async function GET(request) {
   const t = await getTranslations();
@@ -11,25 +22,13 @@ export async function GET(request) {
   let token = cookieStore.get("token")?.value;
   let userType = cookieStore.get("user_type")?.value;
 
-  if (!token) {
-    return NextResponse.json(
-      { message: t("noUserLoggedIn") },
-      { status: 401 }
-    );
-  }
-  const fetchProfile = async (accessToken) => {
-    return fetch(
-      `${API_URL}/${userType === "user" ? "client" : "company"}/auth/profile`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-  };
+  console.log(token);
 
-  let res = await fetchProfile(token);
+  if (!token) {
+    return NextResponse.json({ message: t("noUserLoggedIn") }, { status: 401 });
+  }
+
+  let res = await fetchProfile(token, userType);
 
   if (res.status === 401) {
     const newTokenData = await refreshToken();
@@ -47,7 +46,7 @@ export async function GET(request) {
       sameSite: "lax",
     });
 
-    res = await fetchProfile(token);
+    res = await fetchProfile(token, userType);
   }
 
   if (!res.ok) {
@@ -58,5 +57,6 @@ export async function GET(request) {
   }
 
   const data = await res.json();
+
   return NextResponse.json({ user: data?.data, token }, { status: 200 });
 }

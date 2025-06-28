@@ -139,7 +139,7 @@
   "profile": {
     "followers": "المتابعون",
     "followings": "تتابع",
-    "mainInfo": "المعلومات الشخصية",
+    "main": "المعلومات الشخصية",
     "ads": "الاعلانات",
     "questions": "الأسئلة",
     "favorites": "المفضلة",
@@ -165,7 +165,8 @@
     "noQuestionsForMe": "لم تقم بإضافة أسئلة حتى الآن",
     "noFavoritesYet": "ليس لديك اعلانات مفضلة حتى الان",
     "noNotificationsYet": "ليس لديك اشعارات حتى الان",
-    "noRatesYet": "لا توجد تقييمات حتى الان"
+    "noRatesYet": "لا توجد تقييمات حتى الان",
+    "notifications": "الاشعارات"
   },
   "contact": {
     "titleHint": "هل لديك استفسار؟",

@@ -14,7 +14,6 @@ export default function Header() {
   const t = useTranslations("header");
   const handleShowAuthModal = useAuthModal((state) => state.onOpen);
   const user = useAuthStore((state) => state.user);
-  console.log(user?.image);
 
   return (
     <header>
@@ -45,6 +44,8 @@ export default function Header() {
           <div className="moreActions">
             <MoreActions />
 
+            {user?.id && <NotificationsDropDown />}
+
             <LanguageSwitcher />
             <Link aria-label="Search" href="/search" className="link">
               <Image src="/icons/search.svg" width={16} height={16} alt="" />
@@ -58,8 +59,6 @@ export default function Header() {
               >
                 <Image width={40} height={40} src={user?.image} alt="user" />
               </Link>
-            ) : user === null ? (
-              <div className="link"></div>
             ) : (
               <button
                 aria-label="Login"
@@ -69,8 +68,6 @@ export default function Header() {
                 <img src="/icons/user.svg" alt="user" />
               </button>
             )}
-
-            {/* {user?.id ? <NotificationsDropDown /> : null} */}
           </div>
         </div>
       </div>

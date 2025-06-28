@@ -17,7 +17,6 @@ clientAxios.interceptors.request.use(
         .split("; ")
         .find((row) => row.startsWith("NEXT_LOCALE="));
       const lang = cookies ? cookies.split("=")[1].split("-")[1] : "ar";
-      console.log("Language from cookies:", lang);
       config.headers["Accept-Language"] = lang;
       config.headers["lang"] = lang;
     }

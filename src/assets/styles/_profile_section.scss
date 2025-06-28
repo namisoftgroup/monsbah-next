@@ -130,18 +130,15 @@
     }
   }
   .tabs-section {
-    display: flex;
-    padding: 0 !important;
-    @media screen and (max-width: 768px) {
-      flex-direction: column;
-    }
-
+    position: sticky;
+    top: 118px;
     .nav-tabs {
       background-color: $main10;
       padding: 12px;
       .nav-item {
         display: flex;
         color: #231f20;
+        a,
         button {
           flex: 1;
           color: $dark;
@@ -173,21 +170,19 @@
     }
   }
   .tab-content {
-    flex: 1 0;
-    margin: 0 8px;
-    @media screen and (max-width: 768px) {
-      margin: 8px 0;
-    }
-    .tab-pane {
+    // flex: 1 0;
+    // margin: 0 8px;
+    // @media screen and (max-width: 768px) {
+    //   margin: 8px 0;
+    // }
+    .tab-content-pane {
       width: 100%;
       padding: 8px !important;
       background: #f9f9f9;
       border-radius: 12px;
       height: 100% !important;
-      &.active {
-        display: flex !important;
-        flex-wrap: wrap;
-      }
+      display: flex !important;
+      flex-wrap: wrap;
     }
   }
   .profileResponsiveNav {
