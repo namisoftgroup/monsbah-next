@@ -1,13 +1,16 @@
-"use client";
-
+import { useAuthStore } from "@/stores/useAuthStore";
 import { API_URL } from "@/utils/constants";
 import axios from "axios";
+
+const token = useAuthStore.getState().token;
+console.log(token);
 
 const clientAxios = axios.create({
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
+    ...(token && { Authorization: `Bearer ${token}` }),
   },
 });
 
@@ -20,15 +23,6 @@ clientAxios.interceptors.request.use(
       const lang = cookies ? cookies.split("=")[1].split("-")[1] : "ar";
       config.headers["Accept-Language"] = lang;
       config.headers["lang"] = lang;
-
-      // ✅ Auth token from Zustand
-
-      // const token = useAuthStore.getState().getToken();
-      // console.log(token);
-
-      // if (token) {
-      //   config.headers["Authorization"] = `Bearer ${token}`;
-      // }
     }
     return config;
   },
