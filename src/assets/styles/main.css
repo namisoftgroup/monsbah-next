@@ -3819,6 +3819,9 @@ body .profile-page .tabs-section .nav-tabs .nav-item button.active {
   background-color: #1abc9c;
   color: #fff;
 }
+body .profile-page .tab-content {
+  height: 100%;
+}
 body .profile-page .tab-content .tab-content-pane {
   width: 100%;
   padding: 8px !important;
@@ -6964,6 +6967,9 @@ body main .profile-page .tabs-section .nav-tabs .nav-item a.active,
 body main .profile-page .tabs-section .nav-tabs .nav-item button.active {
   background-color: #1abc9c;
   color: #fff;
+}
+body main .profile-page .tab-content {
+  height: 100%;
 }
 body main .profile-page .tab-content .tab-content-pane {
   width: 100%;

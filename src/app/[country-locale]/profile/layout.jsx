@@ -9,11 +9,7 @@ const ProfileLayout = ({ children }) => {
           <div className="col-3 p-2">
             <ProfileTabs />
           </div>
-          <div className="col-9 p-2">
-            <div className="tab-content">
-              <div className="tab-content-pane ">{children}</div>
-            </div>
-          </div>
+          <div className="col-9 p-2">{children}</div>
         </div>
       </div>
     </div>
