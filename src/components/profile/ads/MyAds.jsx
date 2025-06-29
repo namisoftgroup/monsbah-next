@@ -29,10 +29,10 @@ export default async function MyAds() {
         <section className="products_section w-100">
           <div className="row">
             <MyAdsHeader />
-            <HydrationBoundary state={dehydrate(queryCLient)}>
-              <AdsList />
-            </HydrationBoundary>
           </div>
+          <HydrationBoundary state={dehydrate(queryCLient)}>
+            <AdsList />
+          </HydrationBoundary>
         </section>
       </div>
     </div>

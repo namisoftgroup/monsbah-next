@@ -4,9 +4,10 @@ import EmptyData from "@/components/shared/EmptyData";
 import ProductLoader from "@/components/shared/loaders/ProductLoader";
 import useGetUserProducts from "@/hooks/queries/products/useGetUserProducts";
 import { useTranslations } from "next-intl";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function AdsList() {
+  const sectionRef = useRef();
   const t = useTranslations();
   const {
     data: products,
@@ -19,31 +20,31 @@ export default function AdsList() {
 
   console.log(products);
 
-  //   useEffect(() => {
-  //     const handleScroll = () => {
-  //       if (!sectionRef.current) return;
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
 
-  //       const section = sectionRef.current;
-  //       const sectionBottom = section.getBoundingClientRect().bottom;
-  //       const viewportHeight = window.innerHeight;
+      const section = sectionRef.current;
+      const sectionBottom = section.getBoundingClientRect().bottom;
+      const viewportHeight = window.innerHeight;
 
-  //       if (
-  //         sectionBottom <= viewportHeight + 200 &&
-  //         hasNextPage &&
-  //         !isFetchingNextPage
-  //       ) {
-  //         fetchNextPage();
-  //       }
-  //     };
+      if (
+        sectionBottom <= viewportHeight + 200 &&
+        hasNextPage &&
+        !isFetchingNextPage
+      ) {
+        fetchNextPage();
+      }
+    };
 
-  //     window.addEventListener("scroll", handleScroll);
-  //     return () => window.removeEventListener("scroll", handleScroll);
-  //   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <>
+    <section className="row" ref={sectionRef}>
       {products?.map((product, index) => (
-        <div className="col-lg-6 col-12 p-2" key={index}>
+        <div className="col-12  col-lg-6  p-2" key={index}>
           {/* <ProductVertical product={product} className="my-ad" /> */}
         </div>
       ))}
@@ -67,6 +68,6 @@ export default function AdsList() {
             <p>{t("ads.noAdsForMe")}</p>
           </EmptyData>
         )}
-    </>
+    </section>
   );
 }

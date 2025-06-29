@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { isValidVideoExtension } from "../../utils/helpers";
-import ImageLoad from "../loaders/ImageLoad";
 import { Link } from "@/i18n/navigation";
+import ImageLoad from "../loaders/ImageLoad";
 
 function ProductVertical({ product }) {
   const [isImageLoaded, setIsImageLoaded] = useState(true);
@@ -15,12 +15,12 @@ function ProductVertical({ product }) {
     <>
       <Link
         aria-label="Product"
-        to={`/product/${product.id}`}
+        href={`/product/${product.id}`}
         className={`product_vertical ${className}`}
       >
         <Link
           aria-label="Product"
-          to={`/product/${product.id}`}
+          href={`/product/${product.id}`}
           className="img"
         >
           {isValidVideoExtension(product?.image) ? (
@@ -67,7 +67,7 @@ function ProductVertical({ product }) {
                 <div className="d-flex align-items-center gap-2">
                   <Link
                     aria-label="Profile"
-                    to={`/profile?tab=addAd&product_id=${product?.id}`}
+                    href={`/profile?tab=addAd&product_id=${product?.id}`}
                     className={`favourite_btn dark`}
                     onClick={(e) => e.stopPropagation()}
                   >

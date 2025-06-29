@@ -8,6 +8,7 @@ import AuthProvider from "./AuthProvider";
 
 export default function ReactQueryProvider({ children, locale, messages }) {
   const queryClient = getQueryClient();
+
   return (
     <NextIntlClientProvider
       locale={locale}
@@ -17,8 +18,8 @@ export default function ReactQueryProvider({ children, locale, messages }) {
     >
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
           {children}
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </AuthProvider>
     </NextIntlClientProvider>

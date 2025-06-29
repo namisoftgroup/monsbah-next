@@ -1,5 +1,5 @@
-// lib/axios/clientAxios.ts
-import { useAuthStore } from "@/stores/useAuthStore";
+"use client";
+
 import { API_URL } from "@/utils/constants";
 import axios from "axios";
 
@@ -22,10 +22,13 @@ clientAxios.interceptors.request.use(
       config.headers["lang"] = lang;
 
       // ✅ Auth token from Zustand
-      const { token } = useAuthStore((state) => state);
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
+
+      // const token = useAuthStore.getState().getToken();
+      // console.log(token);
+
+      // if (token) {
+      //   config.headers["Authorization"] = `Bearer ${token}`;
+      // }
     }
     return config;
   },

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useLocale } from "next-intl";
 import clientAxios from "../../../libs/axios/clientAxios";
 
 function useGetSubCategories(category, enabled, page) {
-  const lang = useSelector((state) => state.language.lang);
+  const lang = useLocale().split("-")[1];
 
   const { isLoading, data, error } = useQuery({
     queryKey: ["sub-categories", category, lang],

@@ -50,3 +50,11 @@ export const PROFILE_TABS = [
   { key: "verification", icon: "fa-badge-check" },
   { key: "notifications", icon: "fa-bell" },
 ];
+
+export const CATEGORY_TYPES = {
+  SALE: "sale",
+  RENT: "rent",
+  ALL: "",
+};
+
+export const DRESS_CATEGORY_ID = 1;
