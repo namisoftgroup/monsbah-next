@@ -6,7 +6,6 @@ import { useLocale } from "next-intl";
 
 function useGetCategories() {
   const lang = useLocale().split("-")[1];
-  console.log("iam in the get Categories here ");
 
   const { isLoading, data, error } = useQuery({
     queryKey: ["categories", lang],
@@ -19,8 +18,6 @@ function useGetCategories() {
         });
 
         if (res.status === 200) {
-          console.log(res);
-
           return res.data?.data?.data;
         }
       } catch (error) {

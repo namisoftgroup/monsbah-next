@@ -1,5 +1,6 @@
 "use client";
 
+import ProductVertical from "@/components/shared/cards/ProductVertical";
 import EmptyData from "@/components/shared/EmptyData";
 import ProductLoader from "@/components/shared/loaders/ProductLoader";
 import useGetUserProducts from "@/hooks/queries/products/useGetUserProducts";
@@ -45,7 +46,7 @@ export default function AdsList() {
     <section className="row" ref={sectionRef}>
       {products?.map((product, index) => (
         <div className="col-12  col-lg-6  p-2" key={index}>
-          {/* <ProductVertical product={product} className="my-ad" /> */}
+          <ProductVertical product={product} className="my-ad" />
         </div>
       ))}
 

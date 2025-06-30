@@ -72,7 +72,10 @@
     "type_required": "نوع الإعلان مطلوب",
     "chat_status_required": "حالة الدردشة مطلوبة",
     "whatsapp_status_required": "حالة الواتساب مطلوبة",
-    "call_status_required": "حالة الاتصال مطلوبة"
+    "call_status_required": "حالة الاتصال مطلوبة",
+    "price_required": "السعر مطلوب",
+    "images_required": "الصور مطلوبة",
+    "max_images_error": "يمكنك تحميل 6 صور كحد أقصى"
   },
   "somethingWentWrong": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا.",
   "noUserLoggedIn": "يجب تسجيل الدخول للوصول إلى هذه الميزة.",

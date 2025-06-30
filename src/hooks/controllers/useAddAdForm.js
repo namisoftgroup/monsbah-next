@@ -14,7 +14,7 @@ const DEFAULT_VALUES = {
   state_id: "",
   country_id: "",
   phone: "",
-  country_code: "",
+  country_code: "965",
   currency_id: "",
   description_ar: "",
   description_en: "",
@@ -28,66 +28,116 @@ const DEFAULT_VALUES = {
 };
 
 export const getSchema = (t) =>
-  z.object({
-    name_ar: z
-      .string()
-      .nonempty(t("name_ar_required"))
-      .refine(
-        (val) => val.trim().split(/\s+/).length <= 5,
-        t("name_word_limit")
+  z
+    .object({
+      name_ar: z
+        .string()
+        .nonempty(t("name_ar_required"))
+        .refine(
+          (val) => val.trim().split(/\s+/).length <= 5,
+          t("name_word_limit")
+        ),
+
+      name_en: z
+        .string()
+        .nonempty(t("name_en_required"))
+        .refine(
+          (val) => val.trim().split(/\s+/).length <= 5,
+          t("name_word_limit")
+        ),
+
+      price: z.preprocess(
+        (val) => (typeof val === "string" ? val.trim() : val),
+        z.string().min(1, t("price_required"))
       ),
 
-    name_en: z
-      .string()
-      .nonempty(t("name_en_required"))
-      .refine(
-        (val) => val.trim().split(/\s+/).length <= 5,
-        t("name_word_limit")
-      ),
+      // ✅ Required category & subcategory
+      category_id: z
+        .union([z.string(), z.number()], {
+          required_error: t("category_required"),
+        })
+        .refine((val) => val !== "", { message: t("category_required") }),
 
-    price: z.union([z.string(), z.number()]).optional(),
+      sub_category_id: z
+        .union([z.string(), z.number()], {
+          required_error: t("subcategory_required"),
+        })
+        .refine((val) => val !== "", { message: t("subcategory_required") }),
 
-    category_id: z.union([z.string(), z.number()], {
-      required_error: t("category_required"),
-    }),
-    sub_category_id: z.union([z.string(), z.number()], {
-      required_error: t("subcategory_required"),
-    }),
-    city_id: z.union([z.string(), z.number()], {
-      required_error: t("city_required"),
-    }),
-    state_id: z.union([z.string(), z.number()], {
-      required_error: t("state_required"),
-    }),
-    country_id: z.union([z.string(), z.number()], {
-      required_error: t("country_required"),
-    }),
+      // ✅ Required state & city
+      state_id: z
+        .union([z.string(), z.number()], {
+          required_error: t("state_required"),
+        })
+        .refine((val) => val !== "", { message: t("state_required") }),
 
-    phone: z.string().min(5, t("phone_required")),
-    country_code: z.string().min(1, t("country_code_required")),
-    currency_id: z.union([z.string(), z.number()]).optional(),
+      city_id: z
+        .union([z.string(), z.number()], {
+          required_error: t("city_required"),
+        })
+        .refine((val) => val !== "", { message: t("city_required") }),
 
-    description_ar: z.string().min(1, t("description_ar_required")),
-    description_en: z.string().min(1, t("description_en_required")),
+      country_id: z.union([z.string(), z.number()], {
+        required_error: t("country_required"),
+      }),
 
-    type: z.enum(["sale", "rent"], {
-      required_error: t("type_required"),
-    }),
+      newPhoneNumber: z.boolean().default(false),
 
-    active_chat: z.enum(["active", "inactive"], {
-      required_error: t("chat_status_required"),
-    }),
-    active_whatsapp: z.enum(["active", "inactive"], {
-      required_error: t("whatsapp_status_required"),
-    }),
-    active_call: z.enum(["active", "inactive"], {
-      required_error: t("call_status_required"),
-    }),
+      phone: z.string().optional(),
+      country_code: z.string().optional(),
 
-    image: z.any().optional(),
-    images: z.array(z.any()).optional(),
-    delete_images: z.array(z.any()).optional(),
-  });
+      currency_id: z.union([z.string(), z.number()]).optional(),
+
+      description_ar: z.string().min(1, t("description_ar_required")),
+      description_en: z.string().min(1, t("description_en_required")),
+
+      // ✅ Required type (already handled)
+      type: z.enum(["sale", "rent"], {
+        required_error: t("type_required"),
+      }),
+
+      active_chat: z.enum(["active", "inactive"], {
+        required_error: t("chat_status_required"),
+      }),
+      active_whatsapp: z.enum(["active", "inactive"], {
+        required_error: t("whatsapp_status_required"),
+      }),
+      active_call: z.enum(["active", "inactive"], {
+        required_error: t("call_status_required"),
+      }),
+
+      image: z.any().optional(),
+
+      // ✅ Make images required with at least 1 file
+      images: z
+        .array(z.any(), {
+          required_error: t("images_required"),
+          invalid_type_error: t("images_required"),
+        })
+        .min(1, t("images_required"))
+        .max(6, t("max_images_error")),
+
+      delete_images: z.array(z.any()).optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.newPhoneNumber) {
+        if (!data.phone || data.phone.trim().length < 5) {
+          ctx.addIssue({
+            path: ["phone"],
+            code: z.ZodIssueCode.custom,
+            message: t("phone_required"),
+          });
+        }
+
+        if (!data.country_code || data.country_code.trim() === "") {
+          ctx.addIssue({
+            path: ["country_code"],
+            code: z.ZodIssueCode.custom,
+            message: t("country_code_required"),
+          });
+        }
+      }
+    });
 
 export default function useAddAdForm() {
   const t = useTranslations("validations");

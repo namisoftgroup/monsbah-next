@@ -4,7 +4,7 @@ import { useLocale } from "next-intl";
 
 function useGetCities(countryId, enabled) {
   const lang = useLocale().split("-")[1] || "en";
-  
+
   const { isLoading, data, error } = useQuery({
     queryKey: ["cities", countryId, lang],
     queryFn: async () => {

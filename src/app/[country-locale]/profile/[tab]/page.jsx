@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 const tabs = {
   main: dynamic(() => import("@/components/profile/main/MainInfoTab")),
   ads: dynamic(() => import("@/components/profile/ads/MyAds")),
-  addAd: dynamic(() => import("@/components/profile/ads/AddAd")),
+  addAd: dynamic(() => import("@/components/profile/ads/AddEditAdForm")),
   favorites: dynamic(() => import("@/components/profile/FavoritesTab")),
   settings: dynamic(() => import("@/components/profile/SettingsTab")),
   verification: dynamic(() => import("@/components/profile/VerificationTab")),

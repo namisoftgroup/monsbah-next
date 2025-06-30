@@ -2,9 +2,10 @@
 
 import { CATEGORY_TYPES, DRESS_CATEGORY_ID } from "@/utils/constants";
 import { useTranslations } from "next-intl";
-import { useWatch } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
-export default function AdTypeSelector({ register, control }) {
+export default function AdTypeSelector() {
+  const { register, control } = useFormContext();
   const t = useTranslations();
   const category_id = useWatch({ control, name: "category_id" });
 

@@ -1,21 +1,24 @@
+"use client";
+
 import { useAuthStore } from "@/stores/useAuthStore";
 import { API_URL } from "@/utils/constants";
 import axios from "axios";
-
-const token = useAuthStore.getState().token;
-console.log(token);
 
 const clientAxios = axios.create({
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    ...(token && { Authorization: `Bearer ${token}` }),
   },
 });
 
 clientAxios.interceptors.request.use(
   (config) => {
+    const token = useAuthStore.getState().token;
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+
     if (typeof window !== "undefined") {
       const cookies = document.cookie
         .split("; ")

@@ -72,7 +72,10 @@
     "type_required": "Ad type is required",
     "chat_status_required": "Chat status is required",
     "whatsapp_status_required": "WhatsApp status is required",
-    "call_status_required": "Call status is required"
+    "call_status_required": "Call status is required",
+    "price_required": "Price is required",
+    "images_required": "Image is required",
+    "max_images_error": "You can upload a maximum of 6 images"
   },
   "somethingWentWrong": "Something went wrong, please try again later.",
   "noUserLoggedIn": "You must be logged in to access this feature.",
