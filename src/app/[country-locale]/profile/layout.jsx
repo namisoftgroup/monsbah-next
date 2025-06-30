@@ -6,10 +6,10 @@ const ProfileLayout = ({ children }) => {
     <div className="profile-page">
       <div className="container ">
         <div className="row m-0">
-          <div className="col-3 p-2">
+          <div className="col-12  col-md-4 col-lg-3  p-2">
             <ProfileTabs />
           </div>
-          <div className="col-9 p-2">{children}</div>
+          <div className="col-12 col-md-8 col-lg-9 p-2">{children}</div>
         </div>
       </div>
     </div>

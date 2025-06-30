@@ -42,7 +42,6 @@ export const META_DATA_CONTENT = {
 };
 
 export const PROFILE_TABS = [
-  { key: "main", icon: "fa-user" },
   { key: "ads", icon: "fa-bullhorn" },
   { key: "addAd", icon: "fa-plus" },
   { key: "favorites", icon: "fa-heart" },

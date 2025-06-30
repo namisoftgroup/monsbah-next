@@ -1,35 +1,28 @@
 "use client";
-
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
-import { logout as logoutAction } from "@/libs/actions/logoutAction";
-import { useAuthStore } from "@/stores/useAuthStore";
+import { Link, usePathname } from "@/i18n/navigation";
 import { PROFILE_TABS } from "@/utils/constants";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
+import LogoutComponent from "./LogoutComponent";
 
 const ProfileTabs = () => {
   const t = useTranslations("profile");
-  const pathname = usePathname().split("/");
-  const activeTab = pathname[pathname.length - 1];
-  const router = useRouter();
-  const { logout } = useAuthStore();
-
-  const performLogout = async () => {
-    try {
-      const res = await logoutAction();
-      if (res?.status === 200) {
-        toast.success(res?.message);
-        router.replace("/");
-        logout();
-      }
-    } catch (e) {
-      throw e;
-    }
-  };
+  const pathname = usePathname();
+  console.log("----------pathname", pathname);
+  const segments = pathname.split("/");
+  const activeTab = segments[segments.length - 1];
 
   return (
     <div className="tabs-section">
       <ul className="profileNavCol nav nav-tabs">
+        <li className="nav-item">
+          <Link
+            href={`/profile`}
+            className={activeTab === "profile" ? "active" : ""}
+          >
+            <i className={`fa-regular fa-user mr-2`} />
+            {t("main")}
+          </Link>
+        </li>
         {PROFILE_TABS.map((tab) => (
           <li className="nav-item" key={tab.key}>
             <Link
@@ -42,10 +35,7 @@ const ProfileTabs = () => {
           </li>
         ))}
         <li className="nav-item">
-          <button onClick={() => performLogout()}>
-            <i className={`fa-regular fa-arrow-right-from-bracket mr-2`} />
-            {t("logout")}
-          </button>
+          <LogoutComponent />
         </li>
       </ul>
     </div>

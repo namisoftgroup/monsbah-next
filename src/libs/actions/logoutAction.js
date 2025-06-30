@@ -24,7 +24,9 @@ export async function logout() {
     }
     return res?.data;
   } catch (error) {
-    console.error("Error during logout:", error);
-    throw new Error(error.message);
+    console.log(error?.response.data);
+    const message = error?.response?.data?.message || "Error during logout:";
+    console.error("Error during logout:", message);
+    throw new Error(message);
   }
 }

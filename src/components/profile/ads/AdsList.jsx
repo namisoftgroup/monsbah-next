@@ -19,12 +19,9 @@ export default function AdsList() {
     isFetchingNextPage,
   } = useGetUserProducts(true);
 
-  console.log(products);
-
   useEffect(() => {
     const handleScroll = () => {
       if (!sectionRef.current) return;
-
       const section = sectionRef.current;
       const sectionBottom = section.getBoundingClientRect().bottom;
       const viewportHeight = window.innerHeight;
