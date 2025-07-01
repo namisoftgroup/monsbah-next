@@ -77,9 +77,7 @@ export const getSchema = (t) =>
         })
         .refine((val) => val !== "", { message: t("city_required") }),
 
-      country_id: z.union([z.string(), z.number()], {
-        required_error: t("country_required"),
-      }),
+      country_id: z.union([z.string(), z.number()]).optional(),
 
       newPhoneNumber: z.boolean().default(false),
 

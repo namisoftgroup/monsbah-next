@@ -1,34 +1,36 @@
 "use client";
 import InputField from "@/components/shared/forms/InputField";
 import SelectField from "@/components/shared/forms/SelectField";
+import SubmitButton from "@/components/shared/forms/SubmitButton";
+import TextField from "@/components/shared/forms/TextField";
 import useAddAdForm from "@/hooks/controllers/useAddAdForm";
 import useGetCategories from "@/hooks/queries/settings/useGetCategories";
-import useGetSubCategories from "@/hooks/queries/settings/useGetSubCategories";
-import { useTranslations } from "next-intl";
-import React, { useEffect, useState } from "react";
-import AdTypeSelector from "./AdTypeSelector";
 import useGetCities from "@/hooks/queries/settings/useGetCities";
 import useGetStates from "@/hooks/queries/settings/useGetStates";
-import { useAuthStore } from "@/stores/useAuthStore";
-import TextField from "@/components/shared/forms/TextField";
-import { FormProvider } from "react-hook-form";
-import ProductContactOptions from "./ProductContactOptions";
-import { DevTool } from "@hookform/devtools";
-import SubmitButton from "@/components/shared/forms/SubmitButton";
-import ProductImageGallery from "./ProductImageGallery";
-import { toast } from "sonner";
+import useGetSubCategories from "@/hooks/queries/settings/useGetSubCategories";
 import {
   storeProductAction,
+  submitProduct,
   updateProductAction,
 } from "@/libs/actions/adsActions";
-import { CATEGORY_TYPES } from "@/utils/constants";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { DevTool } from "@hookform/devtools";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { FormProvider } from "react-hook-form";
+import { toast } from "sonner";
+import AdTypeSelector from "./AdTypeSelector";
+import ProductContactOptions from "./ProductContactOptions";
+import ProductImageGallery from "./ProductImageGallery";
+import { useRouter } from "@/i18n/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AddEditAdForm({ product }) {
   const t = useTranslations();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const productId = product?.id ?? null;
-  console.log(productId);
 
   const methods = useAddAdForm();
   const {
@@ -41,9 +43,11 @@ export default function AddEditAdForm({ product }) {
     formState: { errors },
   } = methods;
 
+  const queryClient = useQueryClient();
   const category_id = watch("category_id");
   const city_id = watch("city_id");
   const { user } = useAuthStore((state) => state);
+  console.log(user);
 
   const { data: categories } = useGetCategories();
 
@@ -58,49 +62,57 @@ export default function AddEditAdForm({ product }) {
     city_id,
     Boolean(city_id)
   );
+  console.log(errors);
 
   const onSubmit = async (formValues) => {
     setLoading(true);
-
+    console.log(formValues);
     try {
-      let result;
-      if (productId) {
-        result = await updateProductAction(productId, formValues);
-      } else {
-        result = await storeProductAction(formValues);
+      const res = await submitProduct(formValues, user, productId);
+      console.log("ressssssssss", res);
+      if (res.status === 200) {
+        toast.success(res.message);
+        queryClient.invalidateQueries({ queryKey: ["user-products"] });
+        router.replace("/profile/ads");
       }
-      toast.success(result?.message);
-      reset();
     } catch (error) {
-      toast?.error(error);
+      toast.error(
+        error?.response?.data?.message || "server Error something went wrong"
+      );
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     if (product?.id) {
+      let images = product.images || [];
+
+      if (images.length === 0 && product.image) {
+        images = [product.image];
+      }
+
       reset({
         name_ar: product.name,
         name_en: product.name,
-        price: product.price,
-        category_id: product.category_id,
-        sub_category_id: product.sub_category_id,
-        city_id: product.city_id,
-        state_id: product.state_id,
+        price: product.price.toString(),
+        category_id: product.category_id.toString(),
+        sub_category_id: product.sub_category_id.toString(),
+        country_id: product?.country?.id.toString(),
+        city_id: product?.city?.id.toString(),
+        state_id: product?.state?.id.toString(),
         description_ar: product.description,
         description_en: product.description,
         type: product?.type,
-        price: product?.price,
         active_chat: product?.active_chat,
         active_whatsapp: product?.active_whatsapp,
         active_call: product?.active_call,
         image: product?.image,
-        images: product?.images?.map((image) =>
-          image?.image ? image?.image : null
-        ),
+        images,
       });
     }
   }, [product, reset]);
+
   return (
     <FormProvider {...methods}>
       <div className="tab-content">
