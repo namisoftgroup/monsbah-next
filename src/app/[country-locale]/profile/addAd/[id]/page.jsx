@@ -4,7 +4,6 @@ import { getProduct } from "@/services/getProduct";
 export default async function page({ params }) {
   const { id } = await params;
   const product = await getProduct(id);
-  console.log(product);
 
   return <AddEditAdForm product={product} />;
 }

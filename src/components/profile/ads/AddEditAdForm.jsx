@@ -47,7 +47,6 @@ export default function AddEditAdForm({ product }) {
   const category_id = watch("category_id");
   const city_id = watch("city_id");
   const { user } = useAuthStore((state) => state);
-  console.log(user);
 
   const { data: categories } = useGetCategories();
 
@@ -62,14 +61,11 @@ export default function AddEditAdForm({ product }) {
     city_id,
     Boolean(city_id)
   );
-  console.log(errors);
 
   const onSubmit = async (formValues) => {
     setLoading(true);
-    console.log(formValues);
     try {
       const res = await submitProduct(formValues, user, productId);
-      console.log("ressssssssss", res);
       if (res.status === 200) {
         toast.success(res.message);
         queryClient.invalidateQueries({ queryKey: ["user-products"] });

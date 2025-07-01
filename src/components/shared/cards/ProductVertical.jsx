@@ -9,6 +9,8 @@ import ConfirmationModal from "../modals/ConfirmationModal";
 import { deleteAdAction } from "@/libs/actions/adsActions";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuthModal } from "@/stores/useAuthModal";
+import { toggleFavorite } from "@/libs/actions/favoritesActions";
 
 function ProductVertical({
   product,
@@ -19,11 +21,12 @@ function ProductVertical({
   const t = useTranslations();
   const locale = useLocale();
   const lang = locale.split("-")[1];
-
+  const [loading, setLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const { user } = useAuthStore((state) => state);
+  const { userType } = useAuthModal((state) => state);
   const queryClient = useQueryClient();
 
   const handleOpenDeleteModal = async (e) => {
@@ -50,6 +53,25 @@ function ProductVertical({
       );
     } finally {
       setDeleteLoading(false);
+    }
+  };
+
+  const handleFavorite = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setLoading(true);
+    try {
+      const res = await toggleFavorite(product?.id, userType);
+
+      if (res.status === 200) {
+        queryClient.invalidateQueries({ queryKey: ["user-products"] });
+        toast.success(res?.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      throw new Error(error?.response?.data?.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,8 +121,8 @@ function ProductVertical({
             {user &&
               (user?.id !== product?.user?.id && removeItem ? (
                 <button
-                  disabled={loading}
-                  // onClick={handleFavorite}
+                  // disabled={loading}
+                  onClick={handleFavorite}
                   className={"favourite_btn  active"}
                 >
                   <i className="fa-light fa-heart"></i>

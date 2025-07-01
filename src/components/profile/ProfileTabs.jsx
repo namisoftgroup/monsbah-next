@@ -7,7 +7,6 @@ import LogoutComponent from "./LogoutComponent";
 const ProfileTabs = () => {
   const t = useTranslations("profile");
   const pathname = usePathname();
-  console.log("----------pathname", pathname);
   const segments = pathname.split("/");
   const activeTab = segments[segments.length - 1];
 

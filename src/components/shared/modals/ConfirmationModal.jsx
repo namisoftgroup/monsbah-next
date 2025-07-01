@@ -13,7 +13,6 @@ const ConfirmationModal = ({
   type = "delete",
 }) => {
   const t = useTranslations();
-  console.log(buttonText);
 
   return (
     <Modal show={showModal} onHide={() => setShowModal(false)} centered>

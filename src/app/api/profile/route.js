@@ -22,8 +22,6 @@ export async function GET(request) {
   let token = cookieStore.get("token")?.value;
   let userType = cookieStore.get("user_type")?.value;
 
-  console.log(token);
-
   if (!token) {
     return NextResponse.json({ message: t("noUserLoggedIn") }, { status: 401 });
   }

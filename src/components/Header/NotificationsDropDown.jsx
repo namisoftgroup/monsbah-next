@@ -18,10 +18,13 @@ const NotificationsDropDown = () => {
 
   const { data: notifications, isLoading: notififcationsLoading } =
     useGetNotifications();
+  const allNotifications =
+    notifications?.pages?.flatMap((page) => page?.data?.data) ?? [];
+  console.log(allNotifications);
 
   useEffect(() => {
-    if (notifications && !notififcationsLoading) {
-      const unreadNotifications = notifications?.filter(
+    if (allNotifications && !notififcationsLoading) {
+      const unreadNotifications = allNotifications?.filter(
         (notification) => +notification.is_read === 0
       );
       setUnreadNotificationsLength(unreadNotifications.length);
@@ -52,9 +55,9 @@ const NotificationsDropDown = () => {
         ) : null}
       </Dropdown.Toggle>
       <Dropdown.Menu className="drop_Message_Menu">
-        {notifications && (
+        {allNotifications && (
           <div className="scroll_menu">
-            {notifications?.map((item) => (
+            {allNotifications?.map((item) => (
               <NotificationCard
                 key={item.id}
                 item={item}
