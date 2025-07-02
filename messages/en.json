@@ -75,7 +75,13 @@
     "call_status_required": "Call status is required",
     "price_required": "Price is required",
     "images_required": "Image is required",
-    "max_images_error": "You can upload a maximum of 6 images"
+    "max_images_error": "You can upload a maximum of 6 images",
+    "typeRequired": "Type is required",
+    "categoryRequired": "Category is required",
+    "documentTypeRequired": "Document type is required",
+    "fileRequired": "You must upload a document",
+    "invalidDocumentTypeForPerson": "Invalid document type for a person",
+    "invalidDocumentTypeForCompany": "Invalid document type for a company"
   },
   "somethingWentWrong": "Something went wrong, please try again later.",
   "noUserLoggedIn": "You must be logged in to access this feature.",

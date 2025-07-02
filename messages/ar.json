@@ -75,7 +75,13 @@
     "call_status_required": "حالة الاتصال مطلوبة",
     "price_required": "السعر مطلوب",
     "images_required": "الصور مطلوبة",
-    "max_images_error": "يمكنك تحميل 6 صور كحد أقصى"
+    "max_images_error": "يمكنك تحميل 6 صور كحد أقصى",
+    "typeRequired": "النوع مطلوب",
+    "categoryRequired": "الفئة مطلوبة",
+    "documentTypeRequired": "نوع الوثيقة مطلوب",
+    "fileRequired": "يجب تحميل وثيقة",
+    "invalidDocumentTypeForPerson": "نوع الوثيقة غير صالح للفرد",
+    "invalidDocumentTypeForCompany": "نوع الوثيقة غير صالح للشركة"
   },
   "somethingWentWrong": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا.",
   "noUserLoggedIn": "يجب تسجيل الدخول للوصول إلى هذه الميزة.",
