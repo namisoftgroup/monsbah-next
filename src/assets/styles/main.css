@@ -3750,19 +3750,16 @@ body .profile-page .header-back {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  position: relative;
 }
-body .profile-page .header-back span {
+body .profile-page .header-back h3 {
   font-weight: 600;
   font-size: 16px;
   color: #666b88;
+  margin: 0;
 }
 body .profile-page .header-back .arrow_icon {
-  position: relative !important;
   color: #fff;
   z-index: 9;
   cursor: pointer;
@@ -6899,19 +6896,16 @@ body main .profile-page .header-back {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  position: relative;
 }
-body main .profile-page .header-back span {
+body main .profile-page .header-back h3 {
   font-weight: 600;
   font-size: 16px;
   color: #666b88;
+  margin: 0;
 }
 body main .profile-page .header-back .arrow_icon {
-  position: relative !important;
   color: #fff;
   z-index: 9;
   cursor: pointer;

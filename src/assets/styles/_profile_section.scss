@@ -104,20 +104,22 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    position: relative;
+    // position: absolute;
+    // top: 0;
+    // right: 0;
+    // position: relative;
 
-    span {
+    h3 {
       font-weight: 600;
       font-size: 16px;
       color: $text;
+      margin: 0;
     }
 
     .arrow_icon {
-      position: relative !important;
+      // position: relative !important;
       color: $white;
       z-index: 9;
       cursor: pointer;
