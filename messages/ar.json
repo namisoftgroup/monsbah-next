@@ -81,7 +81,9 @@
     "documentTypeRequired": "نوع الوثيقة مطلوب",
     "fileRequired": "يجب تحميل وثيقة",
     "invalidDocumentTypeForPerson": "نوع الوثيقة غير صالح للفرد",
-    "invalidDocumentTypeForCompany": "نوع الوثيقة غير صالح للشركة"
+    "invalidDocumentTypeForCompany": "نوع الوثيقة غير صالح للشركة",
+    "oldPasswordRequired": "كلمة المرور القديمة مطلوبة",
+    "passwordMin": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
   },
   "somethingWentWrong": "حدث خطأ ما، يرجى المحاولة مرة أخرى لاحقًا.",
   "noUserLoggedIn": "يجب تسجيل الدخول للوصول إلى هذه الميزة.",

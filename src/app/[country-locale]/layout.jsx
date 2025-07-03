@@ -8,6 +8,7 @@ import AuthModal from "@/components/auth/AuthModal";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 import Providers from "@/providers/Providers";
+import { META_DATA_CONTENT } from "@/utils/constants";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
@@ -17,7 +18,6 @@ import "swiper/css/pagination";
 import "@/assets/styles/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@/assets/styles/main.css";
-import { META_DATA_CONTENT } from "@/utils/constants";
 
 export async function generateMetadata({ params }) {
   const locale = await params;

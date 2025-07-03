@@ -1,62 +1,35 @@
-"use client";
+import { Link } from "@/i18n/navigation";
+import Image from "next/image";
 
-import { useCallback } from "react";
-import { useTranslations } from "next-intl";
-import { useRouter, useSearchParams } from "next/navigation";
-
-export default function SideBar({ categoryList }) {
-  const t = useTranslations();
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedCategory = searchParams.get("category");
-
-  const handleSelectCategory = useCallback(
-    (newValue) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      if (newValue === "") {
-        params.delete("category");
-      } else {
-        params.set("category", newValue);
-      }
-
-      router.push(`?${params.toString()}`);
-    },
-    [router, searchParams]
-  );
-
+export default function SideBar({ categoryList, selectedCategory }) {
   return (
     <div className="col-lg-2 col-md-3 col-4 p-lg-2 p-1">
       <div className="categories_sidebar">
-        <button
-          aria-label="Category"
+        <Link
+          aria-label="All Categories"
+          href="/categories"
           className={`category ${selectedCategory === null ? "active" : ""}`}
-          onClick={() => {
-            handleSelectCategory("");
-          }}
         >
           <div className="img">
-            <img src="/icons/all.svg" alt="" />
+            <Image width={32} height={32} src="/icons/all.svg" alt="all" />
           </div>
-          <h6>{t("all")}</h6>
-        </button>
+          <h6>All</h6>
+        </Link>
 
-        {categoryList?.map((category) => (
-          <button
+        {categoryList.map((category) => (
+          <Link
             key={category.id}
-            onClick={() => {
-              handleSelectCategory(category?.slug);
-            }}
+            href={`/categories?category=${category.slug}`}
             className={`category ${
-              category?.name === selectedCategory ? "active" : ""
+              category.slug === selectedCategory ? "active" : ""
             }`}
+            aria-label={category.name}
           >
             <div className="img">
-              <img src={category?.image} alt="" />
+              <img src={category.image} alt={category.name} />
             </div>
-            <h6>{category?.name}</h6>
-          </button>
+            <h6>{category.name}</h6>
+          </Link>
         ))}
       </div>
     </div>

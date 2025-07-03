@@ -16,9 +16,9 @@ export async function verificationAction(requestBody) {
 
     return req.data.data;
   } catch (error) {
-    const message =
-      error?.response?.data?.message || "Failed to submit product";
-    console.error("Submit product error:", message);
-    throw new Error(error);
+    console.error("Submit product error:", error);
+    throw new Error(
+      error?.response?.data?.message || "Verification request failed"
+    );
   }
 }

@@ -6,7 +6,6 @@ import React from "react";
 export default async function page() {
   const countries = await getCountries();
   const categories = await getCategories();
-  console.log(countries, categories);
 
   return (
     <div className="tab-content">

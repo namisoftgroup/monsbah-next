@@ -1,18 +1,19 @@
-import clientAxios from "@/libs/axios/clientAxios";
+import serverAxios from "@/libs/axios/severAxios";
+import { cookies } from "next/headers";
 
-export const getUserProducts = async ({ pageParam = 1 }) => {
+export const getUserProducts = async (pageParam = 1) => {
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("token").value;
   try {
-    const res = await clientAxios.get("/client/user-products", {
+    const res = await serverAxios.get("/client/user-products", {
       params: { page: pageParam },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-    console.log(res);
 
     if (res.status === 200) {
-      return {
-        data: res.data?.data?.data,
-        total: res.data?.data?.meta?.total,
-        per_page: res.data?.data?.meta?.per_page,
-      };
+      return res?.data;
     }
   } catch (erros) {
     throw new Error("Failed to fetch products");

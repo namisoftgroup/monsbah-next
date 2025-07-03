@@ -44,7 +44,7 @@ export default function Header() {
           <div className="moreActions">
             <MoreActions />
 
-            {user?.id && <NotificationsDropDown />}
+            {/* {user?.id && <NotificationsDropDown />} */}
 
             <LanguageSwitcher />
             <Link aria-label="Search" href="/search" className="link">
@@ -65,7 +65,12 @@ export default function Header() {
                 className="link"
                 onClick={handleShowAuthModal}
               >
-                <img src="/icons/user.svg" alt="user" />
+                <Image
+                  width={40}
+                  height={40}
+                  src="/icons/user.svg"
+                  alt="user"
+                />
               </button>
             )}
           </div>

@@ -18,9 +18,9 @@ const NotificationsDropDown = () => {
 
   const { data: notifications, isLoading: notififcationsLoading } =
     useGetNotifications();
+
   const allNotifications =
     notifications?.pages?.flatMap((page) => page?.data?.data) ?? [];
-  console.log(allNotifications);
 
   useEffect(() => {
     if (allNotifications && !notififcationsLoading) {

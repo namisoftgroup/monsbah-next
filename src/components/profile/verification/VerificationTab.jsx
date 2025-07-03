@@ -3,15 +3,20 @@
 import PhoneInput from "@/components/shared/forms/PhoneInput";
 import SelectField from "@/components/shared/forms/SelectField";
 import SubmitButton from "@/components/shared/forms/SubmitButton";
-import useVerificationForm from "@/hooks/controllers/useVerificationForm";
+import useVerificationForm, {
+  VERFICATION_Default_VALUES,
+} from "@/hooks/controllers/useVerificationForm";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
+import { useRouter } from "@/i18n/navigation";
 import { verificationAction } from "@/libs/actions/verificationAction";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function VerificationTab({ countries, categories }) {
   const t = useTranslations();
+  const router = useRouter();
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [idLoading, setIsLoading] = useState(false);
   const { data: currentLocation } = useGetCurrentLocation();
@@ -19,6 +24,7 @@ export default function VerificationTab({ countries, categories }) {
     register,
     handleSubmit,
     setValue,
+    reset,
     watch,
     control,
     formState: { errors, isSubmitting },
@@ -45,17 +51,17 @@ export default function VerificationTab({ countries, categories }) {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    console.log("✅ Submitted data:", data);
     try {
       const response = await verificationAction(data);
-      console.log(response);
+      toast.success(t("subscripedSuccessfully"));
+      reset(VERFICATION_Default_VALUES);
+      router.push("/profile");
     } catch (error) {
-      console.log(error);
+      toast.error(error.message || "Something went wrong");
     } finally {
       setIsLoading(false);
     }
   };
-  console.log(errors);
 
   return (
     <form

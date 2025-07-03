@@ -1,6 +1,7 @@
 import ProfileTabs from "@/components/profile/ProfileTabs";
 import React from "react";
 
+
 const ProfileLayout = ({ children }) => {
   return (
     <div className="profile-page">

@@ -1,7 +1,6 @@
-import { useAuthStore } from "@/stores/useAuthStore";
 import clientAxios from "@/libs/axios/clientAxios";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAuthModal } from "@/stores/useAuthModal";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 function useGetNotifications() {
   const { userType } = useAuthModal((state) => state);
@@ -25,7 +24,7 @@ function useGetNotifications() {
       if (res.status === 200) {
         return res.data;
       } else {
-        throw new Error("Failed to fetch products");
+        throw new Error("Failed to fetch notifications");
       }
     },
 

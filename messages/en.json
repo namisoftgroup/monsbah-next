@@ -81,7 +81,9 @@
     "documentTypeRequired": "Document type is required",
     "fileRequired": "You must upload a document",
     "invalidDocumentTypeForPerson": "Invalid document type for a person",
-    "invalidDocumentTypeForCompany": "Invalid document type for a company"
+    "invalidDocumentTypeForCompany": "Invalid document type for a company",
+    "oldPasswordRequired": "Old password is required",
+    "passwordMin": "Password must be at least 6 characters"
   },
   "somethingWentWrong": "Something went wrong, please try again later.",
   "noUserLoggedIn": "You must be logged in to access this feature.",

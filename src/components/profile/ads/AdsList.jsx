@@ -13,11 +13,13 @@ export default function AdsList() {
   const {
     data: products,
     isLoading,
-    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetUserProducts(true);
+  } = useGetUserProducts();
+
+  const allProducts =
+    products?.pages?.flatMap((page) => page?.data?.data) ?? [];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,12 +38,13 @@ export default function AdsList() {
     };
 
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <section className="row" ref={sectionRef}>
-      {products?.map((product, index) => (
+      {allProducts?.map((product, index) => (
         <div className="col-12  col-lg-6  p-2" key={index}>
           <ProductVertical product={product} className="my-ad" />
         </div>

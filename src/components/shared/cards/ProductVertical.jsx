@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuthModal } from "@/stores/useAuthModal";
 import { toggleFavorite } from "@/libs/actions/favoritesActions";
+import "@/assets/styles/main.css";
+import Image from "next/image";
 
 function ProductVertical({
   product,
@@ -97,14 +99,17 @@ function ProductVertical({
               // onLoadedMetadata={handleImageLoad}
             />
           ) : (
-            <img src={product?.image} alt="" />
+            <div className="position-relative w-100" style={{ height: "100%" }}>
+              <Image fill={true} src={product?.image} alt="" />
+            </div>
           )}
           {/* <ImageLoad isImageLoaded={isImageLoaded} /> */}
           <div className="thums_pro">
             <span className="type">{t(`${product?.type}`)}</span>
             {product?.is_popular ? (
-              <span className="popular">
-                <img src="/icons/crown.svg" alt="" /> {t("popular")}
+              <span className="popular  position-relative">
+                <Image fill={true} src="/icons/crown.svg" alt="" />{" "}
+                {t("popular")}
               </span>
             ) : null}
           </div>

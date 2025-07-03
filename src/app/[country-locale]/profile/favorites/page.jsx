@@ -1,6 +1,5 @@
 import FavoritsList from "@/components/profile/myfavorites/FavoritsList";
 import { getFavorites } from "@/services/favorites/getFavorites";
-import React from "react";
 
 export default async function Favorites() {
   const res = await getFavorites();

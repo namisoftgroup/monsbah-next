@@ -1,12 +1,11 @@
 import AdsList from "@/components/profile/ads/AdsList";
 import MyAdsHeader from "@/components/profile/ads/MyAdsHeader";
+import { getUserProducts } from "@/services/getUserProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function page() {
-  const t = await getTranslations();
-
   const queryCLient = getQueryClient();
 
   const locale = await getLocale();
@@ -14,11 +13,12 @@ export default async function page() {
   const lang = locale.split("-")[1];
 
   await queryCLient.prefetchInfiniteQuery({
-    queryKey: ["user-products", lang],
-    queryFn: ({ pageParam = 1 }) => getUserProducts({ pageParam }),
-    getNextPageParam: (lastPage, pages) => {
-      const isMore = lastPage.data.length >= lastPage.per_page;
-      return isMore ? pages.length + 1 : undefined;
+    queryKey: ["user-products"],
+    queryFn: ({ pageParam = 1 }) => getUserProducts(pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const nextUrl = lastPage?.data?.links?.next;
+      return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
   });
   return (

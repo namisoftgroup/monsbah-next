@@ -64,7 +64,6 @@ export async function submitProduct(formData, user, id) {
       },
     });
 
-
     if (response.status === 200) {
       revalidatePath("/");
       return response.data;
@@ -90,14 +89,12 @@ export async function deleteAdAction(id) {
       return res?.data;
     }
   } catch (error) {
-    console.log(error?.response.data);
-    // Extract backend message
+    console.log(error?.response?.data?.mesage);
     const message =
       error?.response?.data?.message ||
       "Something went wrong while deleting the Ad";
 
     console.error("Error deleting the Ad:", message);
-    // ✅ Throw a plain error message
     throw new Error(message);
   }
 }

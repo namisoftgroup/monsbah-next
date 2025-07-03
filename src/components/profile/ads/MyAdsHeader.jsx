@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 
-export default async function MyAdsHeader({ handleChangeTab }) {
+export default async function MyAdsHeader() {
   const t = await getTranslations();
 
   return (

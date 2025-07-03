@@ -18,13 +18,10 @@ export default async function getNotifications(pageParam = 1) {
       },
     });
 
-    console.log("-----------------response---------------");
-    console.log(res?.data);
-
     if (res.status === 200) {
       return res.data;
     }
   } catch (error) {
-    throw new Error("Failed to fetch products");
+    throw new Error("Failed to fetch notifications");
   }
 }
