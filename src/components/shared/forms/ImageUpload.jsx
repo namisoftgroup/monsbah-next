@@ -18,50 +18,24 @@ const ImageUpload = ({
   const inputRef = useRef(null);
   const coverRef = useRef(null);
 
-  // Log on initial render
   useEffect(() => {
-    console.log("🧩 ImageUpload Props");
-    console.log(" - name:", name);
-    console.log(" - value:", value);
-    console.log(" - coverValue:", coverValue);
-    console.log(
-      " - typeof value:",
-      typeof value,
-      value instanceof File ? "(File)" : ""
-    );
-    console.log(
-      " - typeof coverValue:",
-      typeof coverValue,
-      coverValue instanceof File ? "(File)" : ""
-    );
-  }, []);
-
-  useEffect(() => {
-    console.log("🔄 useEffect: value or coverValue changed");
-    console.log(" - value:", value);
-    console.log(" - coverValue:", coverValue);
-
     if (value instanceof File) {
       const src = URL.createObjectURL(value);
-      console.log("👉 Setting avatar src from File:", src);
+
       imgView.current.src = src;
     } else if (typeof value === "string") {
-      console.log("👉 Setting avatar src from string:", value);
       imgView.current.src = value;
     } else {
-      console.log("👉 Setting default avatar image");
       imgView.current.src = "/icons/gallery.svg";
     }
 
     if (coverValue instanceof File) {
       const src = URL.createObjectURL(coverValue);
-      console.log("👉 Setting cover src from File:", src);
+
       coverView.current.src = src;
     } else if (typeof coverValue === "string") {
-      console.log("👉 Setting cover src from string:", coverValue);
       coverView.current.src = coverValue;
     } else {
-      console.log("👉 Setting default cover image");
       coverView.current.src = "/icons/gallery.svg";
     }
   }, [value, coverValue]);
@@ -73,7 +47,7 @@ const ImageUpload = ({
         className="img-wrap"
         onClick={(e) => {
           e.stopPropagation();
-          console.log("🖱 Click on avatar image box");
+
           inputRef.current.click();
         }}
       >
@@ -93,7 +67,6 @@ const ImageUpload = ({
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
-                  console.log("🗑 Avatar removed");
                   imgView.current.src = "";
                   onChange(null);
                 }}
@@ -111,7 +84,7 @@ const ImageUpload = ({
         className="cover-wrap"
         onClick={(e) => {
           e.stopPropagation();
-          console.log("🖱 Click on cover image box");
+
           coverRef.current.click();
         }}
       >
@@ -132,7 +105,6 @@ const ImageUpload = ({
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
-                  console.log("🗑 Cover removed");
                   coverView.current.src = "";
                   onCoverChange?.(null);
                 }}
@@ -154,7 +126,6 @@ const ImageUpload = ({
         style={{ display: "none" }}
         onChange={(e) => {
           const file = e.target.files?.[0];
-          console.log("📤 Avatar file selected:", file);
 
           if (file?.type?.startsWith("image")) {
             onChange(file);
@@ -172,7 +143,6 @@ const ImageUpload = ({
         style={{ display: "none" }}
         onChange={(e) => {
           const file = e.target.files?.[0];
-          console.log("📤 Cover file selected:", file);
 
           if (file?.type?.startsWith("image")) {
             onCoverChange?.(file);

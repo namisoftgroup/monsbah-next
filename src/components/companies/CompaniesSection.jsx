@@ -65,9 +65,6 @@ export default function CompaniesSection() {
     fetchNextPageProducts,
   ]);
 
-  console.log("companies", companies);
-  console.log("products", products);
-
   return (
     <section className="companies_section" ref={sectionRef}>
       <div className="container p-1">

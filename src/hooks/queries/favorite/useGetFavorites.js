@@ -1,9 +1,12 @@
+import clientAxios from "@/libs/axios/clientAxios";
+import { useAuthModal } from "@/stores/useAuthModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import clientAxios from "../../../libs/axios/clientAxios";
+import { useLocale } from "next-intl";
 
 function useGetFavorites(enabled) {
-  const lang = useSelector((state) => state.language.lang);
+  const locale = useLocale();
+  const lang = locale.split("-")[0];
+  const { userType } = useAuthModal((state) => state);
 
   const {
     isLoading,
@@ -13,43 +16,31 @@ function useGetFavorites(enabled) {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["user-favorites", lang, localStorage.getItem("userType")],
+    queryKey: ["user-favorites", lang, userType],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await clientAxios.get(
-        `/${localStorage.getItem("userType")}/favorites`,
-        {
-          params: {
-            page: pageParam,
-          },
-        }
-      );
+      const res = await clientAxios.get(`/${userType}/favorites`, {
+        params: {
+          page: pageParam,
+        },
+      });
       if (res.status === 200) {
-        return {
-          data: res.data?.data?.data,
-          total: res.data?.data?.meta?.total,
-          per_page: res.data?.data?.meta?.per_page,
-        };
+        return res.data;
       } else {
         throw new Error("Failed to fetch products");
       }
     },
 
-    getNextPageParam: (lastPage, pages) => {
-      const isMore = lastPage.data.length >= lastPage.per_page;
-      return isMore ? pages.length + 1 : undefined;
+    getNextPageParam: (lastPage) => {
+      const nextUrl = lastPage?.data?.links?.next;
+      return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
-
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    retry: false,
-    enabled: Boolean(enabled?.isActive),
   });
 
   return {
     isLoading,
     data,
+    total: data?.pages?.[0]?.total || 0,
     error,
     hasNextPage,
     fetchNextPage,

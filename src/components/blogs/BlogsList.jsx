@@ -1,10 +1,10 @@
-"use client";
-
 import BlogCard from "@/components/shared/cards/BlogCard";
-import { useTranslations } from "next-intl";
+import { getBlogs } from "@/services/getBlogs";
+import { getTranslations } from "next-intl/server";
 
-export default function BlogsList({ blogs }) {
-  const t = useTranslations("blogs");
+export default async function BlogsList() {
+  const t = await getTranslations("blogs");
+  const blogs = await getBlogs();
 
   return (
     <section className="blogs_section">

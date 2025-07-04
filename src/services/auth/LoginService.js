@@ -4,7 +4,6 @@ export async function handleLogin({
   country_code,
   phone,
   password,
-
   fcm_token = "",
 }) {
   const formData = new FormData();

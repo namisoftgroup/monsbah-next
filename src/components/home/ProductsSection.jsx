@@ -16,6 +16,8 @@ export default function ProductsSection() {
     hasNextPage,
   } = useGetProducts();
 
+  
+
   useEffect(() => {
     const handleScroll = () => {
       const section = sectionRef.current;

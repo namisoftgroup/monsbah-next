@@ -19,7 +19,6 @@ const ResetPassword = () => {
     watch,
   } = useResetPasswardForm();
   const onSubmit = async (data) => {
-    console.log(data);
     const payload = data;
     setLoading(true);
     try {
