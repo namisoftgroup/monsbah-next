@@ -2688,6 +2688,7 @@ body .product_vertical {
   background: #f8f8f8;
   border-radius: 8px;
   display: flex;
+  max-height: 400px;
 }
 body .product_vertical .img {
   min-width: 140px;
@@ -3749,19 +3750,16 @@ body .profile-page .header-back {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  position: relative;
 }
-body .profile-page .header-back span {
+body .profile-page .header-back h3 {
   font-weight: 600;
   font-size: 16px;
   color: #666b88;
+  margin: 0;
 }
 body .profile-page .header-back .arrow_icon {
-  position: relative !important;
   color: #fff;
   z-index: 9;
   cursor: pointer;
@@ -3776,13 +3774,8 @@ body .profile-page .header-back .arrow_icon {
   justify-content: center;
 }
 body .profile-page .tabs-section {
-  display: flex;
-  padding: 0 !important;
-}
-@media screen and (max-width: 768px) {
-  body .profile-page .tabs-section {
-    flex-direction: column;
-  }
+  position: sticky;
+  top: 118px;
 }
 body .profile-page .tabs-section .nav-tabs {
   background-color: rgba(26, 188, 156, 0.1019607843);
@@ -3792,6 +3785,7 @@ body .profile-page .tabs-section .nav-tabs .nav-item {
   display: flex;
   color: #231f20;
 }
+body .profile-page .tabs-section .nav-tabs .nav-item a,
 body .profile-page .tabs-section .nav-tabs .nav-item button {
   flex: 1;
   color: #0d0d0d;
@@ -3804,6 +3798,7 @@ body .profile-page .tabs-section .nav-tabs .nav-item button {
   padding: 12px 16px;
   white-space: nowrap;
 }
+body .profile-page .tabs-section .nav-tabs .nav-item a i,
 body .profile-page .tabs-section .nav-tabs .nav-item button i {
   width: 24px;
   display: flex;
@@ -3811,31 +3806,25 @@ body .profile-page .tabs-section .nav-tabs .nav-item button i {
   justify-content: flex-start;
   font-size: 16px;
 }
+body .profile-page .tabs-section .nav-tabs .nav-item a:hover,
 body .profile-page .tabs-section .nav-tabs .nav-item button:hover {
   background-color: rgba(26, 188, 156, 0.1019607843);
   color: #1abc9c;
 }
+body .profile-page .tabs-section .nav-tabs .nav-item a.active,
 body .profile-page .tabs-section .nav-tabs .nav-item button.active {
   background-color: #1abc9c;
   color: #fff;
 }
 body .profile-page .tab-content {
-  flex: 1 0;
-  margin: 0 8px;
+  height: 100%;
 }
-@media screen and (max-width: 768px) {
-  body .profile-page .tab-content {
-    margin: 8px 0;
-  }
-}
-body .profile-page .tab-content .tab-pane {
+body .profile-page .tab-content .tab-content-pane {
   width: 100%;
   padding: 8px !important;
   background: #f9f9f9;
   border-radius: 12px;
   height: 100% !important;
-}
-body .profile-page .tab-content .tab-pane.active {
   display: flex !important;
   flex-wrap: wrap;
 }
@@ -6907,19 +6896,16 @@ body main .profile-page .header-back {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  position: relative;
 }
-body main .profile-page .header-back span {
+body main .profile-page .header-back h3 {
   font-weight: 600;
   font-size: 16px;
   color: #666b88;
+  margin: 0;
 }
 body main .profile-page .header-back .arrow_icon {
-  position: relative !important;
   color: #fff;
   z-index: 9;
   cursor: pointer;
@@ -6934,13 +6920,8 @@ body main .profile-page .header-back .arrow_icon {
   justify-content: center;
 }
 body main .profile-page .tabs-section {
-  display: flex;
-  padding: 0 !important;
-}
-@media screen and (max-width: 768px) {
-  body main .profile-page .tabs-section {
-    flex-direction: column;
-  }
+  position: sticky;
+  top: 118px;
 }
 body main .profile-page .tabs-section .nav-tabs {
   background-color: rgba(26, 188, 156, 0.1019607843);
@@ -6950,6 +6931,7 @@ body main .profile-page .tabs-section .nav-tabs .nav-item {
   display: flex;
   color: #231f20;
 }
+body main .profile-page .tabs-section .nav-tabs .nav-item a,
 body main .profile-page .tabs-section .nav-tabs .nav-item button {
   flex: 1;
   color: #0d0d0d;
@@ -6962,6 +6944,7 @@ body main .profile-page .tabs-section .nav-tabs .nav-item button {
   padding: 12px 16px;
   white-space: nowrap;
 }
+body main .profile-page .tabs-section .nav-tabs .nav-item a i,
 body main .profile-page .tabs-section .nav-tabs .nav-item button i {
   width: 24px;
   display: flex;
@@ -6969,31 +6952,25 @@ body main .profile-page .tabs-section .nav-tabs .nav-item button i {
   justify-content: flex-start;
   font-size: 16px;
 }
+body main .profile-page .tabs-section .nav-tabs .nav-item a:hover,
 body main .profile-page .tabs-section .nav-tabs .nav-item button:hover {
   background-color: rgba(26, 188, 156, 0.1019607843);
   color: #1abc9c;
 }
+body main .profile-page .tabs-section .nav-tabs .nav-item a.active,
 body main .profile-page .tabs-section .nav-tabs .nav-item button.active {
   background-color: #1abc9c;
   color: #fff;
 }
 body main .profile-page .tab-content {
-  flex: 1 0;
-  margin: 0 8px;
+  height: 100%;
 }
-@media screen and (max-width: 768px) {
-  body main .profile-page .tab-content {
-    margin: 8px 0;
-  }
-}
-body main .profile-page .tab-content .tab-pane {
+body main .profile-page .tab-content .tab-content-pane {
   width: 100%;
   padding: 8px !important;
   background: #f9f9f9;
   border-radius: 12px;
   height: 100% !important;
-}
-body main .profile-page .tab-content .tab-pane.active {
   display: flex !important;
   flex-wrap: wrap;
 }

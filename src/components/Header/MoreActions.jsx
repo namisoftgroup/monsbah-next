@@ -8,16 +8,16 @@ const MoreActions = () => {
   return (
     <>
       {" "}
-      <Link
+      <button
         aria-label="Get App"
-        href="/companies-categories"
         className="customBtn"
+        style={{ whiteSpace: "nowrap" }}
       >
-        {t("categories")}
-      </Link>
+        {t("getApp")}
+      </button>
       <Link
         aria-label="add post"
-        href="/profile?tab=addAd"
+        href="/profile/addAd"
         className="link text d-lg-flex d-none"
       >
         <Image src="/icons/plus.svg" width={16} height={16} alt="" />

@@ -1,25 +1,19 @@
+import serverAxios from "@/libs/axios/severAxios";
 import { cookies } from "next/headers";
-import { API_URL } from "./constants";
 
 export async function refreshToken() {
   const cookiesStore = await cookies();
+  const token = cookiesStore.get("token")?.value;
+  try {
+    const res = await serverAxios.post("/client/auth/refresh-token", {
+      token,
+    });
+    const data = res?.data;
+    const newToken = data?.data?.token;
 
-  const res = await fetch(API_URL + "/client/auth/refresh-token", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ token: cookiesStore.get("token")?.value }),
-  });
-
-  const data = await res.json();
-  console.log("------------data", data);
-
-  const newToken = data.data?.token;
-
-  if (newToken) {
-    return { token: newToken };
-  } else {
-    return null;
+    return newToken;
+  } catch (e) {
+    console.log("error Refresh Token", e);
+    console.log(e);
   }
 }

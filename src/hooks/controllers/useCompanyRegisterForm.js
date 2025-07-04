@@ -1,3 +1,4 @@
+import { FCM } from "@/utils/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -29,7 +30,7 @@ const DEFAULT_VALUES = {
   country_code: "965",
   whats_country_code: "",
   password_confirmation: "",
-  fcm_token: "eyJ0eXAiOiJKV1QiLCJhbGciOi",
+  fcm_token: FCM,
   image: null,
   cover: null,
 };

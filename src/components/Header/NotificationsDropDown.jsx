@@ -1,17 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import NotificationCard from "./NotificationCard";
 import { Link } from "@/i18n/navigation";
 import useGetNotifications from "@/hooks/queries/notifications/useGetNotifications";
+import { useTranslations } from "use-intl";
+import Image from "next/image";
 
 const NotificationsDropDown = () => {
+  const t = useTranslations();
+  const userType = localStorage.getItem("user_type");
+
   const [unreadNotificationsLength, setUnreadNotificationsLength] = useState(0);
   const [showNotificationDropdown, setShowNotificationDropdown] =
     useState(false);
-  const userType = localStorage.getItem("userType");
-  const notifications = useGetNotifications();
+
+  const { data: notifications, isLoading: notififcationsLoading } =
+    useGetNotifications();
+
+  const allNotifications =
+    notifications?.pages?.flatMap((page) => page?.data?.data) ?? [];
+
+  useEffect(() => {
+    if (allNotifications && !notififcationsLoading) {
+      const unreadNotifications = allNotifications?.filter(
+        (notification) => +notification.is_read === 0
+      );
+      setUnreadNotificationsLength(unreadNotifications.length);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notififcationsLoading]);
 
   return (
     <Dropdown
@@ -26,7 +45,7 @@ const NotificationsDropDown = () => {
         id="dropdown-basic"
         className="link"
       >
-        <img src="/images/icons/bell.svg" alt="" />
+        <Image width={16} height={16} src="/icons/bell.svg" alt="" />
         {unreadNotificationsLength ? (
           <span className="count">
             {unreadNotificationsLength < 100
@@ -36,9 +55,9 @@ const NotificationsDropDown = () => {
         ) : null}
       </Dropdown.Toggle>
       <Dropdown.Menu className="drop_Message_Menu">
-        {notifications && (
+        {allNotifications && (
           <div className="scroll_menu">
-            {notifications?.map((item) => (
+            {allNotifications?.map((item) => (
               <NotificationCard
                 key={item.id}
                 item={item}
@@ -50,9 +69,9 @@ const NotificationsDropDown = () => {
         <Link
           aria-label="Show All"
           className="showall"
-          to={
+          href={
             userType === "client"
-              ? "/profile?tab=notifications"
+              ? "/profile/notifications"
               : "/company-notification"
           }
           style={{ textDecoration: "none" }}

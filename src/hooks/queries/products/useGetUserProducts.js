@@ -1,10 +1,7 @@
+import clientAxios from "@/libs/axios/clientAxios";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import clientAxios from "../../../libs/axios/clientAxios";
 
-function useGetUserProducts(enabled) {
-  const lang = useSelector((state) => state.language.lang);
-
+function useGetUserProducts() {
   const {
     isLoading,
     data,
@@ -13,7 +10,7 @@ function useGetUserProducts(enabled) {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["user-products", lang],
+    queryKey: ["user-products"],
 
     queryFn: async ({ pageParam = 1 }) => {
       const res = await clientAxios.get("/client/user-products", {
@@ -22,31 +19,22 @@ function useGetUserProducts(enabled) {
         },
       });
       if (res.status === 200) {
-        return {
-          data: res.data?.data?.data,
-          total: res.data?.data?.meta?.total,
-          per_page: res.data?.data?.meta?.per_page,
-        };
+        return res.data;
       } else {
         throw new Error("Failed to fetch products");
       }
     },
 
-    getNextPageParam: (lastPage, pages) => {
-      const isMore = lastPage.data.length >= lastPage.per_page;
-      return isMore ? pages.length + 1 : undefined;
+    getNextPageParam: (lastPage) => {
+      const nextUrl = lastPage?.data?.links?.next;
+      return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
-
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    retry: false,
-    enabled: Boolean(enabled),
   });
 
   return {
     isLoading,
-    data: data?.pages.flatMap((page) => page.data) || [],
+    data,
+    total: data?.pages?.[0]?.total || 0,
     error,
     hasNextPage,
     fetchNextPage,

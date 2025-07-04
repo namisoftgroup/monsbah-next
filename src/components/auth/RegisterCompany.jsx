@@ -35,7 +35,6 @@ const RegisterCompany = () => {
   const country_id = watch("country_id");
   const avatar = watch("image");
   const cover = watch("cover");
-  console.log(watch());
 
   const [selectedCountry, setSelectedCountry] = useState(null);
   const { data: countries } = useGetCountries();
@@ -67,7 +66,6 @@ const RegisterCompany = () => {
   }, [selectedCountry]);
 
   const onSubmit = async (data) => {
-    console.log(data);
     setLoading(true);
 
     const payload = { ...data, new_version: 1 };
@@ -86,7 +84,6 @@ const RegisterCompany = () => {
         setFormType("companyOtp");
       }
     } catch (error) {
-      console.log(error.response?.data?.data);
       if (error.response?.data?.data) {
         const message = error.response?.data?.data
           ?.map((item) => `${item}<br />`)

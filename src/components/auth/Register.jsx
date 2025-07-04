@@ -58,8 +58,6 @@ const Register = () => {
   }, [selectedCountry]);
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     setLoading(true);
     const payload = { ...data, new_version: 1 };
     payload.phone = data.country_code + data.phone;
@@ -71,7 +69,6 @@ const Register = () => {
         setFormType("registerOtp");
       }
     } catch (error) {
-      console.log(error.response?.data?.data);
       if (error.response?.data?.data) {
         const message = error.response?.data?.data
           ?.map((item) => `${item}<br />`)

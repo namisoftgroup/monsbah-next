@@ -1,11 +1,12 @@
 "use client";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
 const NavLinks = () => {
   const t = useTranslations("header");
+  const pathname = usePathname();
 
   return (
     <nav className="navbar navbar-expand-lg d-lg-flex d-none ">
@@ -19,25 +20,46 @@ const NavLinks = () => {
           />
         </Link>
 
-        <Link className="navLink" href="/">
+        <Link
+          className={`navLink  ${pathname === "/" ? "active" : ""}`}
+          href="/"
+        >
           {t("home")}
         </Link>
-        <Link className="navLink" href="/categories">
+        <Link
+          className={`navLink  ${pathname === "/categories" ? "active" : ""}`}
+          href="/categories"
+        >
           {t("categories")}
         </Link>
-        <Link className="navLink" href="/companies">
+        <Link
+          className={`navLink  ${pathname === "/companies" ? "active" : ""}`}
+          href="/companies"
+        >
           {t("companies")}
         </Link>
-        <Link className="navLink" href="/about">
+        <Link
+          className={`navLink  ${pathname === "/about" ? "active" : ""}`}
+          href="/about"
+        >
           {t("aboutUs")}
         </Link>
-        <Link className="navLink" href="/blogs">
+        <Link
+          className={`navLink  ${pathname === "/blogs" ? "active" : ""}`}
+          href="/blogs"
+        >
           {t("blogs")}
         </Link>
-        <Link className="navLink" href="/chats">
+        <Link
+          className={`navLink  ${pathname === "/chats" ? "active" : ""}`}
+          href="/chats"
+        >
           {t("chats")}
         </Link>
-        <Link className="navLink" href="/contact">
+        <Link
+          className={`navLink  ${pathname === "/contact" ? "active" : ""}`}
+          href="/contact"
+        >
           {t("contact")}
         </Link>
       </div>

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
+import { FCM } from "@/utils/constants";
 
 const DEFAULT_VALUES = {
   name: "",
@@ -15,7 +16,7 @@ const DEFAULT_VALUES = {
   country_id: "",
   city_id: "",
   state_id: "",
-  fcm_token: "eyJ0eXAiOiJKV1QiLCJhbGciOi",
+  fcm_token: FCM,
   gender: "female",
 };
 

@@ -7,8 +7,6 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export default function CategoriesSlider({ categories }) {
-  console.log(categories);
-
   const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();

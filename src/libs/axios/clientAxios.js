@@ -1,4 +1,6 @@
-// lib/axios/clientAxios.ts
+"use client";
+
+import { useAuthStore } from "@/stores/useAuthStore";
 import { API_URL } from "@/utils/constants";
 import axios from "axios";
 
@@ -12,12 +14,16 @@ const clientAxios = axios.create({
 
 clientAxios.interceptors.request.use(
   (config) => {
+    const token = useAuthStore.getState().token;
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+
     if (typeof window !== "undefined") {
       const cookies = document.cookie
         .split("; ")
         .find((row) => row.startsWith("NEXT_LOCALE="));
       const lang = cookies ? cookies.split("=")[1].split("-")[1] : "ar";
-      console.log("Language from cookies:", lang);
       config.headers["Accept-Language"] = lang;
       config.headers["lang"] = lang;
     }

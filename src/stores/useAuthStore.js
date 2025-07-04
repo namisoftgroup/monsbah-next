@@ -9,4 +9,5 @@ export const useAuthStore = create()((set) => ({
   logout: () => {
     set({ token: null, user: null });
   },
+  getToken: () => get().token,
 }));

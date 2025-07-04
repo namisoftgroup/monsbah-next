@@ -2,10 +2,10 @@
 
 import clientAxios from "@/libs/axios/clientAxios";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 
 function useGetCategories() {
-  const lang = usePathname().split("/")[1];
+  const lang = useLocale().split("-")[1];
 
   const { isLoading, data, error } = useQuery({
     queryKey: ["categories", lang],

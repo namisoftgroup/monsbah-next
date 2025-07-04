@@ -9,8 +9,7 @@ export default function SubmitButton({ loading, text, className }) {
       type="submit"
       className={`log ${className || ""}`}
     >
-      {text}{" "}
-      <i className={loading ? "fa-solid fa-spinner fa-spin" : ""} />
+      {text} <i className={loading ? "fa-solid fa-spinner fa-spin" : ""} />
     </button>
   );
 }
