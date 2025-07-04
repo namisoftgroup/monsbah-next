@@ -24,10 +24,7 @@ import SubmitButton from "../shared/forms/SubmitButton";
 import TextField from "../shared/forms/TextField";
 import ChangePasswordModal from "./verification/ChangePasswordModal";
 
-export default function SettingsTab() {
-  const { setFormType, onClose } = useAuthModal((state) => state);
-  const { user } = useAuthStore((state) => state);
-
+export default function SettingsTab({ user }) {
   const [showPasswordModal, setShowPasswordModal] = useState();
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
@@ -43,8 +40,6 @@ export default function SettingsTab() {
 
   const city_id = watch("city_id");
   const country_id = watch("country_id");
-  const avatar = watch("image");
-  const cover = watch("cover");
 
   const [selectedCountry, setSelectedCountry] = useState(null);
   const { data: countries } = useGetCountries();
@@ -99,18 +94,19 @@ export default function SettingsTab() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const payload = { ...data, new_version: 1 };
+    const payload = { ...data };
     payload.phone = data.country_code + data.phone;
 
     try {
       const res = await updateProfileAction(payload);
+
       if (res.status === 200) {
-        toast.success(t("profile.profileSuccessfullyUpdated"));
+        toast.success(res?.message);
       } else {
         toast.error(t("someThingWentWrong"));
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || t("someThingWentWrong"));
+      toast.error(error?.response?.data?.message || "some Thing Went Wrong");
     } finally {
       setLoading(false);
     }
@@ -137,7 +133,12 @@ export default function SettingsTab() {
             />
           )}
         />
-
+        {(errors?.image || errors.cover) && (
+          <p className="  fs-6 text-danger ">
+            {errors?.image?.message}
+            {errors?.image && errors.cover && "-"} {errors?.cover?.message}{" "}
+          </p>
+        )}
         <div className="form_group">
           <InputField
             label={t("auth.userName")}

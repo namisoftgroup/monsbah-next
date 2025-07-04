@@ -89,7 +89,6 @@ export async function deleteAdAction(id) {
       return res?.data;
     }
   } catch (error) {
-    console.log(error?.response?.data?.mesage);
     const message =
       error?.response?.data?.message ||
       "Something went wrong while deleting the Ad";

@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
-import { API_URL } from "./constants";
 import serverAxios from "@/libs/axios/severAxios";
+import { cookies } from "next/headers";
 
 export async function refreshToken() {
   const cookiesStore = await cookies();

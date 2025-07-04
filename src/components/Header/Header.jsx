@@ -44,9 +44,10 @@ export default function Header() {
           <div className="moreActions">
             <MoreActions />
 
-            {/* {user?.id && <NotificationsDropDown />} */}
+            {user?.id && <NotificationsDropDown />}
 
             <LanguageSwitcher />
+
             <Link aria-label="Search" href="/search" className="link">
               <Image src="/icons/search.svg" width={16} height={16} alt="" />
             </Link>
@@ -55,19 +56,19 @@ export default function Header() {
               <Link
                 aria-label="Profile"
                 href="/profile"
-                className="link profile-link"
+                className="link profile-link  position-relative"
               >
-                <Image width={40} height={40} src={user?.image} alt="user" />
+                <Image fill={true} src={user?.image} alt="user" />
               </Link>
             ) : (
               <button
                 aria-label="Login"
-                className="link"
+                className="link "
                 onClick={handleShowAuthModal}
               >
                 <Image
-                  width={40}
-                  height={40}
+                  width={16}
+                  height={16}
                   src="/icons/user.svg"
                   alt="user"
                 />

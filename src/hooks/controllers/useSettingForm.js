@@ -49,25 +49,54 @@ const getSchema = (t) => {
     country_code: z.string().min(1, t("country_code")),
     fcm_token: z.string().optional(),
     image: z
-      .custom((file) => file instanceof File, {
-        message: t("image_required"),
-      })
-      .refine((file) => file.size <= MAX_FILE_SIZE, {
-        message: t("image_too_large"),
-      })
-      .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
-        message: t("invalid_image_type"),
-      }),
+      .union([z.instanceof(File), z.string(), z.null(), z.undefined()])
+      .refine(
+        (file) => {
+          if (file instanceof File) {
+            return file.size <= MAX_FILE_SIZE;
+          }
+          return true;
+        },
+        {
+          message: t("image_too_large"),
+        }
+      )
+      .refine(
+        (file) => {
+          if (file instanceof File) {
+            return ACCEPTED_IMAGE_TYPES.includes(file.type);
+          }
+          return true;
+        },
+        {
+          message: t("invalid_image_type"),
+        }
+      ),
 
     cover: z
-      .custom((file) => file === null || file instanceof File)
-      .refine((file) => !file || file.size <= MAX_FILE_SIZE, {
-        message: t("cover_too_large"),
-      })
-      .refine((file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type), {
-        message: t("invalid_cover_type"),
-      })
-      .nullable(),
+      .union([z.instanceof(File), z.string(), z.null(), z.undefined()])
+      .refine(
+        (file) => {
+          if (file instanceof File) {
+            return file.size <= MAX_FILE_SIZE;
+          }
+          return true;
+        },
+        {
+          message: t("cover_too_large"),
+        }
+      )
+      .refine(
+        (file) => {
+          if (file instanceof File) {
+            return ACCEPTED_IMAGE_TYPES.includes(file.type);
+          }
+          return true;
+        },
+        {
+          message: t("invalid_cover_type"),
+        }
+      ),
   });
 };
 

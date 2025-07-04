@@ -8,7 +8,11 @@ const MoreActions = () => {
   return (
     <>
       {" "}
-      <button aria-label="Get App" className="customBtn">
+      <button
+        aria-label="Get App"
+        className="customBtn"
+        style={{ whiteSpace: "nowrap" }}
+      >
         {t("getApp")}
       </button>
       <Link

@@ -1,11 +1,7 @@
 import clientAxios from "@/libs/axios/clientAxios";
-import { useAuthStore } from "@/stores/useAuthStore";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLocale } from "next-intl";
 
 function useGetUserProducts() {
-  // const lang = useLocale().split("-")[1];
-
   const {
     isLoading,
     data,

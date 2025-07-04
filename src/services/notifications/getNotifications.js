@@ -1,13 +1,13 @@
 import serverAxios from "@/libs/axios/severAxios";
 import { cookies } from "next/headers";
+import { getUserType } from "../auth/getUserType";
 
 export default async function getNotifications(pageParam = 1) {
+  const userType = await getUserType();
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token").value;
-  const user_type = cookiesStore.get("user_type").value;
-  const endPoint = `/${
-    user_type === "user" ? "client" : "company"
-  }/notifications`;
+  const endPoint = `/${userType}/notifications`;
+
   try {
     const res = await serverAxios.get(endPoint, {
       params: {

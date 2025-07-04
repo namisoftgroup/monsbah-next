@@ -3,14 +3,9 @@ import MyAdsHeader from "@/components/profile/ads/MyAdsHeader";
 import { getUserProducts } from "@/services/getUserProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function page() {
   const queryCLient = getQueryClient();
-
-  const locale = await getLocale();
-
-  const lang = locale.split("-")[1];
 
   await queryCLient.prefetchInfiniteQuery({
     queryKey: ["user-products"],

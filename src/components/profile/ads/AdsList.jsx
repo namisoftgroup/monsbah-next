@@ -63,7 +63,7 @@ export default function AdsList() {
       )}
       {!isLoading &&
         !isFetchingNextPage &&
-        products.length === 0 &&
+        allProducts?.length === 0 &&
         !hasNextPage && (
           <EmptyData minHeight="100%">
             <p>{t("ads.noAdsForMe")}</p>
