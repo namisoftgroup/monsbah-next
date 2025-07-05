@@ -2,7 +2,6 @@
 
 import { getUserType } from "@/services/auth/getUserType";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import serverAxios from "../axios/severAxios";
 
 export async function updateProfileAction(formData) {

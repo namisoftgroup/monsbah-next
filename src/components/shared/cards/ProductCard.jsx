@@ -11,11 +11,12 @@ function ProductCard({ product }) {
   const t = useTranslations();
   const router = useRouter();
   const [isImageLoaded, setIsImageLoaded] = useState(true);
+  console.log(product);
 
   const handleImageLoad = () => setIsImageLoaded(false);
 
   const handleCardClick = () => {
-    router.push(`/${product.slug}`);
+    router.push(`/product/${product?.id}`);
   };
 
   return (
@@ -25,7 +26,7 @@ function ProductCard({ product }) {
       tabIndex={0}
       onClick={handleCardClick}
       onKeyDown={(e) => e.key === "Enter" && handleCardClick()}
-      className="product_vertical cursor-pointer outline-none"
+      className="product_vertical cursor-pointer outline-none   "
     >
       <div className="img">
         {isValidVideoExtension(product?.image) ? (

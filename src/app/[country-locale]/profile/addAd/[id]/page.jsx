@@ -1,5 +1,5 @@
 import AddEditAdForm from "@/components/profile/ads/AddEditAdForm";
-import { getProduct } from "@/services/getProduct";
+import { getProduct } from "@/services/products/getProduct";
 
 export default async function page({ params }) {
   const { id } = await params;

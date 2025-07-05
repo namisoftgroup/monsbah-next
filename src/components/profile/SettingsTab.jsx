@@ -6,7 +6,7 @@ import useGetCities from "@/hooks/queries/settings/useGetCities";
 import useGetCountries from "@/hooks/queries/settings/useGetCountries";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
 import useGetStates from "@/hooks/queries/settings/useGetStates";
-import { updateProfileAction } from "@/libs/actions/updateProfileAction";
+import { updateProfileAction } from "@/libs/actions/profileActions";
 import { useAuthModal } from "@/stores/useAuthModal";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { extractPhoneFromCode } from "@/utils/helpers";

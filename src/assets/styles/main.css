@@ -2689,6 +2689,7 @@ body .product_vertical {
   border-radius: 8px;
   display: flex;
   max-height: 400px;
+  cursor: pointer;
 }
 body .product_vertical .img {
   min-width: 140px;
@@ -8099,10 +8100,13 @@ body main .product_details .mulen_user .mulen_user_info {
   gap: 24px;
   padding: 8px;
 }
-body main .product_details .mulen_user .mulen_user_info .image_wrapper {
+body main .product_details .mulen_user .mulen_user_info .user_wrapper {
   position: relative;
 }
-body main .product_details .mulen_user .mulen_user_info .image_wrapper img {
+body main .product_details .mulen_user .mulen_user_info .user_wrapper .image_wrapper {
+  position: relative;
+}
+body main .product_details .mulen_user .mulen_user_info .user_wrapper .image_wrapper img {
   width: 90px;
   height: 90px;
   min-width: 90px;
@@ -8111,7 +8115,7 @@ body main .product_details .mulen_user .mulen_user_info .image_wrapper img {
   border-radius: 100px;
   transition: 0.3s ease-in-out;
 }
-body main .product_details .mulen_user .mulen_user_info .image_wrapper .follow_btn {
+body main .product_details .mulen_user .mulen_user_info .user_wrapper .follow_btn {
   position: absolute;
   bottom: -4px;
   left: -4px;
@@ -8126,7 +8130,7 @@ body main .product_details .mulen_user .mulen_user_info .image_wrapper .follow_b
   color: #fff;
   font-size: 14px;
 }
-body main .product_details .mulen_user .mulen_user_info .image_wrapper .follow_btn i {
+body main .product_details .mulen_user .mulen_user_info .user_wrapper .follow_btn i {
   font-size: 13px;
 }
 body main .product_details .mulen_user .mulen_user_info .content {

@@ -1,5 +1,5 @@
 import SettingsTab from "@/components/profile/SettingsTab";
-import { getAuthedUser } from "@/services/apiProfile";
+import { getAuthedUser } from "@/services/auth/getAuthedUser";
 
 export default async function page() {
   const user = await getAuthedUser();

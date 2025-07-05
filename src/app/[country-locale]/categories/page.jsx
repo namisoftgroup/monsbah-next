@@ -1,9 +1,9 @@
 import SideBar from "@/components/categories/SideBar";
 import SubCategoriesList from "@/components/categories/SubCategoriesList";
-import { getCategories } from "@/services/getCategories";
-import { getSubCategories } from "@/services/getSubCategories";
+import { getCategories } from "@/services/categories/getCategories";
+import { getSubCategories } from "@/services/categories/getSubCategories";
 export default async function Categories({ searchParams }) {
-  const selectedCategory = searchParams.category ?? null;
+  const selectedCategory = (await searchParams.category) ?? null;
   const categories = await getCategories();
   const subCategories = await getSubCategories({
     category_slug: selectedCategory,

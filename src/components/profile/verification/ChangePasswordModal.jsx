@@ -3,7 +3,7 @@
 import PasswordField from "@/components/shared/forms/PasswordField";
 import SubmitButton from "@/components/shared/forms/SubmitButton";
 import useChangePasswordForm from "@/hooks/controllers/useChangePasswordForm";
-import { changePasswordAction } from "@/libs/actions/updateProfileAction";
+import { changePasswordAction } from "@/libs/actions/profileActions";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";

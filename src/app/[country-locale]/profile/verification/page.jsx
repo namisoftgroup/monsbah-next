@@ -1,5 +1,5 @@
 import VerificationTab from "@/components/profile/verification/VerificationTab";
-import { getCategories } from "@/services/getCategories";
+import { getCategories } from "@/services/categories/getCategories";
 import { getCountries } from "@/services/getCountries";
 import React from "react";
 

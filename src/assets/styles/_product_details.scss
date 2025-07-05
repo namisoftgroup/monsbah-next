@@ -244,15 +244,18 @@
       position: relative;
       gap: 24px;
       padding: 8px;
-      .image_wrapper {
+      .user_wrapper {
         position: relative;
-        img {
-          width: 90px;
-          height: 90px;
-          min-width: 90px;
-          object-fit: cover;
-          border-radius: 100px;
-          transition: $transition;
+        .image_wrapper {
+          position: relative;
+          img {
+            width: 90px;
+            height: 90px;
+            min-width: 90px;
+            object-fit: cover;
+            border-radius: 100px;
+            transition: $transition;
+          }
         }
         .follow_btn {
           position: absolute;
