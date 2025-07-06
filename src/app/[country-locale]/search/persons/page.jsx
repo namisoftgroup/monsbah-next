@@ -13,7 +13,7 @@ export default async function page({ searchParams }) {
   const queryClient = getQueryClient();
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["ads", lang, search],
+    queryKey: ["persons", lang, search],
     queryFn: ({ pageParam = 1 }) => getPersons(search, pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
