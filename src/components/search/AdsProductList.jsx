@@ -5,7 +5,7 @@ import ProductVertical from "../shared/cards/ProductVertical";
 import useGetAds from "@/hooks/queries/search/useGetAds";
 import ProductLoader from "../shared/loaders/ProductLoader";
 
-export default function AdsProductList({ search }) {
+export default function AdsProductList() {
   const sectionRef = useRef();
   const {
     data: ads,
