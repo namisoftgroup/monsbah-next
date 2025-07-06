@@ -1,6 +1,6 @@
-import { getCategories } from "@/services/getCategories";
+import { getCategories } from "@/services/categories/getCategories";
 import { getCountries } from "@/services/getCountries";
-import { getSubCategories } from "@/services/getSubCategories";
+import { getSubCategories } from "@/services/categories/getSubCategories";
 import AdvancedFilter from "./AdvancedFilter";
 import SubCategoriesSlider from "./SubCategoriesSlider";
 

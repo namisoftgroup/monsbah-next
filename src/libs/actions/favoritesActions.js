@@ -10,6 +10,7 @@ export async function toggleFavorite(productId, userType) {
     });
     if (res.status === 200) {
       revalidatePath("/profile/favorites");
+      revalidatePath("/product");
 
       return res.data;
     }

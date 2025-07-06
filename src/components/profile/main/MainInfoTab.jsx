@@ -1,10 +1,10 @@
-import { getAuthedUser } from "@/services/apiProfile";
 import { getLocale, getTranslations } from "next-intl/server";
 import BoxRate from "./BoxRate";
 import CoverImageWithActions from "./CoverImageWithActions";
 import DeleteAccountText from "./DeleteAccountText";
 import ProfileStatsCard from "./ProfileStatsCard";
 import UserDetailBoxes from "./UserDetailBoxes";
+import { getAuthedUser } from "@/services/auth/getAuthedUser";
 
 export default async function MainInfoTab() {
   const t = await getTranslations();

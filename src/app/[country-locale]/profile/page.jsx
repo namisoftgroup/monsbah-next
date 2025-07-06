@@ -3,7 +3,7 @@ import CoverImageWithActions from "@/components/profile/main/CoverImageWithActio
 import DeleteAccountText from "@/components/profile/main/DeleteAccountText";
 import ProfileStatsCard from "@/components/profile/main/ProfileStatsCard";
 import UserDetailBoxes from "@/components/profile/main/UserDetailBoxes";
-import { getAuthedUser } from "@/services/apiProfile";
+import { getAuthedUser } from "@/services/auth/getAuthedUser";
 import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function ProfileRootPage() {

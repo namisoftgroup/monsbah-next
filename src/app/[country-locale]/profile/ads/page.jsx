@@ -1,6 +1,6 @@
 import AdsList from "@/components/profile/ads/AdsList";
 import MyAdsHeader from "@/components/profile/ads/MyAdsHeader";
-import { getUserProducts } from "@/services/getUserProducts";
+import { getUserProducts } from "@/services/products/getUserProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 

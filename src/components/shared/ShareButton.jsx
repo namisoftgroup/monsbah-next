@@ -2,7 +2,7 @@
 
 import React from "react";
 
-export default function ShareButton() {
+export default function ShareButton({ className, title }) {
   const handleShare = ({ name, id }) => {
     if (navigator.share) {
       navigator
@@ -17,8 +17,9 @@ export default function ShareButton() {
     }
   };
   return (
-    <button className="share_btn" onClick={handleShare}>
-      <i className="fa-regular fa-share-nodes"></i>
+    <button className={`${className} share_btn`} onClick={handleShare}>
+      <i className="fa-regular fa-share-nodes"></i>{" "}
+      {title && <span>{title}</span>}
     </button>
   );
 }
