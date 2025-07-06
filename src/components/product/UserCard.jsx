@@ -1,157 +1,3 @@
-// "use client";
-// import { Link } from "@/i18n/navigation";
-// import { toggleFollowAction } from "@/libs/actions/followActions";
-// import { useAuthModal } from "@/stores/useAuthModal";
-// import { useAuthStore } from "@/stores/useAuthStore";
-// import Image from "next/image";
-// import { useTranslations } from "use-intl";
-
-// export default function UserCard({ product }) {
-//   const { user } = useAuthStore((state) => state);
-//   const { userType } = useAuthModal((state) => state);
-//   const t = useTranslations();
-//   const {
-//     user: { is_follow, id },
-//   } = product;
-
-//   const handleFollow = async () => {
-//     try {
-//       const res = await toggleFollowAction(is_follow, id);
-//     } catch (error) {
-//       console.log(error?.message);
-//       toast.error(error?.message);
-//     }
-//   };
-//   return (
-//     <div className="mulen_user">
-//       <div className="mulen_user_info">
-//         <div className="user_wrapper">
-//           <Link
-//             aria-label="Profile"
-//             to={`${
-//               +product?.user?.id === +user?.id
-//                 ? userType === "client"
-//                   ? "/profile"
-//                   : "/company-profile"
-//                 : `/${userType === "client" ? "profile" : "companies"}/${
-//                     product?.user?.id
-//                   }`
-//             }`}
-//             className="image_wrapper"
-//           >
-//             <Image
-//               width={90}
-//               height={90}
-//               src={product?.user?.image}
-//               onError={(e) => (e.target.src = "/images/icons/user_default.png")}
-//               loading="lazy"
-//               alt="user"
-//             />
-//           </Link>
-//           {product?.user?.id !== user?.id && (
-//             <button
-//               aria-label="Toggle following "
-//               className="follow_btn"
-//               onClick={handleFollow}
-//             >
-//               <i
-//                 className={`fa-light fa-${
-//                   product?.user?.is_follow ? "check" : "plus"
-//                 }`}
-//               ></i>
-//             </button>
-//           )}
-//         </div>
-//         <div className="content">
-//           <Link
-//             aria-label="Profile"
-//             to={`${
-//               +product?.user?.id === +user?.id
-//                 ? userType === "client"
-//                   ? "/profile"
-//                   : "/company-profile"
-//                 : `/${userType === "client" ? "profile" : "companies"}/${
-//                     product?.user?.id
-//                   }`
-//             }`}
-//           >
-//             <h3 className="name"> {product?.user?.name}</h3>
-//           </Link>
-//           <ul>
-//             <li>
-//               <h6>
-//                 {product?.user?.user_type === "user"
-//                   ? product?.user?.["ads-count"]
-//                   : product?.user?.products_count}
-//               </h6>
-//               <span>{t("posts")}</span>
-//             </li>
-
-//             <li>
-//               <h6>
-//                 {product?.user?.user_type === "user"
-//                   ? product?.user?.["followers-count"]
-//                   : product?.user?.followers}
-//               </h6>
-//               <span>{t("followers")}</span>
-//             </li>
-
-//             <li>
-//               <h6>
-//                 {product?.user?.user_type === "user"
-//                   ? product?.user?.["following-count"]
-//                   : product?.user?.following}
-//               </h6>
-//               <span>{t("following")}</span>
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-
-//       {product?.user?.id !== user?.id && (
-//         <div className="contact">
-//           {product?.active_call === "active" && (
-//             <Link
-//               aria-label="Call"
-//               target="_blank"
-//               to={`tel:${product?.phone}`}
-//               className="call"
-//             >
-//               <span> {t("calling")} </span>
-//             </Link>
-//           )}
-
-//           {product?.active_chat === "active" && (
-//             <Link aria-label="Chat" to={`/chats?user_id=${product?.user?.id}`}>
-//               <Image width={24} height={32} src="/icons/chat.svg" alt="chat" />
-//               {product?.active_call === "inactive" && (
-//                 <span> {t("chating")} </span>
-//               )}
-//             </Link>
-//           )}
-
-//           {product?.active_whatsapp === "active" && (
-//             <Link
-//               aria-label="Whatsapp"
-//               target="_blank"
-//               // to={`https://wa.me/${product?.user?.phone}?text=${encodedWhatsappMessage}`}
-//             >
-//               <Image
-//                 width={32}
-//                 height={32}
-//                 src="/icons/whats.svg"
-//                 alt="whatsapp"
-//               />
-//               {product?.active_call === "inactive" && (
-//                 <span> {t("whatsapp")} </span>
-//               )}
-//             </Link>
-//           )}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
 "use client";
 
 import { Link } from "@/i18n/navigation";
@@ -167,6 +13,11 @@ export default function UserCard({ product }) {
   const { user } = useAuthStore((state) => state);
   const { userType } = useAuthModal((state) => state);
   const t = useTranslations();
+  const whatsappMessage = `${t("whatsappMessage")} ${product?.name} ${t(
+    "onMonsbah"
+  )}`;
+
+  const encodedWhatsappMessage = encodeURIComponent(whatsappMessage);
 
   const initialUser = product.user;
 
@@ -191,7 +42,6 @@ export default function UserCard({ product }) {
   );
 
   const handleFollow = async () => {
-    // Optimistically update UI
     startTransition(() => {
       setOptimisticUser({ type: "TOGGLE_FOLLOW" });
     });
@@ -275,7 +125,7 @@ export default function UserCard({ product }) {
             <Link
               aria-label="Call"
               target="_blank"
-              to={`tel:${product?.phone}`}
+              href={`tel:${product?.phone}`}
               className="call"
             >
               <span>{t("calling")}</span>
@@ -283,7 +133,10 @@ export default function UserCard({ product }) {
           )}
 
           {product?.active_chat === "active" && (
-            <Link aria-label="Chat" to={`/chats?user_id=${optimisticUser?.id}`}>
+            <Link
+              aria-label="Chat"
+              href={`/chats?user_id=${optimisticUser?.id}`}
+            >
               <Image width={24} height={32} src="/icons/chat.svg" alt="chat" />
               {product?.active_call === "inactive" && (
                 <span>{t("chating")}</span>
@@ -292,7 +145,11 @@ export default function UserCard({ product }) {
           )}
 
           {product?.active_whatsapp === "active" && (
-            <Link aria-label="Whatsapp" target="_blank">
+            <Link
+              aria-label="Whatsapp"
+              target="_blank"
+              href={`https://wa.me/${optimisticUser?.phone}?text=${encodedWhatsappMessage}`}
+            >
               <Image
                 width={32}
                 height={32}
