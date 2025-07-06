@@ -6031,7 +6031,7 @@ body main .search_section .search_nav a {
 body main .search_section .search_nav a::after {
   content: "";
   position: absolute;
-  bottom: -2px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%) skew(-30deg);
   width: 0;

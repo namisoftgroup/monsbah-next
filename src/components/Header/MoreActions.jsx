@@ -7,7 +7,6 @@ const MoreActions = () => {
   const t = useTranslations("header");
   return (
     <>
-      {" "}
       <button
         aria-label="Get App"
         className="customBtn"
