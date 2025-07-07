@@ -45,10 +45,10 @@ export const META_DATA_CONTENT = {
 export const PROFILE_TABS = [
   { key: "ads", icon: "fa-bullhorn" },
   { key: "addAd", icon: "fa-plus" },
+  { key: "notifications", icon: "fa-bell" },
   { key: "favorites", icon: "fa-heart" },
   { key: "settings", icon: "fa-gear" },
   { key: "verification", icon: "fa-badge-check" },
-  { key: "notifications", icon: "fa-bell" },
 ];
 
 export const CATEGORY_TYPES = {

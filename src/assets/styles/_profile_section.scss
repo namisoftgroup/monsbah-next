@@ -190,7 +190,7 @@
   }
   .profileResponsiveNav {
     background-color: transparent !important;
-    padding: 12px;
+    padding: 12px 0;
     border-radius: 16px;
     @media screen and (min-width: 769px) {
       display: none !important;
@@ -202,6 +202,7 @@
       &:not(:last-of-type) {
         margin-bottom: 4px !important;
       }
+      a,
       button {
         flex: 1;
         color: $dark;

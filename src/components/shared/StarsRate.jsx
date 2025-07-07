@@ -1,6 +1,8 @@
 "use client";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { useState } from "react";
+import CompanyReviewsModal from "./modals/CompanyReviewsModal";
 
 export default function StarsRate({
   rate,
@@ -20,9 +22,11 @@ export default function StarsRate({
               .fill(0)
               .map(() => {
                 return (
-                  <img
+                  <Image
+                    width={16}
+                    height={16}
                     key={Math.random()}
-                    src="/images/icons/star-filled.svg"
+                    src="/icons/star-filled.svg"
                     alt="filled star"
                   />
                 );
@@ -33,9 +37,11 @@ export default function StarsRate({
               .fill(0)
               .map(() => {
                 return (
-                  <img
+                  <Image
+                    width={16}
+                    height={16}
                     key={Math.random()}
-                    src="/images/icons/star.svg"
+                    src="/icons/star.svg"
                     alt="star"
                   />
                 );
@@ -56,12 +62,12 @@ export default function StarsRate({
         </>
       ) : null}
 
-      {/* <CompanyReviewsModal
+      <CompanyReviewsModal
         showModal={showModal}
         setShowModal={setShowModal}
         company={company}
         isMyCompany={isMyCompany}
-      /> */}
+      />
     </div>
   );
 }

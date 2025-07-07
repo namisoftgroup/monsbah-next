@@ -24,7 +24,9 @@ export default function CompaniesSection() {
     hasNextPage: hasNextPageProducts,
     isFetchingNextPage: isFetchingNextPageProducts,
   } = useGetCompanyProducts();
-
+  const allProducts =
+    products?.pages?.flatMap((page) => page?.data?.data) ?? [];
+  console.log("log saaa", allProducts);
   const {
     data: companies,
     isLoading: isLoadingCompanies,
@@ -32,6 +34,9 @@ export default function CompaniesSection() {
     hasNextPage: hasNextPageCompanies,
     isFetchingNextPage: isFetchingNextPageCompanies,
   } = useGetCompanies();
+
+  const allCompanies =
+    companies?.pages?.flatMap((page) => page?.data?.data) ?? [];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,7 +76,7 @@ export default function CompaniesSection() {
         {!shouldShowCompanies ? (
           <div className="row">
             {/* products */}
-            {products?.map((product, index) => (
+            {allProducts?.map((product, index) => (
               <div className="col-lg-4 col-md-6 col-12 p-2" key={index}>
                 <ProductCard product={product} isShowAction={false} />
               </div>
@@ -95,14 +100,12 @@ export default function CompaniesSection() {
           </div>
         ) : (
           <div className="row">
-            {/* companies */}
-            {companies?.map((company) => (
+            {allCompanies?.map((company) => (
               <div className="col-lg-4 col-md-6 col-12 p-2" key={company?.id}>
                 <CompanyCard company={company} />
               </div>
             ))}
 
-            {/* loaders */}
             {(isLoadingCompanies || isFetchingNextPageCompanies) && (
               <>
                 {Array(3)

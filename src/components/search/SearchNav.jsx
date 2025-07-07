@@ -7,7 +7,6 @@ export default function SearchNav({ search }) {
   const { userType } = useAuthModal((state) => state);
   const pathanmes = usePathname().split("/");
   const pathname = pathanmes[pathanmes?.length - 1];
-  console.log(pathname);
 
   const t = useTranslations();
 
@@ -45,9 +44,15 @@ export default function SearchNav({ search }) {
         {t("companies")}
       </Link>
 
-      {/* <Link href={search ? `companies-ads?search=${search}` : "companies-ads"}>
+      <Link
+        href={{
+          pathname: "/search/companies-ads",
+          query: { search: search?.q || "" },
+        }}
+        className={pathname === "companies-ads" ? "active" : ""}
+      >
         {t("companiesAds")}
-      </Link> */}
+      </Link>
     </nav>
   );
 }

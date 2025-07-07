@@ -48,10 +48,10 @@ export default function PersonCard({ person }) {
       {" "}
       <Link
         aria-label="Profile"
-        to={`${
+        href={`${
           +optimisticUser?.id === +user?.id
             ? "/profile"
-            : `/profile/${optimisticUser?.id}`
+            : `/user-profile/${optimisticUser?.id}`
         }`}
         className="img_info"
       >
