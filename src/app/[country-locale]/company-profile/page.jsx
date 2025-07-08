@@ -34,7 +34,7 @@ export default async function page() {
         <div className="row mb-5">
           {profile?.products?.data?.map((product, index) => (
             <div className="col-lg-4 col-md-6 col-12 p-2" key={index}>
-              <ProductVertical product={product} isShowAction={false} />
+              <ProductVertical product={product} />
             </div>
           ))}
         </div>

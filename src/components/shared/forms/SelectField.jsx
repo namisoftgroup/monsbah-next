@@ -13,7 +13,6 @@ export default function SelectField({
   ...props
 }) {
   const t = useTranslations();
-  console.log(loading, loadingText);
 
   return (
     <div className="input-field">

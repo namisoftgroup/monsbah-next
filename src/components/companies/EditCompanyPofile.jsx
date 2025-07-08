@@ -323,8 +323,6 @@ export default function EditCompanyPofile({ user }) {
           />
         </div>{" "}
         <SubmitButton text={t("save")} loading={loading} />
-        <DevTool control={control} />
-        <DevTool control={control} />
       </form>{" "}
       <ChangePasswordModal
         showModal={showPasswordModal}

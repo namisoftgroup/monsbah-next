@@ -20,9 +20,9 @@ export async function logout() {
       token,
     });
 
-    if (res?.data?.status === "200") {
+    if (res?.status === 200) {
       cookieStore.delete("token");
-      cookieStore.delete("userType");
+      cookieStore.delete("user_type");
       delete serverAxios.defaults.headers.common["Authorization"];
     }
     return res?.data;
