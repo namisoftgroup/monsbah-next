@@ -11,7 +11,7 @@ function useGetSubCategories(category, enabled, page) {
       try {
         const res = await clientAxios.get(
           `${
-            page === "companies" ? "company" : localStorage.getItem("userType")
+            page === "companies" ? "company" : localStorage.getItem("user_type")
           }/sub-categories${category ? `?category_id=${category}` : ""}`
         );
         if (res.status === 200) {

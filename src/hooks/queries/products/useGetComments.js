@@ -13,7 +13,7 @@ export default function useGetComments() {
     queryFn: async () => {
       try {
         const res = await clientAxios.get(
-          `/${localStorage.getItem("userType")}/comments?product_id=${id}`
+          `/${localStorage.getItem("user_type")}/comments?product_id=${id}`
         );
         if (res.status === 200) {
           return res.data.data || {};

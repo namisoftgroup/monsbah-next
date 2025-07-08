@@ -508,6 +508,9 @@
   "premiumAddDesc": "اعلان مميز ومثبت في اعلى الصفحة للحصول على مشاهدات عاليه",
   "category": "الفئة",
   "companiesAds": "اعلانات الشركات",
+  "favourites": "المفضلة",
+  "addAd": "اضافة أعلان",
+  "logout": "تسجيل الخروج",
   "packages": {
     "monthly": "شهريا",
     "yearly": "سنويا"

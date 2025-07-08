@@ -7,7 +7,7 @@ export default function useGetAuthedUser(enabled) {
     queryFn: async () => {
       try {
         const res = await clientAxios.get(
-          `/${localStorage.getItem("userType")}/auth/profile`
+          `/${localStorage.getItem("user_type")}/auth/profile`
         );
         if (res.status === 200) {
           return res.data.data || {};

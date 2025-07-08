@@ -20,7 +20,11 @@ const MoreActions = () => {
       </Link>
       <Link
         aria-label="add post"
-        href="/profile/addAd"
+        href={`${
+          localStorage.getItem("user_type") === "client"
+            ? "/profile/addAd"
+            : "/add-company-product"
+        }`}
         className="link text d-lg-flex d-none"
       >
         <Image src="/icons/plus.svg" width={16} height={16} alt="" />

@@ -26,12 +26,14 @@ const NavLinks = () => {
         >
           {t("home")}
         </Link>
-        <Link
-          className={`navLink  ${pathname === "/categories" ? "active" : ""}`}
-          href="/categories"
-        >
-          {t("categories")}
-        </Link>
+        {localStorage.getItem("user_type") === "client" && (
+          <Link
+            className={`navLink  ${pathname === "/categories" ? "active" : ""}`}
+            href="/categories"
+          >
+            {t("categories")}
+          </Link>
+        )}
         <Link
           className={`navLink  ${pathname === "/companies" ? "active" : ""}`}
           href="/companies"
