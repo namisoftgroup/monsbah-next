@@ -6724,6 +6724,9 @@ body main .sections .parent {
     grid-template-rows: repeat(3, 1fr);
   }
 }
+body main .sections .parent a {
+  height: 325px;
+}
 body main .sections .category-card {
   position: relative;
   overflow: hidden;

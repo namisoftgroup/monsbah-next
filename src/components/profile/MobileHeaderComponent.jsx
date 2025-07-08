@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, usePathname } from "@/i18n/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslations } from "use-intl";
 import LogoutComponent from "./LogoutComponent";
 
@@ -9,8 +9,6 @@ export default function MobileHeaderComponent() {
   const t = useTranslations("profile");
   const pathname = usePathname().split("/");
   const name = pathname[pathname.length - 1];
-  console.log("pathname", pathname);
-  console.log("name", name);
   const [showTabs, setShowTabs] = useState(false);
 
   return (
@@ -27,19 +25,31 @@ export default function MobileHeaderComponent() {
       {showTabs && (
         <div className="profileResponsiveNav">
           <div className="nav-item">
-            <Link aria-label={t("main")} href={"/profile"}>
+            <Link
+              aria-label={t("main")}
+              href={"/profile"}
+              onClick={() => setShowTabs(false)}
+            >
               <i className="fa-regular fa-user" />
               {t("main")}
             </Link>
           </div>
           <div className="nav-item">
-            <Link aria-label={t("myAds")} href={"/profile/ads"}>
+            <Link
+              aria-label={t("myAds")}
+              href={"/profile/ads"}
+              onClick={() => setShowTabs(false)}
+            >
               <i className="fa-regular fa-bullhorn"></i>
               {t("myAds")}
             </Link>
           </div>
           <div className="nav-item">
-            <Link aria-label={t("addAd")} href={"/profile/addAd"}>
+            <Link
+              aria-label={t("addAd")}
+              href={"/profile/addAd"}
+              onClick={() => setShowTabs(false)}
+            >
               <i className="fa-regular fa-plus"></i>
               {t("addAd")}
             </Link>
@@ -54,30 +64,43 @@ export default function MobileHeaderComponent() {
             <Link
               aria-label={t("notifications")}
               href={"/profile/notifications"}
+              onClick={() => setShowTabs(false)}
             >
               <i className="fa-regular fa-bell"></i>
               {t("notifications")}
             </Link>
           </div>
           <div className="nav-item">
-            <Link aria-label={t("favorites")} href={"/profile/favorites"}>
+            <Link
+              aria-label={t("favorites")}
+              href={"/profile/favorites"}
+              onClick={() => setShowTabs(false)}
+            >
               <i className="fa-regular fa-heart" />
               {t("favorites")}
             </Link>
           </div>
           <div className="nav-item">
-            <Link aria-label={t("settings")} href={"/profile/settings"}>
+            <Link
+              aria-label={t("settings")}
+              href={"/profile/settings"}
+              onClick={() => setShowTabs(false)}
+            >
               <i className="fa-regular fa-gear" />
               {t("settings")}
             </Link>
           </div>
           <div className="nav-item">
-            <Link aria-label={t("verification")} href={"/profile/verification"}>
+            <Link
+              aria-label={t("verification")}
+              href={"/profile/verification"}
+              onClick={() => setShowTabs(false)}
+            >
               <i className="fa-regular fa-badge-check" />
               {t("verification")}
             </Link>
           </div>
-          <div className="nav-item">
+          <div className="nav-item" onClick={() => setShowTabs(false)}>
             <LogoutComponent />
             {/* <Link aria-label={t("logout")}>
               <i className="fa-regular fa-arrow-right-from-bracket"></i>

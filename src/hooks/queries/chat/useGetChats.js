@@ -1,9 +1,10 @@
+"use client";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useLocale } from "next-intl";
 import clientAxios from "../../../libs/axios/clientAxios";
 
 function useGetChats() {
-  const lang = useSelector((state) => state.language.lang);
+  const lang = useLocale().split("-")[0];
 
   const {
     isLoading,
@@ -36,11 +37,6 @@ function useGetChats() {
       const isMore = lastPage.data.length >= lastPage.per_page;
       return isMore ? pages.length + 1 : undefined;
     },
-
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    retry: false,
   });
 
   return {

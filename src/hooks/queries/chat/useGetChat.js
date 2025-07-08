@@ -1,12 +1,15 @@
+"use client";
+import clientAxios from "@/libs/axios/clientAxios";
+import { useAuthModal } from "@/stores/useAuthModal";
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import clientAxios from "../../../libs/axios/clientAxios";
+import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 
 export default function useGetChat() {
-  const lang = useSelector((state) => state.language.lang);
-  const [searchParams] = useSearchParams();
+  const lang = useLocale().split("-")[1];
+  const searchParams = useSearchParams();
   const userId = searchParams.get("user_id");
+  const { useType } = useAuthModal((state) => state);
 
   const { isLoading, data, error } = useQuery({
     queryKey: ["chat", lang, userId],
@@ -15,10 +18,7 @@ export default function useGetChat() {
         const res = await clientAxios.get(`/client/chat/details`, {
           params: {
             user_id: userId,
-            user_type:
-              localStorage.getItem("userType") === "client"
-                ? "user"
-                : "company",
+            user_type: useType === "client" ? "user" : "company",
           },
         });
         if (res.status === 200) {
@@ -30,10 +30,6 @@ export default function useGetChat() {
       }
     },
     enabled: Boolean(userId),
-    retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
   });
   return { isLoading, data, error };
 }
