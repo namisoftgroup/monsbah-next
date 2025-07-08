@@ -2,10 +2,13 @@
 
 import { cookies } from "next/headers";
 import serverAxios from "../axios/severAxios";
+import { getUserType } from "@/services/auth/getUserType";
 
 export async function logout() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+  const userType = await getUserType();
+  console.log(userType);
 
   if (!token) {
     console.log("there is no token");
@@ -13,7 +16,7 @@ export async function logout() {
   }
 
   try {
-    const res = await serverAxios.get("/client/auth/logout", {
+    const res = await serverAxios.get(`/${userType}/auth/logout`, {
       token,
     });
 

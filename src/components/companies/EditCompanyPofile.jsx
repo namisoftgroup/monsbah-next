@@ -14,11 +14,19 @@ import SelectField from "../shared/forms/SelectField";
 import PhoneInput from "../shared/forms/PhoneInput";
 import useGetCompanyCategories from "@/hooks/queries/settings/useGetCompanyCategories";
 import { DevTool } from "@hookform/devtools";
+import TextField from "../shared/forms/TextField";
+import { Form } from "react-bootstrap";
+import ChangePasswordModal from "../profile/verification/ChangePasswordModal";
+import SubmitButton from "../shared/forms/SubmitButton";
+import { updateProfileAction } from "@/libs/actions/profileActions";
+import ChangePhoneModal from "../shared/modals/ChangePhoneModal";
+import { toast } from "sonner";
 
 export default function EditCompanyPofile({ user }) {
   console.log("Edit company user", user);
 
   const [showPasswordModal, setShowPasswordModal] = useState();
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const {
@@ -33,6 +41,9 @@ export default function EditCompanyPofile({ user }) {
 
   const city_id = watch("city_id");
   const country_id = watch("country_id");
+  const country_code = watch("country_code");
+  const phone = watch("phone");
+
   const { data: categories } = useGetCompanyCategories();
 
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -55,6 +66,8 @@ export default function EditCompanyPofile({ user }) {
           user?.country?.country_code
         ).toString() || "",
       email: user?.email || "",
+      whats_number: user?.whats_number || "",
+      whats_country_code: user?.country?.country_code?.toString() || "965",
       country_id: user?.country?.id.toString() || "",
       city_id: user?.city?.id.toString() || "",
       category_id: user?.category?.id?.toString() || "",
@@ -76,6 +89,7 @@ export default function EditCompanyPofile({ user }) {
       setSelectedCountry(currentLocation);
     }
   }, [currentLocation]);
+
   useEffect(() => {
     if (selectedCountry) {
       register("country_code", {
@@ -84,11 +98,31 @@ export default function EditCompanyPofile({ user }) {
       });
     }
   }, [selectedCountry]);
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const payload = { ...data };
+    payload.phone = data.country_code + data.phone;
+
+    try {
+      const res = await updateProfileAction(payload);
+
+      if (res.status === 200) {
+        toast.success(res?.message);
+      } else {
+        toast.error(t("someThingWentWrong"));
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "some Thing Went Wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <form
         className="form col-12 p-1 w-100 p-md-3 reverse-form"
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Controller
           control={control}
@@ -128,53 +162,79 @@ export default function EditCompanyPofile({ user }) {
             {...register("username")}
             error={errors?.username?.message}
           />{" "}
-          <SelectField
-            label={t("auth.category")}
-            id="country_id"
-            {...register("category_id")}
-            options={categories?.map((c) => ({
-              name: c?.name,
-              value: c?.id,
-            }))}
-            error={errors?.category_id?.message}
+          <Controller
+            name="category_id"
+            control={control}
+            render={({ field }) => (
+              <SelectField
+                label={t("auth.category")}
+                id="category_id"
+                options={categories?.map((c) => ({
+                  name: c?.name,
+                  value: c?.id,
+                }))}
+                value={field.value}
+                onChange={field.onChange}
+                error={errors?.category_id?.message}
+              />
+            )}
           />
         </div>{" "}
         <div className="form_group">
-          <SelectField
-            label={t("auth.country")}
-            loadingText={t("isLoading")}
-            id="country_id"
-            {...register("country_id")}
-            options={countries?.map((country) => ({
-              name: country?.name,
-              value: country?.id,
-            }))}
-            error={errors?.country_id?.message}
+          <Controller
+            name="country_id"
+            control={control}
+            render={({ field }) => (
+              <SelectField
+                label={t("auth.country")}
+                id="country_id"
+                options={countries?.map((country) => ({
+                  name: country?.name,
+                  value: country?.id,
+                }))}
+                value={field.value}
+                onChange={field.onChange}
+                error={errors?.country_id?.message}
+              />
+            )}
           />
-          <SelectField
-            loading={citiesLoading}
-            loadingText={t("isLoading")}
-            label={t("auth.city")}
-            {...register("city_id")}
-            id="city_id"
-            options={cities?.map((city) => ({
-              name: city?.name,
-              value: city?.id,
-            }))}
-            error={errors?.city_id?.message}
+          <Controller
+            name="city_id"
+            control={control}
+            render={({ field }) => (
+              <SelectField
+                loading={citiesLoading}
+                loadingText={t("isLoading")}
+                label={t("auth.city")}
+                id="city_id"
+                options={cities?.map((city) => ({
+                  name: city?.name,
+                  value: city?.id,
+                }))}
+                value={field.value}
+                onChange={field.onChange}
+                error={errors?.city_id?.message}
+              />
+            )}
           />
-
-          <SelectField
-            loading={areasLoading}
-            loadingText={t("isLoading")}
-            label={t("auth.area")}
-            id="state_id"
-            {...register("state_id")}
-            options={states?.map((state) => ({
-              name: state?.name,
-              value: state?.id,
-            }))}
-            error={errors?.state_id?.message}
+          <Controller
+            name="state_id"
+            control={control}
+            render={({ field }) => (
+              <SelectField
+                loading={areasLoading}
+                loadingText={t("isLoading")}
+                label={t("auth.area")}
+                id="state_id"
+                options={states?.map((state) => ({
+                  name: state?.name,
+                  value: state?.id,
+                }))}
+                value={field.value}
+                onChange={field.onChange}
+                error={errors?.state_id?.message}
+              />
+            )}
           />
         </div>
         <div className="form_group">
@@ -183,7 +243,21 @@ export default function EditCompanyPofile({ user }) {
             control={control}
             render={({ field }) => (
               <PhoneInput
-                label={t("auth.phone")}
+                label={
+                  <div className=" w-100 d-flex align-items-center justify-content-between gap-2">
+                    <div>
+                      {t("auth.phone")}
+                      <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                    </div>
+                    <span
+                      className="d-flex align-items-center justify-content-end"
+                      style={{ cursor: "pointer", color: "#1abc9c" }}
+                      onClick={() => setShowPhoneModal(true)}
+                    >
+                      {t("auth.doYouWantToChangePhone")}
+                    </span>
+                  </div>
+                }
                 id="phone"
                 placeholder={t("auth.phone")}
                 selectedCountry={selectedCountry}
@@ -198,7 +272,7 @@ export default function EditCompanyPofile({ user }) {
             )}
           />
           <Controller
-            name="country_code"
+            name="whats_country_code"
             control={control}
             render={({ field }) => (
               <PhoneInput
@@ -210,7 +284,7 @@ export default function EditCompanyPofile({ user }) {
                 limit={selectedCountry?.number_limit}
                 {...register("whats_number")}
                 onCountryChange={(country) =>
-                  field.onChange(country?.country_code)
+                  field.onChange(country?.whats_country_code)
                 }
                 error={errors?.phone?.message}
               />
@@ -223,9 +297,45 @@ export default function EditCompanyPofile({ user }) {
             {...register("email")}
             error={errors?.email?.message}
           />
-        </div>
+        </div>{" "}
+        <div className="form_group">
+          <TextField
+            label={t("auth.companyDec")}
+            placeholder={t("writeHere")}
+            id="about_ar"
+            {...register("about_ar")}
+            onChange={(e) => {
+              setValue("about_ar", e.target.value);
+              setValue("about_en", e.target.value);
+            }}
+            error={errors?.about_ar?.message}
+          />{" "}
+        </div>{" "}
+        <div className="question p-0 pt-2">
+          <label htmlFor="wantChangePassword" className="quest">
+            {t("auth.doYouWantChangePassword")}
+          </label>
+          <Form.Switch
+            id="wantChangePassword"
+            name="wantChangePassword"
+            checked={showPasswordModal}
+            onChange={() => setShowPasswordModal(!showPasswordModal)}
+          />
+        </div>{" "}
+        <SubmitButton text={t("save")} loading={loading} />
         <DevTool control={control} />
-      </form>
+        <DevTool control={control} />
+      </form>{" "}
+      <ChangePasswordModal
+        showModal={showPasswordModal}
+        setShowModal={setShowPasswordModal}
+      />
+      <ChangePhoneModal
+        country_code={country_code}
+        phone={phone}
+        showModal={showPhoneModal}
+        setShowModal={setShowPhoneModal}
+      />
     </>
   );
 }

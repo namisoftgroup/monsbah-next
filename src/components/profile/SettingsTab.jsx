@@ -1,14 +1,11 @@
 "use client";
 
 import useSettingForm from "@/hooks/controllers/useSettingForm";
-import useGetCategories from "@/hooks/queries/settings/useGetCategories";
 import useGetCities from "@/hooks/queries/settings/useGetCities";
 import useGetCountries from "@/hooks/queries/settings/useGetCountries";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
 import useGetStates from "@/hooks/queries/settings/useGetStates";
 import { updateProfileAction } from "@/libs/actions/profileActions";
-import { useAuthModal } from "@/stores/useAuthModal";
-import { useAuthStore } from "@/stores/useAuthStore";
 import { extractPhoneFromCode } from "@/utils/helpers";
 import { DevTool } from "@hookform/devtools";
 import { useEffect, useState } from "react";
@@ -28,6 +25,7 @@ export default function SettingsTab({ user }) {
   const [showPasswordModal, setShowPasswordModal] = useState();
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
   const {
     register,
     handleSubmit,
@@ -69,7 +67,6 @@ export default function SettingsTab({ user }) {
       fcm_token: user?.fcm_token || "",
     });
   }, [user]);
-  useGetCategories();
 
   const { data: currentLocation } = useGetCurrentLocation();
   const { data: states, isLoading: areasLoading } = useGetStates(
@@ -157,41 +154,60 @@ export default function SettingsTab({ user }) {
         </div>
 
         <div className="form_group">
-          <SelectField
-            label={t("auth.country")}
-            id="country_id"
-            {...register("country_id")}
-            options={countries?.map((country) => ({
-              name: country?.name,
-              value: country?.id,
-            }))}
-            error={errors?.country_id?.message}
+          <Controller
+            name="country_id"
+            control={control}
+            render={({ field }) => (
+              <SelectField
+                label={t("auth.country")}
+                id="country_id"
+                options={countries?.map((country) => ({
+                  name: country?.name,
+                  value: country?.id,
+                }))}
+                value={field.value}
+                onChange={field.onChange}
+                error={errors?.country_id?.message}
+              />
+            )}
           />
-
-          <SelectField
-            loading={citiesLoading}
-            loadingText={t("isLoading")}
-            label={t("auth.city")}
-            {...register("city_id")}
-            id="city_id"
-            options={cities?.map((city) => ({
-              name: city?.name,
-              value: city?.id,
-            }))}
-            error={errors?.city_id?.message}
+          <Controller
+            name="city_id"
+            control={control}
+            render={({ field }) => (
+              <SelectField
+                loading={citiesLoading}
+                loadingText={t("isLoading")}
+                label={t("auth.city")}
+                id="city_id"
+                options={cities?.map((city) => ({
+                  name: city?.name,
+                  value: city?.id,
+                }))}
+                value={field.value}
+                onChange={field.onChange}
+                error={errors?.city_id?.message}
+              />
+            )}
           />
-
-          <SelectField
-            loading={areasLoading}
-            loadingText={t("isLoading")}
-            label={t("auth.area")}
-            id="state_id"
-            {...register("state_id")}
-            options={states?.map((state) => ({
-              name: state?.name,
-              value: state?.id,
-            }))}
-            error={errors?.state_id?.message}
+          <Controller
+            name="state_id"
+            control={control}
+            render={({ field }) => (
+              <SelectField
+                loading={areasLoading}
+                loadingText={t("isLoading")}
+                label={t("auth.area")}
+                id="state_id"
+                options={states?.map((state) => ({
+                  name: state?.name,
+                  value: state?.id,
+                }))}
+                value={field.value}
+                onChange={field.onChange}
+                error={errors?.state_id?.message}
+              />
+            )}
           />
         </div>
 
@@ -209,7 +225,21 @@ export default function SettingsTab({ user }) {
             control={control}
             render={({ field }) => (
               <PhoneInput
-                label={t("auth.phone")}
+                label={
+                  <div className=" w-100 d-flex align-items-center justify-content-between gap-2">
+                    <div>
+                      {t("auth.phone")}
+                      <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                    </div>
+                    <span
+                      className="d-flex align-items-center justify-content-end"
+                      style={{ cursor: "pointer", color: "#1abc9c" }}
+                      onClick={() => setShowPhoneModal(true)}
+                    >
+                      {t("auth.doYouWantToChangePhone")}
+                    </span>
+                  </div>
+                }
                 id="phone"
                 placeholder={t("auth.phone")}
                 selectedCountry={selectedCountry}
