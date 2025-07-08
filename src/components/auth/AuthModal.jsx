@@ -17,8 +17,10 @@ import Register from "./Register";
 import RegisterCompany from "./RegisterCompany";
 import RegisterOTPConfirm from "./RegisterOTPConfirm";
 import ResetPassword from "./ResetPassword";
+import { useDeleteSearchParams } from "@/hooks/helpers/useDeleteSearchParams";
 
 export default function AuthModal() {
+  const { closeAuthModal } = useDeleteSearchParams();
   const {
     isOpen: show,
     onClose,
@@ -30,6 +32,7 @@ export default function AuthModal() {
   const forgetPassordMethods = useForgetPasswordForm();
   const handleClose = () => {
     onClose();
+    closeAuthModal();
     setFormType("login");
     methods.reset();
   };

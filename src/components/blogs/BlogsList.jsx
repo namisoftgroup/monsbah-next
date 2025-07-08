@@ -1,5 +1,5 @@
 import BlogCard from "@/components/shared/cards/BlogCard";
-import { getBlogs } from "@/services/getBlogs";
+import { getBlogs } from "@/services/blogs/getBlogs";
 import { getTranslations } from "next-intl/server";
 
 export default async function BlogsList() {

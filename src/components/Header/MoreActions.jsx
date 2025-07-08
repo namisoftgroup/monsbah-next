@@ -2,19 +2,22 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import GetApp from "../shared/modals/GetApp";
+import { useState } from "react";
 
 const MoreActions = () => {
   const t = useTranslations("header");
+  const [showGetAppModal, setShowGetAppModal] = useState(false);
   return (
     <>
-      {" "}
-      <button
+      <Link
         aria-label="Get App"
         className="customBtn"
         style={{ whiteSpace: "nowrap" }}
+        href={"/sections"}
       >
-        {t("getApp")}
-      </button>
+        {t("categories")}
+      </Link>
       <Link
         aria-label="add post"
         href="/profile/addAd"
@@ -22,7 +25,8 @@ const MoreActions = () => {
       >
         <Image src="/icons/plus.svg" width={16} height={16} alt="" />
         {t("addPost")}
-      </Link>
+      </Link>{" "}
+      <GetApp show={showGetAppModal} setShow={setShowGetAppModal} />
     </>
   );
 };

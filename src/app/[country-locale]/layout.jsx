@@ -18,6 +18,7 @@ import "swiper/css/pagination";
 import "@/assets/styles/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@/assets/styles/main.css";
+import ResponsiveNav from "@/components/Header/ResponsiveNav";
 
 export async function generateMetadata({ params }) {
   const locale = await params;
@@ -86,6 +87,7 @@ export default async function RootLayout(props) {
           <Header />
           <main>{props.children}</main>
           <Footer />
+          <ResponsiveNav />
           <AuthModal />
         </Providers>
       </body>

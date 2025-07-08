@@ -1,13 +1,11 @@
-"use client";
-
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export default function BlogCard({ blog }) {
-  const t = useTranslations();
+export default async function BlogCard({ blog }) {
+  const t = await getTranslations();
 
   return (
-    <Link href={`/blogs/${blog?.title}`} className="blog_card">
+    <Link href={`/blogs/${blog?.id}`} className="blog_card">
       <div className="blog_image">
         <img src={blog?.image} alt="فساتين زفاف" />
       </div>

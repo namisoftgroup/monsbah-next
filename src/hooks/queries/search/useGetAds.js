@@ -1,11 +1,14 @@
+"use client";
+import clientAxios from "@/libs/axios/clientAxios";
+import { useAuthModal } from "@/stores/useAuthModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
-import clientAxios from "../../../libs/axios/clientAxios";
+import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
 
 function useGetAds() {
-  const lang = useSelector((state) => state.language.lang);
-  const [searchParams] = useSearchParams();
+  const lang = useLocale().split("-")[1];
+  const { userType } = useAuthModal((state) => state);
+  const searchParams = useSearchParams();
   const search = searchParams.get("search");
 
   const {
@@ -19,40 +22,29 @@ function useGetAds() {
     queryKey: ["ads", lang, search],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await clientAxios.get(
-        `/${localStorage.getItem("userType")}/products`,
-        {
-          params: {
-            page: pageParam,
-            search: search,
-          },
-        }
-      );
+      const res = await clientAxios.get(`/${userType}/products`, {
+        params: {
+          page: pageParam,
+          search,
+        },
+      });
       if (res.status === 200) {
-        return {
-          data: res.data?.data?.data,
-          total: res.data?.data?.meta?.total,
-          per_page: res.data?.data?.meta?.per_page,
-        };
+        return res.data;
       } else {
         throw new Error("Failed to fetch ads");
       }
     },
 
     getNextPageParam: (lastPage, pages) => {
-      const isMore = lastPage.data.length >= lastPage.per_page;
-      return isMore ? pages.length + 1 : undefined;
+      const nextUrl = lastPage?.data?.links?.next;
+      return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
-
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    retry: false,
   });
 
   return {
     isLoading,
     data,
+    total: data?.pages?.[0]?.total || 0,
     error,
     hasNextPage,
     fetchNextPage,

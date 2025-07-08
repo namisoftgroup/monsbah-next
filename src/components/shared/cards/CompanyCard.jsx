@@ -1,26 +1,31 @@
 "use client";
 
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import ImageLoad from "../loaders/ImageLoad";
+import { Link } from "@/i18n/navigation";
+import { useAuthStore } from "@/stores/useAuthStore";
+import Image from "next/image";
 import StarsRate from "../StarsRate";
 
 export default function CompanyCard({ company }) {
-  const { client } = useSelector((state) => state.clientData);
+  const { user } = useAuthStore((state) => state);
 
   return (
     <Link
       aria-label="Product"
-      to={`${
-        company?.id === client?.id
+      href={`${
+        company?.id === user?.id
           ? "/company-profile"
           : `/companies/${company?.id}`
       }`}
       className="campany_card"
     >
-      <div className="img">
-        <img src={company?.image} alt="" />
-        <ImageLoad isImageLoaded={false} />
+      <div className="img position-relative">
+        <Image
+          fill={true}
+          src={company?.image}
+          sizes="(max-width: 86px) 100vw, (max-width: 60px) 50vw, 300px"
+          alt=""
+        />
+        {/* <ImageLoad isImageLoaded={false} /> */}
       </div>
       <div className="content">
         <div className="title">

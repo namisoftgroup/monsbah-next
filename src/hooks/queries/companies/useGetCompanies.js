@@ -1,3 +1,4 @@
+"use client";
 import clientAxios from "@/libs/axios/clientAxios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
@@ -11,6 +12,7 @@ function useGetCompanies() {
   const country_id = searchParams.get("country");
   const city_id = searchParams.get("city");
   const category_id = searchParams.get("category");
+  const search = searchParams.get("search");
 
   const {
     isLoading,
@@ -20,42 +22,35 @@ function useGetCompanies() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["companies", country_id, city_id, category_id, lang],
+    queryKey: ["companies", country_id, city_id, category_id, lang, search],
 
     queryFn: async ({ pageParam = 1 }) => {
       const res = await clientAxios.get("/client/companies", {
         params: {
           page: pageParam,
-          city_id: city_id,
-          country_id: country_id,
-          category_id: category_id,
+          city_id,
+          country_id,
+          category_id,
+          search,
         },
       });
       if (res.status === 200) {
-        return {
-          data: res.data?.data?.data,
-          total: res.data?.data?.meta?.total,
-          per_page: res.data?.data?.meta?.per_page,
-        };
+        return res.data;
       } else {
-        throw new Error("Failed to fetch products");
+        throw new Error("Failed to fetch companies");
       }
     },
 
     getNextPageParam: (lastPage, pages) => {
-      const isMore = lastPage.data.length >= lastPage.per_page;
-      return isMore ? pages.length + 1 : undefined;
+      const nextUrl = lastPage?.data?.links?.next;
+      return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
-
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    retry: false,
   });
 
   return {
     isLoading,
-    data: data?.pages.flatMap((page) => page.data),
+    data,
+    total: data?.pages?.[0]?.total || 0,
     error,
     hasNextPage,
     fetchNextPage,

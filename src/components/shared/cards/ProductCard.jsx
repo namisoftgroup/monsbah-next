@@ -11,7 +11,6 @@ function ProductCard({ product }) {
   const t = useTranslations();
   const router = useRouter();
   const [isImageLoaded, setIsImageLoaded] = useState(true);
-  console.log(product);
 
   const handleImageLoad = () => setIsImageLoaded(false);
 
