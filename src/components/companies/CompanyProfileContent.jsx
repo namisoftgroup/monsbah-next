@@ -4,30 +4,45 @@ import ShareButton from "../shared/ShareButton";
 import StarsRate from "../shared/StarsRate";
 import CopyButton from "./CopyButton";
 
-export default async function CompanyProfileContent({ client }) {
+export default async function CompanyProfileContent({
+  client,
+  isMyProfile = false,
+}) {
   const t = await getTranslations();
+
   return (
     <>
       <div className="content">
         <div className="title">
           <h3>{client?.name}</h3>
           <div className="actions">
-            <Link
-              aria-label="whatsapp"
-              target="_blank"
-              href={`https://wa.me/${client?.whats_number}`}
-              className=" follow_btn"
-            >
-              <img src="/icons/whats.svg" alt="" />
-            </Link>
-
-            <Link
-              aria-label="Profile"
-              className=" follow_btn"
-              href={`/chats?user_id=${client?.id}`}
-            >
-              <i className="fa-solid fa-comment-dots"></i>
-            </Link>
+            {isMyProfile ? (
+              <Link className="add_product" href="/add-company-product">
+                <i className="fa-regular fa-plus"></i> {t("profile.addAd")}
+              </Link>
+            ) : (
+              <Link
+                aria-label="whatsapp"
+                target="_blank"
+                href={`https://wa.me/${client?.whats_number}`}
+                className=" follow_btn"
+              >
+                <img src="/icons/whats.svg" alt="" />
+              </Link>
+            )}
+            {isMyProfile ? (
+              <Link className="follow_btn" href="/edit-company-profile">
+                <i className="fa-light fa-pencil"></i>
+              </Link>
+            ) : (
+              <Link
+                aria-label="Profile"
+                className=" follow_btn"
+                href={`/chats?user_id=${client?.id}`}
+              >
+                <i className="fa-solid fa-comment-dots"></i>
+              </Link>
+            )}
             <ShareButton />
           </div>
         </div>

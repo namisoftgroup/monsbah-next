@@ -11,8 +11,6 @@ export async function getChats(pageParam = 1) {
       return res?.data?.data?.data;
     }
   } catch (error) {
-    console.log("iam on server");
-
     console.log(error);
 
     throw new Error("Failed to fetch chats");

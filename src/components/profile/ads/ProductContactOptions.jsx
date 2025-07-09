@@ -1,6 +1,7 @@
 "use client";
 
 import PhoneInput from "@/components/shared/forms/PhoneInput";
+import { submitCompanyProduct } from "@/libs/actions/adsActions";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -24,11 +25,11 @@ export default function ProductContactOptions({}) {
   const { user } = useAuthStore((state) => state);
   const [selectedCountry, setSelectedCountry] = useState(user?.country);
 
-
   useEffect(() => {
     setValue("country_id", user?.country?.id);
     setValue("currency_id", user?.country?.currency?.id);
   }, [selectedCountry]);
+
 
   return (
     <>
@@ -88,7 +89,7 @@ export default function ProductContactOptions({}) {
       </div>
 
       <div className="form_group">
-        <div className="question p-0 pt-2">
+        <div className="question p-0 pt-4">
           <label htmlFor="newPhoneNumber" className="quest">
             {t("ads.doYouWantToAddNewPhoneNumber")}
           </label>

@@ -1,5 +1,6 @@
 "use client";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useAuthModal } from "@/stores/useAuthModal";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
@@ -7,6 +8,7 @@ import React from "react";
 const NavLinks = () => {
   const t = useTranslations("header");
   const pathname = usePathname();
+  const { userType } = useAuthModal((state) => state);
 
   return (
     <nav className="navbar navbar-expand-lg d-lg-flex d-none ">
@@ -26,12 +28,14 @@ const NavLinks = () => {
         >
           {t("home")}
         </Link>
-        <Link
-          className={`navLink  ${pathname === "/categories" ? "active" : ""}`}
-          href="/categories"
-        >
-          {t("categories")}
-        </Link>
+        {userType === "client" && (
+          <Link
+            className={`navLink  ${pathname === "/categories" ? "active" : ""}`}
+            href="/categories"
+          >
+            {t("categories")}
+          </Link>
+        )}
         <Link
           className={`navLink  ${pathname === "/companies" ? "active" : ""}`}
           href="/companies"

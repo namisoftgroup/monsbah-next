@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 export default function SearchNav({ search }) {
   const { userType } = useAuthModal((state) => state);
+
   const pathanmes = usePathname().split("/");
   const pathname = pathanmes[pathanmes?.length - 1];
 

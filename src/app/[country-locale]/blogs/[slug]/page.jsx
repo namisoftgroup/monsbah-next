@@ -10,7 +10,6 @@ export default async function page({ params }) {
   const t = await getTranslations();
   const blog = await getBlogsDetails(slug);
   const blogs = await getBlogs();
-  console.log(blog);
 
   return (
     <section className="blog_details">

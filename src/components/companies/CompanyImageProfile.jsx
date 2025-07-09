@@ -7,6 +7,7 @@ import React, { startTransition, useOptimistic } from "react";
 
 export default function CompanyImageProfile({ client }) {
   const { user } = useAuthStore((state) => state);
+
   const initialUser = client;
 
   const [optimisticUser, setOptimisticUser] = useOptimistic(
@@ -50,7 +51,7 @@ export default function CompanyImageProfile({ client }) {
         src={optimisticUser?.image}
         alt="company"
       />
-      {optimisticUser?.id !== user?.id && (
+      {optimisticUser?.id !== user?.client?.id && (
         <button
           aria-label="Toggle following"
           className="follow_btn"

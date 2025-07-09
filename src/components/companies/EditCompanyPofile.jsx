@@ -1,31 +1,32 @@
 "use client";
-
-import useSettingForm from "@/hooks/controllers/useSettingForm";
+import useEditCompanyForm from "@/hooks/controllers/useEditCompanyForm";
 import useGetCities from "@/hooks/queries/settings/useGetCities";
 import useGetCountries from "@/hooks/queries/settings/useGetCountries";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
 import useGetStates from "@/hooks/queries/settings/useGetStates";
-import { updateProfileAction } from "@/libs/actions/profileActions";
-import { extractPhoneFromCode } from "@/utils/helpers";
-import { DevTool } from "@hookform/devtools";
 import { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
 import { Controller } from "react-hook-form";
-import { toast } from "sonner";
 import { useTranslations } from "use-intl";
 import ImageUpload from "../shared/forms/ImageUpload";
+import { extractPhoneFromCode } from "@/utils/helpers";
 import InputField from "../shared/forms/InputField";
-import PhoneInput from "../shared/forms/PhoneInput";
 import SelectField from "../shared/forms/SelectField";
-import SubmitButton from "../shared/forms/SubmitButton";
+import PhoneInput from "../shared/forms/PhoneInput";
+import useGetCompanyCategories from "@/hooks/queries/settings/useGetCompanyCategories";
+import { DevTool } from "@hookform/devtools";
 import TextField from "../shared/forms/TextField";
-import ChangePasswordModal from "./verification/ChangePasswordModal";
+import { Form } from "react-bootstrap";
+import ChangePasswordModal from "../profile/verification/ChangePasswordModal";
+import SubmitButton from "../shared/forms/SubmitButton";
+import { updateProfileAction } from "@/libs/actions/profileActions";
+import ChangePhoneModal from "../shared/modals/ChangePhoneModal";
+import { toast } from "sonner";
 
-export default function SettingsTab({ user }) {
+export default function EditCompanyPofile({ user }) {
   const [showPasswordModal, setShowPasswordModal] = useState();
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
-  const [showPhoneModal, setShowPhoneModal] = useState(false);
   const {
     register,
     handleSubmit,
@@ -34,10 +35,14 @@ export default function SettingsTab({ user }) {
     reset,
     control,
     setValue,
-  } = useSettingForm();
+  } = useEditCompanyForm();
 
   const city_id = watch("city_id");
   const country_id = watch("country_id");
+  const country_code = watch("country_code");
+  const phone = watch("phone");
+
+  const { data: categories } = useGetCompanyCategories();
 
   const [selectedCountry, setSelectedCountry] = useState(null);
   const { data: countries } = useGetCountries();
@@ -45,22 +50,25 @@ export default function SettingsTab({ user }) {
     country_id,
     country_id ? true : false
   );
-
   useEffect(() => {
     reset({
       image: user?.image || "",
       cover: user?.cover || "",
-      name: user?.name.toString() || "",
+      name: user?.name?.toString() || "",
+      name_ar: user?.name_ar.toString() || "",
       username: user?.username.toString() || "",
-      country_code: user?.country?.country_code.toString() || "965",
+      country_code: user?.country?.country_code?.toString() || "965",
       phone:
         extractPhoneFromCode(
           user?.phone,
           user?.country?.country_code
         ).toString() || "",
       email: user?.email || "",
+      whats_number: user?.whats_number || "",
+      whats_country_code: user?.country?.country_code?.toString() || "965",
       country_id: user?.country?.id.toString() || "",
       city_id: user?.city?.id.toString() || "",
+      category_id: user?.category?.id?.toString() || "",
       state_id: user?.state?.id.toString() || "",
       about_ar: user?.about_ar || "",
       about_en: user?.about_en || "",
@@ -108,7 +116,6 @@ export default function SettingsTab({ user }) {
       setLoading(false);
     }
   };
-
   return (
     <>
       <form
@@ -138,21 +145,39 @@ export default function SettingsTab({ user }) {
         )}
         <div className="form_group">
           <InputField
-            label={t("auth.userName")}
+            label={t("auth.companyName")}
             placeholder={t("auth.userNamePlaceHolder")}
             id="username"
-            {...register("username")}
-            error={errors?.username?.message}
+            {...register("name_ar")}
+            error={errors?.name_ar?.message}
           />
+        </div>{" "}
+        <div className="form_group">
           <InputField
             label={t("auth.fullName")}
             placeholder={t("auth.fullName")}
             id="name"
-            {...register("name")}
-            error={errors?.name?.message}
+            {...register("username")}
+            error={errors?.username?.message}
+          />{" "}
+          <Controller
+            name="category_id"
+            control={control}
+            render={({ field }) => (
+              <SelectField
+                label={t("auth.category")}
+                id="category_id"
+                options={categories?.map((c) => ({
+                  name: c?.name,
+                  value: c?.id,
+                }))}
+                value={field.value}
+                onChange={field.onChange}
+                error={errors?.category_id?.message}
+              />
+            )}
           />
-        </div>
-
+        </div>{" "}
         <div className="form_group">
           <Controller
             name="country_id"
@@ -210,16 +235,7 @@ export default function SettingsTab({ user }) {
             )}
           />
         </div>
-
         <div className="form_group">
-          {" "}
-          <InputField
-            label={t("auth.email")}
-            placeholder={t("auth.email")}
-            id="email"
-            {...register("email")}
-            error={errors?.email?.message}
-          />
           <Controller
             name="country_code"
             control={control}
@@ -253,10 +269,36 @@ export default function SettingsTab({ user }) {
               />
             )}
           />
-        </div>
+          <Controller
+            name="whats_country_code"
+            control={control}
+            render={({ field }) => (
+              <PhoneInput
+                label={t("auth.whatsapp")}
+                id="phone"
+                placeholder={t("auth.phone")}
+                selectedCountry={selectedCountry}
+                setSelectedCountry={setSelectedCountry}
+                limit={selectedCountry?.number_limit}
+                {...register("whats_number")}
+                onCountryChange={(country) =>
+                  field.onChange(country?.whats_country_code)
+                }
+                error={errors?.phone?.message}
+              />
+            )}
+          />
+          <InputField
+            label={t("auth.email")}
+            placeholder={t("auth.email")}
+            id="email"
+            {...register("email")}
+            error={errors?.email?.message}
+          />
+        </div>{" "}
         <div className="form_group">
           <TextField
-            label={t("profile.aboutMe")}
+            label={t("auth.companyDec")}
             placeholder={t("writeHere")}
             id="about_ar"
             {...register("about_ar")}
@@ -265,8 +307,8 @@ export default function SettingsTab({ user }) {
               setValue("about_en", e.target.value);
             }}
             error={errors?.about_ar?.message}
-          />
-        </div>
+          />{" "}
+        </div>{" "}
         <div className="question p-0 pt-2">
           <label htmlFor="wantChangePassword" className="quest">
             {t("auth.doYouWantChangePassword")}
@@ -277,13 +319,18 @@ export default function SettingsTab({ user }) {
             checked={showPasswordModal}
             onChange={() => setShowPasswordModal(!showPasswordModal)}
           />
-        </div>
+        </div>{" "}
         <SubmitButton text={t("save")} loading={loading} />
-        <DevTool control={control} />
-      </form>
+      </form>{" "}
       <ChangePasswordModal
         showModal={showPasswordModal}
         setShowModal={setShowPasswordModal}
+      />
+      <ChangePhoneModal
+        country_code={country_code}
+        phone={phone}
+        showModal={showPhoneModal}
+        setShowModal={setShowPhoneModal}
       />
     </>
   );

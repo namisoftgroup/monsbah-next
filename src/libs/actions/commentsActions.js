@@ -22,7 +22,6 @@ export async function AddCommentsAction(data) {
 
 export async function deleteCommentAction(data, type) {
   const userType = await getUserType();
-  console.log(data);
 
   try {
     const res = await serverAxios.post(

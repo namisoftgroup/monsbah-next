@@ -1,9 +1,9 @@
+import clientAxios from "@/libs/axios/clientAxios";
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import clientAxios from "../../../libs/axios/clientAxios";
+import { useLocale } from "next-intl";
 
 function useGetCompanyCategories() {
-  const lang = useSelector((state) => state.language.lang);
+  const lang = useLocale().split("-")[1];
 
   const { isLoading, data, error } = useQuery({
     queryKey: ["company-categories", lang],
@@ -18,9 +18,6 @@ function useGetCompanyCategories() {
       }
     },
     retry: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
   });
 
   return { isLoading, data, error };

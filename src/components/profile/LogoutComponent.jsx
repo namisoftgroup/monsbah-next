@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 
-export default function LogoutComponent() {
+export default function LogoutComponent({ withIcon = true }) {
   const t = useTranslations("profile");
   const [loading, setisLoading] = useState(false);
   const router = useRouter();
@@ -30,7 +30,9 @@ export default function LogoutComponent() {
   };
   return (
     <button onClick={() => performLogout()} disabled={loading}>
-      <i className={`fa-regular fa-arrow-right-from-bracket mr-2`} />
+      {withIcon && (
+        <i className={`fa-regular fa-arrow-right-from-bracket mr-2`} />
+      )}
       {t("logout")}
     </button>
   );

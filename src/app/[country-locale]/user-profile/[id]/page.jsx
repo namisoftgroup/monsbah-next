@@ -12,9 +12,7 @@ export default async function page({ params }) {
   const { id } = await params;
 
   const profile = await getUserProfile(Number(id));
-  console.log(profile);
   const products = await getAllProducts();
-  console.log(products);
 
   return (
     <section className="company_profile_section">

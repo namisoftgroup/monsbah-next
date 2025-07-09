@@ -9,12 +9,14 @@ import MoreActions from "./MoreActions";
 import NavLinks from "./NavLinks";
 import NotificationsDropDown from "./NotificationsDropDown";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { Dropdown } from "react-bootstrap";
+import LogoutComponent from "../profile/LogoutComponent";
 
 export default function Header() {
-  const t = useTranslations("header");
+  const t = useTranslations();
   const handleShowAuthModal = useAuthModal((state) => state.onOpen);
   const user = useAuthStore((state) => state.user);
-
+  const { userType } = useAuthModal((state) => state);
   return (
     <header>
       <div className="container">
@@ -53,13 +55,48 @@ export default function Header() {
             </Link>
 
             {user ? (
-              <Link
-                aria-label="Profile"
-                href="/profile"
-                className="link profile-link  position-relative"
-              >
-                <Image fill={true} src={user?.image} alt="user" />
-              </Link>
+              <>
+                {userType === "client" ? (
+                  <Link
+                    aria-label="Profile"
+                    href="/profile"
+                    className="link profile-link  position-relative"
+                  >
+                    <Image fill={true} src={user?.image} alt="user" />
+                  </Link>
+                ) : (
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      aria-label="user icon"
+                      id="dropdown-basic"
+                      className="link profile-link position-relative"
+                    >
+                      <Image fill={true} src={user?.client?.image} alt="user" />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item as={Link} href="/company-profile">
+                        {t("ProfileFile")}
+                      </Dropdown.Item>
+
+                      <Dropdown.Item as={Link} href="/company-favorites">
+                        {t("favourites")}
+                      </Dropdown.Item>
+
+                      <Dropdown.Item as={Link} href="/add-company-product">
+                        {t("addAd")}
+                      </Dropdown.Item>
+
+                      <Dropdown.Item as={Link} href="/company-verification">
+                        {t("tabs.verification")}
+                      </Dropdown.Item>
+
+                      <Dropdown.Item>
+                        <LogoutComponent withIcon={false} />
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                )}
+              </>
             ) : (
               <button
                 aria-label="Login"

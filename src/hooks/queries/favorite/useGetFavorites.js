@@ -1,12 +1,15 @@
+"use client";
+
 import clientAxios from "@/libs/axios/clientAxios";
 import { useAuthModal } from "@/stores/useAuthModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 
-function useGetFavorites(enabled) {
+function useGetFavorites() {
   const locale = useLocale();
   const lang = locale.split("-")[0];
   const { userType } = useAuthModal((state) => state);
+  console.log(lang, userType);
 
   const {
     isLoading,

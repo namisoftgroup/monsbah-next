@@ -4,10 +4,12 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import GetApp from "../shared/modals/GetApp";
 import { useState } from "react";
+import { useAuthModal } from "@/stores/useAuthModal";
 
 const MoreActions = () => {
   const t = useTranslations("header");
   const [showGetAppModal, setShowGetAppModal] = useState(false);
+  const { userType } = useAuthModal((state) => state);
   return (
     <>
       <Link
@@ -20,7 +22,9 @@ const MoreActions = () => {
       </Link>
       <Link
         aria-label="add post"
-        href="/profile/addAd"
+        href={`${
+          userType === "client" ? "/profile/addAd" : "/add-company-product"
+        }`}
         className="link text d-lg-flex d-none"
       >
         <Image src="/icons/plus.svg" width={16} height={16} alt="" />

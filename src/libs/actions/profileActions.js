@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import serverAxios from "../axios/severAxios";
 
 export async function updateProfileAction(formData) {
+  const userType = await getUserType();
   const form = new FormData();
 
   form.append("name", formData.name);
@@ -28,11 +29,15 @@ export async function updateProfileAction(formData) {
   }
 
   try {
-    const res = await serverAxios.post("/client/auth/profile/update", form, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const res = await serverAxios.post(
+      `/${userType}/auth/profile/update`,
+      form,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     if (res?.status === 200) {
       revalidatePath("/profile/settings");
@@ -59,5 +64,52 @@ export async function changePasswordAction(formData) {
     console.log("Error", error);
 
     throw new Error(error?.response?.data?.message);
+  }
+}
+
+// ! ---------------------- change Phone action -------------!
+
+export async function changePhoneAction(formData) {
+  const userType = await getUserType();
+  try {
+    const res = await serverAxios.post(
+      `/${userType}/auth/change-phone`,
+      formData
+    );
+
+    if (res?.status === 200) {
+      revalidatePath("/edit-company-profile");
+      return res.data;
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}
+
+// ! ---------------------- confirm  change Phone action -------------!
+
+export async function verifyOtpAction(formData) {
+  const userType = await getUserType();
+
+  if (!formData?.token || formData?.token.length !== 6) {
+    return { error: "Invalid OTP" };
+  }
+  try {
+    const res = await serverAxios.post(
+      `/${userType}/auth/confirm-change-phone`,
+
+      formData
+    );
+
+    if (res?.status === 200) {
+      revalidatePath("/edit-company-profile");
+
+      return res.data;
+    }
+  } catch (error) {
+    console.log(error);
+
+    throw new error(error);
   }
 }

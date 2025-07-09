@@ -7,10 +7,11 @@ import { Link } from "@/i18n/navigation";
 import useGetNotifications from "@/hooks/queries/notifications/useGetNotifications";
 import { useTranslations } from "use-intl";
 import Image from "next/image";
+import { useAuthModal } from "@/stores/useAuthModal";
 
 const NotificationsDropDown = () => {
   const t = useTranslations();
-  const userType = localStorage.getItem("user_type");
+  const { userType } = useAuthModal((state) => state);
 
   const [unreadNotificationsLength, setUnreadNotificationsLength] = useState(0);
   const [showNotificationDropdown, setShowNotificationDropdown] =

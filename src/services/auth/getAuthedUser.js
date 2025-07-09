@@ -3,6 +3,7 @@ import { getUserType } from "./getUserType";
 
 export async function getAuthedUser() {
   const userType = await getUserType();
+
   const endPoint = `/${userType}/auth/profile`;
   try {
     const res = await serverAxios.get(endPoint);
