@@ -1,20 +1,56 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import Select from "react-select";
+import { useSearchParams } from "next/navigation";
 
 export default function CountrySwitcher({ countries }) {
   const t = useTranslations();
-
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const locale = useLocale();
 
-  function handleCountryChange(country) {
-    router.replace(pathname, {
-      locale: country + "-" + locale.split("-")[1],
-    });
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
+  const countryOptions = useMemo(
+    () =>
+      countries?.map(({ name, iso_code }) => ({
+        value: iso_code,
+        label: name,
+      })) || [],
+    [countries]
+  );
+
+  useEffect(() => {
+    const currentCountry = locale.split("-")[0];
+    const match = countryOptions.find((opt) => opt.value === currentCountry);
+    if (match) {
+      setSelectedCountry(match);
+    }
+  }, [locale, countryOptions]);
+
+  function handleCountryChange(selectedOption) {
+    setSelectedCountry(selectedOption);
+    const language = locale.split("-")[1];
+    const newLocale = `${selectedOption.value}-${language}`;
+
+    // Clone existing searchParams and add/update country_id
+    const newParams = new URLSearchParams(searchParams.toString());
+    const countryData = countries.find(
+      (c) => c.iso_code === selectedOption.value
+    );
+
+    if (countryData?.id) {
+      newParams.set("country", countryData.id.toString());
+    }
+
+    const queryString = newParams.toString();
+    const fullPath = `${pathname}${queryString ? "?" + queryString : ""}`;
+
+    router.replace(fullPath, { locale: newLocale });
   }
 
   return (
@@ -24,23 +60,9 @@ export default function CountrySwitcher({ countries }) {
       classNamePrefix="select"
       isSearchable={false}
       placeholder={t("selectCountry")}
-      //   isRtl={lang === "ar"}
-      //   value={
-      //     country
-      //       ? {
-      //           value: country,
-      //           label: countries?.find((c) => c?.id === Number(country))?.name,
-      //         }
-      //       : null
-      //   }
-
-      onChange={(e) => {
-        handleCountryChange(e?.value);
-      }}
-      options={countries?.map(({ name, iso_code }) => ({
-        value: iso_code,
-        label: name,
-      }))}
+      value={selectedCountry}
+      onChange={handleCountryChange}
+      options={countryOptions}
     />
   );
 }

@@ -6,12 +6,19 @@ import { useSearchParams } from "next/navigation";
 import { Dropdown } from "react-bootstrap";
 import Select from "react-select";
 import CountrySwitcher from "./CountrySwitcher";
+import useGetCities from "@/hooks/queries/settings/useGetCities";
 
 export default function AdvancedFilter({ countries, selectedCategory }) {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const locale = useLocale();
   const lang = locale.split("-")[1];
+  const countryUrl = locale.split("-")[0];
+  console.log(countries);
+  const selectedCountry = countries.find(
+    (country) => country?.iso_code === countryUrl
+  );
+  console.log(selectedCountry);
 
   const productType = searchParams.get("type") || "";
 
@@ -22,6 +29,11 @@ export default function AdvancedFilter({ countries, selectedCategory }) {
       { value: "rent", label: t("rent") },
     ],
     [t]
+  );
+
+  const { data: cities } = useGetCities(
+    selectedCountry?.id,
+    selectedCountry?.id ? true : false
   );
 
   const updateURLParam = useCallback(
@@ -96,6 +108,26 @@ export default function AdvancedFilter({ countries, selectedCategory }) {
               <i className="fa-regular fa-arrow-down-wide-short"></i>
               <span>{t("low_price")}</span>
             </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Dropdown>
+          <Dropdown.Toggle aria-label="Filter Country">
+            <i className="fa-sharp fa-light fa-filter"></i>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => updateURLParam("city", "")}>
+              {t("all")}
+            </Dropdown.Item>
+            {cities?.map(({ id, name }) => (
+              <Dropdown.Item
+                key={id}
+                onClick={() => updateURLParam("city", id)}
+              >
+                {name}
+              </Dropdown.Item>
+            ))}
           </Dropdown.Menu>
         </Dropdown>
       </div>

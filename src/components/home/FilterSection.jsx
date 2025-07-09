@@ -3,6 +3,7 @@ import { getCountries } from "@/services/getCountries";
 import { getSubCategories } from "@/services/categories/getSubCategories";
 import AdvancedFilter from "./AdvancedFilter";
 import SubCategoriesSlider from "./SubCategoriesSlider";
+import CategoriesSlider from "./CategoriesSlider";
 
 export default async function FilterSection({ selectedCategory }) {
   const countries = await getCountries();
@@ -17,7 +18,7 @@ export default async function FilterSection({ selectedCategory }) {
   return (
     <section className="explore_ads">
       <div className="container d-flex flex-column gap-2">
-        {/* <CategoriesSlider categories={categories} /> */}
+        <CategoriesSlider categories={categories} />
         {selectedCategory && (
           <SubCategoriesSlider subCategories={subCategories} />
         )}

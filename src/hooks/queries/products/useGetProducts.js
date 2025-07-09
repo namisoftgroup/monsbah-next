@@ -9,10 +9,10 @@ function useGetProducts() {
   const searchParams = useSearchParams();
   const lang = useLocale().split("-")[1];
 
-  // const country_id = searchParams.get("country");
-  // const type = searchParams.get("type");
-  // const sort = searchParams.get("sort");
-  // const city_id = searchParams.get("city");
+  const country_id = searchParams.get("country");
+  const type = searchParams.get("type");
+  const sort = searchParams.get("sort");
+  const city_id = searchParams.get("city");
   const category_slug = searchParams.get("category");
   const sub_category_slug = searchParams.get("sub_category");
 
@@ -27,10 +27,10 @@ function useGetProducts() {
     queryKey: [
       "products",
       lang,
-      // country_id,
-      // type,
-      // sort,
-      // city_id,
+      country_id,
+      type,
+      sort,
+      city_id,
       category_slug,
       sub_category_slug,
     ],
