@@ -10,6 +10,6 @@ export async function getUserType() {
     case "company":
       return "company";
     default:
-      throw new Error("Unknown user type");
+      return "client";
   }
 }

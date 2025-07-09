@@ -6,6 +6,7 @@ import { getProduct } from "@/services/products/getProduct";
 
 export default async function page({ params }) {
   const { productSlug } = await params;
+
   const product = await getProduct(productSlug);
 
   return (

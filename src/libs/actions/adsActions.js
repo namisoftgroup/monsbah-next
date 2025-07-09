@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import serverAxios from "../axios/severAxios";
 
+// ! ---------------------  submitProduct ------------------------!
+
 export async function submitProduct(formData, user, id) {
   try {
     const isUpdate = Boolean(id);
@@ -66,13 +68,19 @@ export async function submitProduct(formData, user, id) {
 
     if (response.status === 200) {
       revalidatePath("/");
-      return response.data;
+      return {
+        success: true,
+        data: response?.data,
+      };
     }
   } catch (error) {
     const message =
       error?.response?.data?.message || "Failed to submit product";
     console.error("Submit product error:", message);
-    throw new Error(error);
+    return {
+      success: false,
+      message,
+    };
   }
 }
 
@@ -84,17 +92,23 @@ export async function deleteAdAction(id) {
       product_id: id,
     });
 
-    if (res?.data?.status === 200) {
+    if (res?.status === 200) {
       revalidatePath("/profile/myAds");
-      return res?.data;
+      return {
+        success: true,
+        data: res.data,
+      };
     }
   } catch (error) {
     const message =
       error?.response?.data?.message ||
-      "Something went wrong while deleting the Ad";
+      error?.message ||
+      "Something went wrong while deleting the ad";
 
-    console.error("Error deleting the Ad:", message);
-    throw new Error(message);
+    return {
+      success: false,
+      message,
+    };
   }
 }
 
@@ -165,12 +179,17 @@ export async function submitCompanyProduct(formData, user, id) {
 
     if (response.status === 200) {
       revalidatePath("/");
-      return response.data;
+      return {
+        success: true,
+        data: response.data,
+      };
     }
   } catch (error) {
     const message =
       error?.response?.data?.message || "Failed to submit product";
-    console.error("Submit product error:", message);
-    throw new Error(message);
+    return {
+      success: false,
+      message,
+    };
   }
 }

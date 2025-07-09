@@ -17,11 +17,13 @@ export async function toggleFollowAction(is_follow, id) {
 
     if (res?.status === 200) {
       revalidatePath(`/product/${id}`);
-      return res.data;
+      return { success: true, data: res.data };
     }
   } catch (error) {
-    console.log(error);
-
-    throw new Error(error?.response?.data?.message);
+    const message = error?.response?.data?.message;
+    return {
+      success: false,
+      message: message || "Something went wrong",
+    };
   }
 }

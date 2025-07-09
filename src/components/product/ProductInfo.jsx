@@ -40,19 +40,16 @@ export default function ProductInfo({ product }) {
       setOptimisticFav({ type: "TOGGLE_FAV" });
     });
 
-    try {
-      const res = await toggleFavorite(optimisticFav?.id, userType);
+    const res = await toggleFavorite(optimisticFav?.id, userType);
 
-      if (res.status === 200) {
-        queryClient.invalidateQueries({ queryKey: ["product"] });
-        queryClient.invalidateQueries({ queryKey: ["products"] });
-        queryClient.invalidateQueries({ queryKey: ["allProducts"] });
-        queryClient.invalidateQueries({ queryKey: ["user-favorites"] });
-        toast.success(res?.message);
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-      throw new Error(error?.response?.data?.message);
+    if (!res?.success) {
+      toast.error(res.message);
+    } else {
+      queryClient.invalidateQueries({ queryKey: ["product"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["allProducts"] });
+      queryClient.invalidateQueries({ queryKey: ["user-favorites"] });
+      toast.success(res?.data?.message);
     }
   };
 

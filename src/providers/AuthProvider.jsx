@@ -18,7 +18,7 @@ export default function AuthProvider({ children }) {
         if (data?.user?.client) {
           setUserType(data?.user?.client?.user_type);
         } else {
-          setUserType(data?.user?.user_type);
+          setUserType(data?.user?.user_type === "user" && "client");
         }
       }
     }

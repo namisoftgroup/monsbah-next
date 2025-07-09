@@ -5,9 +5,9 @@ import { toggleFollowAction } from "@/libs/actions/followActions";
 import { useAuthModal } from "@/stores/useAuthModal";
 import { useAuthStore } from "@/stores/useAuthStore";
 import Image from "next/image";
-import { useTranslations } from "use-intl";
 import { startTransition, useOptimistic } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "use-intl";
 
 export default function UserCard({ product }) {
   const { user } = useAuthStore((state) => state);
@@ -46,11 +46,13 @@ export default function UserCard({ product }) {
       setOptimisticUser({ type: "TOGGLE_FOLLOW" });
     });
 
-    try {
-      await toggleFollowAction(optimisticUser.is_follow, optimisticUser.id);
-    } catch (error) {
-      console.error(error?.message);
-      toast.error(error?.message || "Failed to update follow status");
+    const res = await toggleFollowAction(
+      optimisticUser.is_follow,
+      optimisticUser.id
+    );
+
+    if (!res.success) {
+      toast.error(res.message);
     }
   };
 

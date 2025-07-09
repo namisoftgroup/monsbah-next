@@ -1,4 +1,3 @@
-// app/actions/sendMessage.js
 "use server";
 
 import { revalidatePath } from "next/cache";
@@ -8,7 +7,6 @@ export async function sendMessageAction(formData) {
   try {
     const payload = new FormData();
 
-    // Append formData from client
     for (const [key, value] of formData.entries()) {
       if (value) payload.append(key, value);
     }

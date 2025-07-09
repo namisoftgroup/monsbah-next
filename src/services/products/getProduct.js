@@ -12,6 +12,8 @@ export async function getProduct(id) {
       return res?.data?.data;
     }
   } catch (error) {
+    console.log(error);
+
     console.error("Error fetching product:", error.message);
     throw error;
   }

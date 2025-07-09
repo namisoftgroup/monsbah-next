@@ -23,10 +23,13 @@ export async function logout() {
       cookieStore.delete("token");
       cookieStore.delete("user_type");
       delete serverAxios.defaults.headers.common["Authorization"];
+      return { success: true, data: res?.data };
     }
-    return res?.data;
   } catch (error) {
     const message = error?.response?.data?.message || "Error during logout:";
-    throw new Error(message);
+    return {
+      success: false,
+      message: message || "Something went wrong",
+    };
   }
 }

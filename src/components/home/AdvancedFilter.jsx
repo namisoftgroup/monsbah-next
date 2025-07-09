@@ -14,11 +14,9 @@ export default function AdvancedFilter({ countries, selectedCategory }) {
   const locale = useLocale();
   const lang = locale.split("-")[1];
   const countryUrl = locale.split("-")[0];
-  console.log(countries);
   const selectedCountry = countries.find(
     (country) => country?.iso_code === countryUrl
   );
-  console.log(selectedCountry);
 
   const productType = searchParams.get("type") || "";
 

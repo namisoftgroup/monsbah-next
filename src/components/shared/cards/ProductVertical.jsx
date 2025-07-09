@@ -40,43 +40,39 @@ function ProductVertical({
 
   const performDelete = async () => {
     setDeleteLoading(true);
-    try {
-      const res = await deleteAdAction(product?.id);
-
+    const res = await deleteAdAction(product?.id);
+    if (!res.success) {
+      toast.error(res.message);
+    } else {
+      toast.success(res?.data.message);
       queryClient.invalidateQueries({ queryKey: ["products"] });
       queryClient.invalidateQueries({ queryKey: ["product"] });
       queryClient.invalidateQueries({ queryKey: ["allProducts"] });
       queryClient.invalidateQueries({ queryKey: ["user-products"] });
 
-      toast.success("res?.data.message");
       setShowDeleteModal(false);
-    } catch (error) {
-      toast.error(
-        error.message || "Something went wrong while deleting the Ad"
-      );
-    } finally {
-      setDeleteLoading(false);
     }
+
+    setDeleteLoading(false);
   };
 
   const handleFavorite = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     setLoading(true);
-    try {
-      const res = await toggleFavorite(product?.id, userType);
 
-      if (res.status === 200) {
-        queryClient.invalidateQueries({ queryKey: ["user-products"] });
-        toast.success(res?.message);
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-      throw new Error(error?.response?.data?.message);
-    } finally {
-      setLoading(false);
+    const res = await toggleFavorite(product?.id, userType);
+
+    if (!res.success) {
+      toast.error(res.message);
+    } else {
+      queryClient.invalidateQueries({ queryKey: ["user-products"] });
+      toast.success(res?.data?.message);
     }
+
+    setLoading(false);
   };
+  console.log(user?.client?.user_type);
 
   return (
     <>

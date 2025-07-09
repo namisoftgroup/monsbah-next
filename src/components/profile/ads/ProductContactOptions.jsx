@@ -1,7 +1,6 @@
 "use client";
 
 import PhoneInput from "@/components/shared/forms/PhoneInput";
-import { submitCompanyProduct } from "@/libs/actions/adsActions";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -29,7 +28,6 @@ export default function ProductContactOptions({}) {
     setValue("country_id", user?.country?.id);
     setValue("currency_id", user?.country?.currency?.id);
   }, [selectedCountry]);
-
 
   return (
     <>

@@ -78,18 +78,17 @@ export default function AddCompanyAdForm({ user, product }) {
 
   const onSubmit = async (formValues) => {
     setLoading(true);
-    try {
-      const res = await submitCompanyProduct(formValues, user, productId);
-      if (res.status === 200) {
-        toast.success(res.message);
-        router.replace("/company-profile");
-        reset();
-      }
-    } catch (error) {
-      toast.error(error?.message || "server Error something went wrong");
-    } finally {
-      setLoading(false);
+
+    const res = await submitCompanyProduct(formValues, user, productId);
+    if (!res.success) {
+      toast.error(res.data.message);
+    } else {
+      toast.success(res.data.message);
+      router.replace("/company-profile");
+      reset();
     }
+
+    setLoading(false);
   };
 
   return (

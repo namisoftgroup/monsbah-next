@@ -64,20 +64,17 @@ export default function AddEditAdForm({ product }) {
 
   const onSubmit = async (formValues) => {
     setLoading(true);
-    try {
-      const res = await submitProduct(formValues, user, productId);
-      if (res.status === 200) {
-        toast.success(res.message);
-        queryClient.invalidateQueries({ queryKey: ["user-products"] });
-        router.replace("/profile/ads");
-      }
-    } catch (error) {
-      toast.error(
-        error?.response?.data?.message || "server Error something went wrong"
-      );
-    } finally {
-      setLoading(false);
+
+    const res = await submitProduct(formValues, user, productId);
+
+    if (!res.success) {
+      toast.error(res.message);
+    } else {
+      toast.success(res?.data?.message);
+      queryClient.invalidateQueries({ queryKey: ["user-products"] });
+      router.replace("/profile/ads");
     }
+    setLoading(false);
   };
 
   useEffect(() => {

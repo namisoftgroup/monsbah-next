@@ -15,18 +15,16 @@ export default function LogoutComponent({ withIcon = true }) {
 
   const performLogout = async () => {
     setisLoading(true);
-    try {
-      const res = await logoutAction();
-      if (res?.status === 200) {
-        toast.success(res?.message);
-        router.replace("/");
-        logout();
-      }
-    } catch (error) {
+
+    const res = await logoutAction();
+    if (!res?.success) {
       toast.error(error?.message);
-    } finally {
-      setisLoading(false);
+    } else {
+      toast.success(res?.data?.message);
+      router.replace("/");
+      logout();
     }
+    setisLoading(false);
   };
   return (
     <button onClick={() => performLogout()} disabled={loading}>

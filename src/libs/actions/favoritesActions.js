@@ -12,10 +12,15 @@ export async function toggleFavorite(productId, userType) {
       revalidatePath("/profile/favorites");
       revalidatePath("/product");
 
-      return res.data;
+      return {
+        success: true,
+        data: res.data,
+      };
     }
   } catch (error) {
-    console.error("Server Action error:", error?.response?.data?.message);
-    throw new Error(error);
+    return {
+      success: false,
+      message: error?.response?.data?.message,
+    };
   }
 }
