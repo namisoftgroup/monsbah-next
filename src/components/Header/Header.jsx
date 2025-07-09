@@ -16,7 +16,7 @@ export default function Header() {
   const t = useTranslations();
   const handleShowAuthModal = useAuthModal((state) => state.onOpen);
   const user = useAuthStore((state) => state.user);
-
+  const { userType } = useAuthModal((state) => state);
   return (
     <header>
       <div className="container">
@@ -56,7 +56,7 @@ export default function Header() {
 
             {user ? (
               <>
-                {localStorage.getItem("user_type") === "client" ? (
+                {userType === "client" ? (
                   <Link
                     aria-label="Profile"
                     href="/profile"

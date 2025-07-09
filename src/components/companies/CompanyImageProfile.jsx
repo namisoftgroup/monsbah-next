@@ -30,8 +30,6 @@ export default function CompanyImageProfile({ client }) {
     }
   );
 
-  console.log("user", user);
-  console.log("optimistec user", optimisticUser);
   const handleFollow = async () => {
     startTransition(() => {
       setOptimisticUser({ type: "TOGGLE_FOLLOW" });

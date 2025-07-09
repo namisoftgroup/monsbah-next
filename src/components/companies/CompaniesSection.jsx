@@ -26,7 +26,6 @@ export default function CompaniesSection() {
   } = useGetCompanyProducts();
   const allProducts =
     products?.pages?.flatMap((page) => page?.data?.data) ?? [];
-  console.log("log saaa", allProducts);
   const {
     data: companies,
     isLoading: isLoadingCompanies,

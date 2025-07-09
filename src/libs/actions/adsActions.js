@@ -152,7 +152,6 @@ export async function submitCompanyProduct(formData, user, id) {
         }
       });
     }
-    console.log(form);
 
     const endpoint = `/company/${
       isUpdate ? "update-product" : "store-product"

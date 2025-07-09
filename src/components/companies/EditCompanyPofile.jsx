@@ -23,8 +23,6 @@ import ChangePhoneModal from "../shared/modals/ChangePhoneModal";
 import { toast } from "sonner";
 
 export default function EditCompanyPofile({ user }) {
-  console.log("Edit company user", user);
-
   const [showPasswordModal, setShowPasswordModal] = useState();
   const [showPhoneModal, setShowPhoneModal] = useState(false);
   const t = useTranslations();

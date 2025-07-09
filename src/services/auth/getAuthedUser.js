@@ -3,7 +3,6 @@ import { getUserType } from "./getUserType";
 
 export async function getAuthedUser() {
   const userType = await getUserType();
-  console.log(userType);
 
   const endPoint = `/${userType}/auth/profile`;
   try {

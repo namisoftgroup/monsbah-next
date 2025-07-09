@@ -4,10 +4,12 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import GetApp from "../shared/modals/GetApp";
 import { useState } from "react";
+import { useAuthModal } from "@/stores/useAuthModal";
 
 const MoreActions = () => {
   const t = useTranslations("header");
   const [showGetAppModal, setShowGetAppModal] = useState(false);
+  const { userType } = useAuthModal((state) => state);
   return (
     <>
       <Link
@@ -21,9 +23,7 @@ const MoreActions = () => {
       <Link
         aria-label="add post"
         href={`${
-          localStorage.getItem("user_type") === "client"
-            ? "/profile/addAd"
-            : "/add-company-product"
+          userType === "client" ? "/profile/addAd" : "/add-company-product"
         }`}
         className="link text d-lg-flex d-none"
       >

@@ -5,7 +5,7 @@ import useGetCities from "@/hooks/queries/settings/useGetCities";
 import useGetStates from "@/hooks/queries/settings/useGetStates";
 import useGetSubCategories from "@/hooks/queries/settings/useGetSubCategories";
 import { useRouter } from "@/i18n/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider } from "react-hook-form";
 import { useTranslations } from "use-intl";
 import ProductContactOptions from "../profile/ads/ProductContactOptions";
@@ -19,7 +19,6 @@ import { submitCompanyProduct } from "@/libs/actions/adsActions";
 
 export default function AddCompanyAdForm({ user, product }) {
   const t = useTranslations();
-  console.log(user);
 
   const [loading, setLoading] = useState(false);
   const productId = product?.id ?? null;
@@ -47,7 +46,35 @@ export default function AddCompanyAdForm({ user, product }) {
     city_id,
     Boolean(city_id)
   );
-  console.log(errors);
+
+  useEffect(() => {
+    if (product?.id) {
+      let images = product.images || [];
+
+      if (images.length === 0 && product.image) {
+        images = [product.image];
+      }
+
+      reset({
+        name_ar: product.name,
+        name_en: product.name,
+        price: product.price.toString(),
+        category_id: product.category_id.toString(),
+        sub_category_id: product.sub_category_id.toString(),
+        country_id: product?.country?.id.toString(),
+        city_id: product?.city?.id.toString(),
+        state_id: product?.state?.id.toString(),
+        description_ar: product.description,
+        description_en: product.description,
+        type: product?.type,
+        active_chat: product?.active_chat,
+        active_whatsapp: product?.active_whatsapp,
+        active_call: product?.active_call,
+        image: product?.image,
+        images,
+      });
+    }
+  }, [product, reset]);
 
   const onSubmit = async (formValues) => {
     setLoading(true);
@@ -56,7 +83,7 @@ export default function AddCompanyAdForm({ user, product }) {
       if (res.status === 200) {
         toast.success(res.message);
         router.replace("/company-profile");
-        reset()
+        reset();
       }
     } catch (error) {
       toast.error(error?.message || "server Error something went wrong");

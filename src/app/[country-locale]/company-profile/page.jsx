@@ -8,7 +8,6 @@ import Image from "next/image";
 
 export default async function page() {
   const profile = await getAuthedUser();
-  console.log(profile);
 
   return (
     <section className="company_profile_section">

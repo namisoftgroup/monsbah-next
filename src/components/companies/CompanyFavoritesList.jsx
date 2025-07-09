@@ -1,27 +1,29 @@
 "use client";
 
+import useGetFavorites from "@/hooks/queries/favorite/useGetFavorites";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useRef } from "react";
 import ProductVertical from "../shared/cards/ProductVertical";
-import useGetCompanyProducts from "@/hooks/queries/products/useGetCompanyProducts";
-import CompanyLoader from "../shared/loaders/CompanyLoader";
+import ProductLoader from "../shared/loaders/ProductLoader";
+import EmptyData from "../shared/EmptyData";
 
-export default function CompaniesAds() {
-  const sectionRef = useRef(null);
+export default function CompanyFavoritesList() {
+  const sectionRef = useRef();
+  const t = useTranslations();
 
   const {
-    data: products,
+    data: favorites,
     isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetCompanyProducts();
-  const allProducts =
-    products?.pages?.flatMap((page) => page?.data?.data) ?? [];
+  } = useGetFavorites();
+
+  const allFavs = favorites?.pages?.flatMap((page) => page?.data?.data) ?? [];
 
   useEffect(() => {
     const handleScroll = () => {
       if (!sectionRef.current) return;
-
       const section = sectionRef.current;
       const sectionBottom = section.getBoundingClientRect().bottom;
       const viewportHeight = window.innerHeight;
@@ -36,18 +38,19 @@ export default function CompaniesAds() {
     };
 
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <section className="companies_section" ref={sectionRef}>
-      <div className="container p-1">
+    <section className="products_section w-100 my-5" ref={sectionRef}>
+      <div className="container">
         <div className="row">
-          {allProducts?.map((product, index) => (
-            <div className="col-lg-4 col-md-6 col-12 p-2" key={index}>
-              <ProductVertical product={product} isShowAction={false} />
+          {allFavs?.map((fav) => (
+            <div className="col-lg-4 col-md-6 col-12 p-2" key={fav?.id}>
+              <ProductVertical product={fav} removeItem={true} />
             </div>
-          ))}{" "}
+          ))}
           {(isLoading || isFetchingNextPage) && (
             <>
               {Array(3)
@@ -57,12 +60,20 @@ export default function CompaniesAds() {
                     className="col-lg-4 col-md-6 col-12 p-2"
                     key={`loader-${index}`}
                   >
-                    <CompanyLoader />
+                    <ProductLoader className="my-ad" />
                   </div>
                 ))}
             </>
           )}
         </div>
+        {!isLoading &&
+          !isFetchingNextPage &&
+          allFavs?.length === 0 &&
+          !hasNextPage && (
+            <EmptyData minHeight="200px">
+              <p>{t("profile.noFavoritesYet")}</p>
+            </EmptyData>
+          )}
       </div>
     </section>
   );

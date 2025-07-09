@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 
 export default function SearchNav({ search }) {
   const { userType } = useAuthModal((state) => state);
-  console.log(userType);
 
   const pathanmes = usePathname().split("/");
   const pathname = pathanmes[pathanmes?.length - 1];
@@ -14,7 +13,7 @@ export default function SearchNav({ search }) {
 
   return (
     <nav className="search_nav">
-      {localStorage.getItem("user_type") !== "company" && (
+      {userType !== "company" && (
         <Link
           href={{ pathname: "/search", query: { search: search?.q || "" } }}
           className={pathname === "search" ? "active" : ""}
@@ -24,7 +23,7 @@ export default function SearchNav({ search }) {
         </Link>
       )}
 
-      {localStorage.getItem("user_type") !== "company" && (
+      {userType !== "company" && (
         <Link
           href={{
             pathname: "/search/persons",

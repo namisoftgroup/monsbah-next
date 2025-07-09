@@ -8,7 +8,6 @@ export async function logout() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const userType = await getUserType();
-  console.log(userType);
 
   if (!token) {
     console.log("there is no token");

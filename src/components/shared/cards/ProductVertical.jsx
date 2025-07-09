@@ -29,6 +29,7 @@ function ProductVertical({
 
   const { user } = useAuthStore((state) => state);
   const { userType } = useAuthModal((state) => state);
+
   const queryClient = useQueryClient();
 
   const handleOpenDeleteModal = async (e) => {
@@ -136,7 +137,11 @@ function ProductVertical({
                 <div className="d-flex align-items-center gap-2">
                   <Link
                     aria-label="Profile"
-                    href={`/profile/addAd/${product?.id}`}
+                    href={
+                      user?.client?.user_type === "company"
+                        ? `/add-company-product/${product?.id}`
+                        : `/profile/addAd/${product?.id}`
+                    }
                     className={`favourite_btn dark`}
                     onClick={(e) => e.stopPropagation()}
                   >

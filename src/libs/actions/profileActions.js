@@ -78,8 +78,6 @@ export async function changePhoneAction(formData) {
     );
 
     if (res?.status === 200) {
-      console.log(res?.data);
-
       revalidatePath("/edit-company-profile");
       return res.data;
     }
@@ -94,8 +92,6 @@ export async function changePhoneAction(formData) {
 export async function verifyOtpAction(formData) {
   const userType = await getUserType();
 
-  console.log(formData);
-
   if (!formData?.token || formData?.token.length !== 6) {
     return { error: "Invalid OTP" };
   }
@@ -107,7 +103,6 @@ export async function verifyOtpAction(formData) {
     );
 
     if (res?.status === 200) {
-      console.log(res?.data);
       revalidatePath("/edit-company-profile");
 
       return res.data;
