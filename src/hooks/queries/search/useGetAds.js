@@ -25,7 +25,7 @@ function useGetAds() {
       const res = await clientAxios.get(`/${userType}/products`, {
         params: {
           page: pageParam,
-          search,
+          search: search,
         },
       });
       if (res.status === 200) {

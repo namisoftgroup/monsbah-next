@@ -537,6 +537,38 @@
       "defaultDescription": "استعرض الإعلانات في جميع الفئات.",
       "titlePrefix": "تصفح الفئة: ",
       "descriptionPrefix": "شاهد الإعلانات في فئة: "
+    },
+    "chats": {
+      "defaultTitle": "محادثاتي",
+      "defaultDescription": "عرض وإدارة محادثاتك."
+    },
+    "contact": {
+      "title": "اتصل بنا",
+      "description": "تواصل مع فريق الدعم أو المبيعات لدينا."
+    },
+    "companies": {
+      "defaultTitle": "استعرض الشركات",
+      "defaultDescription": "تصفح الشركات المدرجة في منصتنا.",
+      "titleByCategory": "شركات في فئة:",
+      "descriptionByCategory": "اكتشف أفضل الشركات في الفئة:",
+      "titleByCategorySub": "شركات في",
+      "descriptionByCategorySub": "اكتشف الشركات في الفئة والفئة الفرعية:"
+    },
+    "companyCategories": {
+      "title": "استعرض اقسام الشركات",
+      "description": "اعثر على الشركة المناسبة من خلال تصفح قوائمنا المصنفة."
+    },
+    "search": {
+      "title": "البحث",
+      "description": "استعرض الإعلانات أو التصنيفات حسب استفسارك في البحث."
+    },
+    "popularAds": {
+      "title": "الإعلانات الشائعة",
+      "description": "تصفح الإعلانات الأكثر مشاهدة وشهرة."
+    },
+    "searchResults": {
+      "title": "نتائج البحث عن",
+      "description": "الإعلانات المطابقة لبحثك عن"
     }
   }
 }

@@ -1,7 +1,7 @@
 import serverAxios from "@/libs/axios/severAxios";
 import { getUserType } from "../auth/getUserType";
 
-export async function getAds({ pageParam = 1, search }) {
+export async function getAds(search, pageParam = 1) {
   const userType = await getUserType();
   try {
     const res = await serverAxios.get(`/${userType}/products`, {
@@ -11,6 +11,8 @@ export async function getAds({ pageParam = 1, search }) {
       },
     });
     if (res.status === 200) {
+      console.log(res?.config);
+
       return res.data;
     }
   } catch (error) {

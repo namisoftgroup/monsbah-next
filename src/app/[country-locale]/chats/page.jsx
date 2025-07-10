@@ -4,6 +4,15 @@ import { getChat } from "@/hooks/queries/chat/getChat";
 import { getChats } from "@/services/chats/getChats";
 import React from "react";
 
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+
+  return {
+    title: t("chats.defaultTitle"),
+    description: t("chats.defaultDescription"),
+  };
+}
+
 export default async function page({ searchParams }) {
   const searchParamsStore = await searchParams;
   const { user_id } = searchParamsStore;

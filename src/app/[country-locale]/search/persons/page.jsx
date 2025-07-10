@@ -7,6 +7,7 @@ import React from "react";
 
 export default async function page({ searchParams }) {
   const search = (await searchParams)?.search;
+
   const t = await getTranslations();
   const lang = (await getLocale()).split("-")[1];
 

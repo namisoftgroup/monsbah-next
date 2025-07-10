@@ -16,6 +16,7 @@ export default function AdsProductList() {
   } = useGetAds();
 
   const allAds = ads?.pages?.flatMap((page) => page?.data?.data) ?? [];
+  console.log(ads);
 
   useEffect(() => {
     const handleScroll = () => {

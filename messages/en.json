@@ -539,6 +539,38 @@
       "defaultDescription": "Browse listings across all categories.",
       "titlePrefix": "Explore Category: ",
       "descriptionPrefix": "Browse ads in category: "
+    },
+    "chats": {
+      "defaultTitle": "My Chats",
+      "defaultDescription": "View and manage your conversations."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "Get in touch with our support or sales team."
+    },
+    "companies": {
+      "defaultTitle": "Explore Companies",
+      "defaultDescription": "Browse companies listed on our platform.",
+      "titleByCategory": "Companies in Category:",
+      "descriptionByCategory": "Discover top companies in category:",
+      "titleByCategorySub": "Companies in",
+      "descriptionByCategorySub": "Discover companies in category and sub-category:"
+    },
+    "companyCategories": {
+      "title": "Explore Company Sections",
+      "description": "Find the right company by browsing through our categorized listings."
+    },
+    "search": {
+      "title": "Search",
+      "description": "Explore listings, categories, or ads based on your search query."
+    },
+    "popularAds": {
+      "title": "Popular Ads",
+      "description": "Explore the most viewed and trending ads."
+    },
+    "searchResults": {
+      "title": "Search Results for",
+      "description": "Here are the ads matching your search for"
     }
   }
 }

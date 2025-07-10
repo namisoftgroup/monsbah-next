@@ -4,6 +4,16 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import React from "react";
 
+
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+
+  return {
+    title: t("companyCategories.title"),
+    description: t("companyCategories.description"),
+  };
+}
+
 export default async function page() {
   const t = await getTranslations();
   const categories = await getCompaniesCategories();
