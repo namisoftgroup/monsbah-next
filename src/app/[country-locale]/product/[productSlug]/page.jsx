@@ -3,11 +3,43 @@ import MyProductSlider from "@/components/product/MyProductSlider";
 import ProductInfo from "@/components/product/ProductInfo";
 import UserCard from "@/components/product/UserCard";
 import { getProduct } from "@/services/products/getProduct";
+import { cache } from "react";
+
+export const fetchProduct = cache(async (id) => {
+  return await getProduct(id);
+});
+
+export async function generateMetadata({ params }) {
+  const { productSlug } = await params;
+
+  const product = await fetchProduct(productSlug);
+
+  return {
+    title: product.name,
+    description: product.description,
+
+    openGraph: {
+      title: product.name,
+      description: product.description,
+      images: product.images,
+      url: `https://www.monsbah.com/products/${productSlug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: product.description,
+      images: product.images,
+    },
+    alternates: {
+      canonical: `https://yourstore.com/products/${productSlug}`,
+    },
+  };
+}
 
 export default async function page({ params }) {
   const { productSlug } = await params;
 
-  const product = await getProduct(productSlug);
+  const product = await fetchProduct(productSlug);
 
   return (
     <section className="product_details">

@@ -1,5 +1,7 @@
 "use client";
 
+import { useAuthModal } from "@/stores/useAuthModal";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -19,6 +21,8 @@ export default function AddCommentForm({
   onAddComment,
 }) {
   const t = useTranslations();
+  const { onOpen } = useAuthModal((state) => state);
+  const { user } = useAuthStore((state) => state);
   const {
     register,
     handleSubmit,
@@ -50,13 +54,19 @@ export default function AddCommentForm({
         </span>
       )}
       <form className="form addCommentForm" onSubmit={handleSubmit(onSubmit)}>
-        <InputField
-          placeholder={t("addComment")}
-          {...register("comment")}
-          error={errors?.comment?.message}
-        />
-        <SubmitButton text={t("send")} />
+        <InputField placeholder={t("addComment")} {...register("comment")} />
+        {user?.id ? (
+          <SubmitButton text={t("send")} />
+        ) : (
+          <button onClick={() => onOpen()}>{t("send")}</button>
+        )}
       </form>
+      {errors?.comment && (
+        <p className="text-danger mt-2 text-end">
+          {" "}
+          {errors?.comment?.message}{" "}
+        </p>
+      )}
     </div>
   );
 }

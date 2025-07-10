@@ -11,7 +11,9 @@ import { useTranslations } from "use-intl";
 
 export default function UserCard({ product }) {
   const { user } = useAuthStore((state) => state);
-  const { userType } = useAuthModal((state) => state);
+  console.log(user);
+
+  const { userType, onOpen } = useAuthModal((state) => state);
   const t = useTranslations();
   const whatsappMessage = `${t("whatsappMessage")} ${product?.name} ${t(
     "onMonsbah"
@@ -25,6 +27,8 @@ export default function UserCard({ product }) {
     initialUser,
     (currentUser, action) => {
       if (action.type === "TOGGLE_FOLLOW") {
+        console.log("iam in the action");
+
         const isFollowing = !currentUser.is_follow;
         const followerKey =
           currentUser.user_type === "user" ? "followers-count" : "followers";
@@ -42,7 +46,11 @@ export default function UserCard({ product }) {
   );
 
   const handleFollow = async () => {
+    console.log("i am toggling the follw");
+
     startTransition(() => {
+      console.log("iam in the transition");
+
       setOptimisticUser({ type: "TOGGLE_FOLLOW" });
     });
 
@@ -52,8 +60,11 @@ export default function UserCard({ product }) {
     );
 
     if (!res.success) {
+      console.log(res.message);
+
       toast.error(res.message);
     }
+    console.log(res.data.message);
   };
 
   const profileLink =
@@ -87,17 +98,33 @@ export default function UserCard({ product }) {
             />
           </Link>
           {optimisticUser?.id !== user?.id && (
-            <button
-              aria-label="Toggle following"
-              className="follow_btn"
-              onClick={handleFollow}
-            >
-              <i
-                className={`fa-light fa-${
-                  optimisticUser?.is_follow ? "check" : "plus"
-                }`}
-              ></i>
-            </button>
+            <>
+              {user?.id ? (
+                <button
+                  aria-label="Toggle following"
+                  className="follow_btn"
+                  onClick={handleFollow}
+                >
+                  <i
+                    className={`fa-light fa-${
+                      optimisticUser?.is_follow ? "check" : "plus"
+                    }`}
+                  ></i>
+                </button>
+              ) : (
+                <button
+                  aria-label="Toggle following"
+                  className="follow_btn"
+                  onClick={() => onOpen()}
+                >
+                  <i
+                    className={`fa-light fa-${
+                      optimisticUser?.is_follow ? "check" : "plus"
+                    }`}
+                  ></i>
+                </button>
+              )}
+            </>
           )}
         </div>
         <div className="content">

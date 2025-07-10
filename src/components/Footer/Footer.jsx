@@ -10,7 +10,7 @@ import { SocialLinks } from "./SocialLinks";
 
 const importantLinks = [
   {
-    href: "/about-us",
+    href: "/about",
     ariaLabel: "About",
     labelKey: "aboutUs",
     iconClass: "fa-sharp fa-light fa-arrow-right",
@@ -21,14 +21,14 @@ const importantLinks = [
     labelKey: "blogs",
     iconClass: "fa-sharp fa-light fa-arrow-right",
   },
+  // {
+  //   href: "/asks",
+  //   ariaLabel: "Asks",
+  //   labelKey: "asks",
+  //   iconClass: "fa-sharp fa-light fa-arrow-right",
+  // },
   {
-    href: "/asks",
-    ariaLabel: "Asks",
-    labelKey: "asks",
-    iconClass: "fa-sharp fa-light fa-arrow-right",
-  },
-  {
-    href: "/contact-us",
+    href: "/contact",
     ariaLabel: "Contact Us",
     labelKey: "contactUs",
     iconClass: "fa-sharp fa-light fa-arrow-right",
@@ -67,7 +67,7 @@ export default async function Footer() {
                 {categories?.map((category) => (
                   <li key={category.id}>
                     <Link
-                      href={`/?category=${category.id}`}
+                      href={`/?category=${category?.slug}`}
                       aria-label="Category"
                     >
                       <span>

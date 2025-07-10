@@ -13,7 +13,10 @@ export async function getCompanyProducts({
   // search,
   pageParam = 1,
 } = {}) {
-  const user = await getAuthedUser();
+  let user;
+  if (isMyCompany) {
+    user = await getAuthedUser();
+  }
   try {
     const res = await serverAxios.get("/company/products", {
       params: {

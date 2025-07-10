@@ -72,7 +72,6 @@ function ProductVertical({
 
     setLoading(false);
   };
-  console.log(user?.client?.user_type);
 
   return (
     <>

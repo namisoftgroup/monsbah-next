@@ -19,7 +19,7 @@ export default async function page() {
             {categories.map((category) => (
               <Link
                 key={category?.id}
-                href={`/companies?category=${category?.id}`}
+                href={`/companies?category=${category?.slug}`}
               >
                 <div className="category-card ">
                   <div className="position-relative h-100">

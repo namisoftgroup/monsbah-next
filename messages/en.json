@@ -522,5 +522,23 @@
     "asks": "FAQs",
     "contactUs": "Contact Us",
     "tearmsAndConditions": "Terms and Conditions"
+  },
+
+  "meta": {
+    "about": {
+      "title": "About Monsbah",
+      "description": "It is an application that aims to gather as many advertisers as possible from many countries and provide them with a suitable environment and easy ways to communicate with each other and sell and display ads or buy others and also they can inquire about what they want and respond to those inquiries"
+    },
+    "blogs": {
+      "title": "Our Blog - Insights & Stories",
+      "detailsTitle": "Our Blog",
+      "description": "Read the latest articles, news, and updates from our team."
+    },
+    "categories": {
+      "defaultTitle": "Explore All Categories",
+      "defaultDescription": "Browse listings across all categories.",
+      "titlePrefix": "Explore Category: ",
+      "descriptionPrefix": "Browse ads in category: "
+    }
   }
 }

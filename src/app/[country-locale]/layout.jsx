@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import AuthModal from "@/components/auth/AuthModal";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
+import ResponsiveNav from "@/components/Header/ResponsiveNav";
 import Providers from "@/providers/Providers";
 import { META_DATA_CONTENT } from "@/utils/constants";
 
@@ -18,7 +19,6 @@ import "swiper/css/pagination";
 import "@/assets/styles/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@/assets/styles/main.css";
-import ResponsiveNav from "@/components/Header/ResponsiveNav";
 
 export async function generateMetadata({ params }) {
   const locale = await params;
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }) {
   return {
     metadataBase: new URL("https://monsbah.com"),
     title: {
-      template: `%s ${content.title}`,
+      template: `%s - ${content.title}`,
       default: content.title,
     },
     description: content.description,
@@ -81,7 +81,26 @@ export default async function RootLayout(props) {
 
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
+      <head>
+        <script id="gtm" strategy="beforeInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-M2Z82BND');
+          `}
+        </script>
+      </head>
       <body>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXX"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
         <Providers locale={fullLocale} messages={messages}>
           <Toaster expand={false} richColors position="bottom-right" />
           <Header />

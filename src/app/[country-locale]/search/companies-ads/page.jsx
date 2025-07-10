@@ -1,5 +1,4 @@
 import CompaniesAds from "@/components/companies/CompaniesAds";
-import { getAuthedUser } from "@/services/auth/getAuthedUser";
 import { getCompanyProducts } from "@/services/companies/getCompanyProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -8,8 +7,7 @@ import { getLocale } from "next-intl/server";
 export default async function page({ searchParams }) {
   const storeSearchparams = await searchParams;
   const lang = (await getLocale()).split("-")[1];
-  const authedUser = await getAuthedUser();
-  const id = authedUser?.id;
+
   const {
     search,
     country_id,
@@ -29,7 +27,7 @@ export default async function page({ searchParams }) {
       type,
       sort,
       city_id,
-      id,
+      // id,
       category_id,
       sub_category_id,
       lang,

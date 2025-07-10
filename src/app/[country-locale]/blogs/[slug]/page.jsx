@@ -3,12 +3,41 @@ import { Link } from "@/i18n/navigation";
 import { getBlogs } from "@/services/blogs/getBlogs";
 import { getBlogsDetails } from "@/services/blogs/getBlogsDetails";
 import { getTranslations } from "next-intl/server";
-import React from "react";
+import React, { cache } from "react";
+
+const fetchBlogDetails = cache(async (id) => {
+  return await getBlogsDetails(id);
+});
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const t = await getTranslations("meta");
+  const blog = await fetchBlogDetails(slug);
+
+  return {
+    title: { absolute: `${t("blogs.detailsTitle")} - ${blog?.title}` },
+    description: blog?.description,
+    openGraph: {
+      title: { absolute: `${t("blogs.detailsTitle")} - ${blog?.title}` },
+      description: blog?.description,
+      images: blog?.image
+        ? [
+            {
+              url: blog.image,
+              width: 800,
+              height: 600,
+              alt: blog.title,
+            },
+          ]
+        : [],
+    },
+  };
+}
 
 export default async function page({ params }) {
   const { slug } = await params;
   const t = await getTranslations();
-  const blog = await getBlogsDetails(slug);
+  const blog = await fetchBlogDetails(slug);
   const blogs = await getBlogs();
 
   return (

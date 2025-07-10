@@ -13,6 +13,7 @@ import ReportModal from "../shared/modals/ReportModal";
 
 export default function ProductInfo({ product }) {
   const { user } = useAuthStore((state) => state);
+  const { onOpen } = useAuthModal((state) => state);
   const [showReportModal, setShowReportModal] = useState(false);
   const { userType } = useAuthModal((state) => state);
   const t = useTranslations();
@@ -63,7 +64,7 @@ export default function ProductInfo({ product }) {
           <button
             aria-label="Toggle Favorite"
             disabled={isPending}
-            onClick={handleFavorite}
+            onClick={user?.id ? handleFavorite : onOpen}
             className={`favorite ${optimisticFav?.is_favorite ? "active" : ""}`}
           >
             <i className="fa-light fa-heart"></i>

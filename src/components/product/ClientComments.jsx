@@ -11,10 +11,12 @@ import {
 import { useTranslations } from "use-intl";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { formatDateToYMDHM } from "@/utils/helpers";
+import { useAuthModal } from "@/stores/useAuthModal";
 
 export default function ClientComments({ comments, product }) {
   const t = useTranslations();
   const { user } = useAuthStore((state) => state);
+
   const [targetComment, setTargetComment] = useState(null);
 
   const [optimisticComments, updateOptimisticComments] = useOptimistic(
