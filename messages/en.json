@@ -542,7 +542,9 @@
     },
     "chats": {
       "defaultTitle": "My Chats",
-      "defaultDescription": "View and manage your conversations."
+      "defaultDescription": "View and manage your conversations.",
+      "welcomeTitle": "Welcome to Your Chats",
+      "welcomeDescription": "Please select a conversation from the list to start chatting."
     },
     "contact": {
       "title": "Contact Us",
@@ -571,6 +573,72 @@
     "searchResults": {
       "title": "Search Results for",
       "description": "Here are the ads matching your search for"
+    },
+    "popularPersons": {
+      "title": "Popular Persons",
+      "description": "Browse profiles of top-rated individuals and service providers."
+    },
+    "searchPersons": {
+      "title": "Search Results for",
+      "description": "People matching your search query"
+    },
+    "popularCompanies": {
+      "title": "Popular Companies",
+      "description": "Browse trusted companies in various categories."
+    },
+    "searchCompanies": {
+      "title": "Search Results for",
+      "description": "Companies matching your search"
+    },
+    "companyAds": {
+      "title": "Company Ads",
+      "description": "Browse ads posted by companies across categories.",
+      "searchTitle": "Search results for",
+      "searchDescription": "Filtered ads matching your query"
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "description": "Read the terms and conditions for using our platform and services."
+    },
+    "companyProfile": {
+      "titleSuffix": "Company Profile",
+      "description": "View company profile, products and categories."
+    },
+    "addAd": {
+      "title": "Post a New Ad",
+      "description": "Add or edit your advertisement to reach more users."
+    },
+    "editAdd": {
+      "title": "ُEdit Ad",
+      "description": "Add or edit your advertisement to reach more users."
+    },
+    "myAds": {
+      "title": "My Ads",
+      "description": "Manage and edit your posted ads from one place."
+    },
+    "favorites": {
+      "title": "Favorites",
+      "description": "View and manage your favorite items easily."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "View all your notifications and stay updated."
+    },
+    "settings": {
+      "title": "Account Settings",
+      "description": "Update your personal information, password, and preferences."
+    },
+    "verification": {
+      "title": "Account Verification",
+      "description": "Submit your documents to verify your account and gain full access."
+    },
+    "profile": {
+      "title": "User Profile",
+      "description": "Manage your account, settings, ads, favorites, and more."
+    },
+    "userProfile": {
+      "title": "User Profile",
+      "description": "Browse the user's profile and listed products."
     }
   }
 }

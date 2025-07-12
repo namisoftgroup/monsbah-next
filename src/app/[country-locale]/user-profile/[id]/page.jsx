@@ -1,18 +1,38 @@
-import CompanyImageProfile from "@/components/companies/CompanyImageProfile";
-import CompanyProfileContent from "@/components/companies/CompanyProfileContent";
 import UserImageProfile from "@/components/profile/user-profile/UserImageProfile";
 import UserProfileContent from "@/components/profile/user-profile/UserProfileContent";
 import ProductVertical from "@/components/shared/cards/ProductVertical";
 import { getAllProducts } from "@/services/products/getAllProducts";
 import { getUserProfile } from "@/services/profile/getUserProfile";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import React from "react";
+import { cache } from "react";
+
+export const fetchUserProfile = cache(async (id) => {
+  return await getUserProfile(id);
+});
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const t = await getTranslations("meta");
+  const profile = await fetchUserProfile(Number(id));
+  const user = profile?.data;
+
+  return {
+    title: user?.name
+      ? `${user.name} | ${t("userProfile.title")}`
+      : t("userProfile.title"),
+    description: user?.about
+      ? user.about.slice(0, 160)
+      : t("userProfile.description"),
+  };
+}
 
 export default async function page({ params }) {
   const { id } = await params;
-
-  const profile = await getUserProfile(Number(id));
-  const products = await getAllProducts();
+  const [profile, products] = await Promise.all([
+    fetchUserProfile(Number(id)),
+    getAllProducts(Number(id)),
+  ]);
 
   return (
     <section className="company_profile_section">

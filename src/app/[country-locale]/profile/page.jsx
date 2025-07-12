@@ -20,7 +20,7 @@ export default async function ProfileRootPage() {
             <div className="col-12 p-2">
               <p>
                 {user?.about_en || user?.about_ar ? (
-                  <p>{lang === "en" ? user?.about_en : user?.about_ar}</p>
+                  <span>{lang === "en" ? user?.about_en : user?.about_ar}</span>
                 ) : null}
               </p>
             </div>

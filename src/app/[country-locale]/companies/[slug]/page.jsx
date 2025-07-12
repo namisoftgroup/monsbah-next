@@ -4,13 +4,31 @@ import CompanyProfileContent from "@/components/companies/CompanyProfileContent"
 import ProductVertical from "@/components/shared/cards/ProductVertical";
 import { getCompanyProducts } from "@/services/companies/getCompanyProducts";
 import { getCompanyProfile } from "@/services/companies/getCompanyProfile";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
+import { cache } from "react";
+
+export const fetchCompany = cache(async (id) => {
+  return await getCompanyProfile(id);
+});
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const profile = await fetchCompany(Number(slug));
+  const t = await getTranslations("meta");
+
+  return {
+    title: `${profile?.client?.name} | ${t("companyProfile.titleSuffix")}`,
+    description:
+      profile?.client?.about?.slice(0, 160) || t("companyProfile.description"),
+  };
+}
 
 export default async function page({ params, searchParams }) {
   const { slug } = await params;
   const { sub_category } = await searchParams;
 
-  const profile = await getCompanyProfile(Number(slug));
+  const profile = await fetchProduct(Number(slug));
   const products = await getCompanyProducts({
     id: slug,
     sub_category_id: sub_category,

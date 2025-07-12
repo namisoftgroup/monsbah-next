@@ -4,7 +4,16 @@ import { getFavorites } from "@/services/favorites/getFavorites";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+
+  return {
+    title: t("favorites.title"),
+    description: t("favorites.description"),
+  };
+}
 export default async function Favorites() {
   const queryClient = getQueryClient();
   const locale = await getLocale();

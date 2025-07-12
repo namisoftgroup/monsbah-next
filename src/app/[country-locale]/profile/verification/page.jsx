@@ -1,11 +1,22 @@
 import VerificationTab from "@/components/profile/verification/VerificationTab";
 import { getCategories } from "@/services/categories/getCategories";
 import { getCountries } from "@/services/getCountries";
-import React from "react";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+
+  return {
+    title: t("verification.title"),
+    description: t("verification.description"),
+  };
+}
 
 export default async function page() {
-  const countries = await getCountries();
-  const categories = await getCategories();
+  const [countries, categories] = await Promise.all([
+    getCountries(),
+    getCategories(),
+  ]);
 
   return (
     <div className="tab-content">

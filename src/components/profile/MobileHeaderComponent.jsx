@@ -1,20 +1,27 @@
 "use client";
 
 import { Link, usePathname } from "@/i18n/navigation";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "use-intl";
 import LogoutComponent from "./LogoutComponent";
 
 export default function MobileHeaderComponent() {
   const t = useTranslations("profile");
-  const pathname = usePathname().split("/");
-  const name = pathname[pathname.length - 1];
+  const pathname = usePathname().split("/").filter(Boolean);
+  let name;
+  if (pathname.length > 2) {
+    name = pathname[1];
+  } else {
+    name = pathname[pathname.length - 1];
+  }
+
   const [showTabs, setShowTabs] = useState(false);
 
   return (
     <div className="tabs-section">
       <div className="header-back">
-        <h3>{`${t(name)}`}</h3>
+        <h3> {`${t(name)}` || "edit"} </h3>
+
         <button
           className="arrow_icon"
           onClick={() => setShowTabs((prev) => !prev)}

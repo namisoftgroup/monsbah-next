@@ -1132,7 +1132,7 @@ body header .mainLinks .moreActions .customBtn {
   padding: 8px 20px;
   width: unset;
 }
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 1120px) {
   body header .mainLinks .moreActions .customBtn {
     display: none;
   }

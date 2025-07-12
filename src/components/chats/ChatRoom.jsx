@@ -1,9 +1,6 @@
 "use client";
 
-import lottieChat from "@/assets/lotties/chat.json";
-import useGetChat from "@/hooks/queries/chat/useGetChat";
 import { useAuthStore } from "@/stores/useAuthStore";
-import Lottie from "lottie-react";
 import Pusher from "pusher-js";
 import { useEffect, useState } from "react";
 import ChatContainer from "./ChatContainer";

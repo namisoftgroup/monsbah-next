@@ -18,7 +18,6 @@
     "@tanstack/react-query-devtools": "^5.80.7",
     "axios": "^1.10.0",
     "bootstrap": "^5.3.6",
-    "lottie-react": "^2.4.1",
     "next": "15.3.3",
     "next-intl": "^4.1.0",
     "pusher": "^5.2.0",

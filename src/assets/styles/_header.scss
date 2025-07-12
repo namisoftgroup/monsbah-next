@@ -118,7 +118,7 @@ header {
         text-transform: capitalize;
         padding: 8px 20px;
         width: unset;
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: 1120px) {
           display: none;
         }
       }

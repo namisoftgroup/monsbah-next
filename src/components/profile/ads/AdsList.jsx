@@ -46,7 +46,11 @@ export default function AdsList() {
     <section className="row" ref={sectionRef}>
       {allProducts?.map((product, index) => (
         <div className="col-12  col-lg-6  p-2" key={index}>
-          <ProductVertical product={product} className="my-ad" />
+          <ProductVertical
+            product={product}
+            isShowAction={true}
+            className="my-ad"
+          />
         </div>
       ))}
 

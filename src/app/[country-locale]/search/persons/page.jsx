@@ -5,6 +5,20 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
 import React from "react";
 
+export async function generateMetadata(searchParams) {
+  const t = await getTranslations("meta");
+  const query = searchParams?.search;
+
+  return {
+    title: query
+      ? `${t("searchPersons.title")} "${query}"`
+      : t("popularPersons.title"),
+    description: query
+      ? `${t("searchPersons.description")} "${query}"`
+      : t("popularPersons.description"),
+  };
+}
+
 export default async function page({ searchParams }) {
   const search = (await searchParams)?.search;
 

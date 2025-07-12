@@ -2,7 +2,16 @@ import NotificationList from "@/components/profile/notifications/NotificationLis
 import getNotifications from "@/services/notifications/getNotifications";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import React from "react";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+
+  return {
+    title: t("notifications.title"),
+    description: t("notifications.description"),
+  };
+}
 
 export default async function page() {
   const queryClient = getQueryClient();

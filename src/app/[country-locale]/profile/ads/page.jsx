@@ -3,6 +3,16 @@ import MyAdsHeader from "@/components/profile/ads/MyAdsHeader";
 import { getUserProducts } from "@/services/products/getUserProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+
+  return {
+    title: t("myAds.title"),
+    description: t("myAds.description"),
+  };
+}
 
 export default async function page() {
   const queryCLient = getQueryClient();

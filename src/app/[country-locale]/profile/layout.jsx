@@ -1,8 +1,20 @@
 import MobileHeaderComponent from "@/components/profile/MobileHeaderComponent";
 import ProfileTabs from "@/components/profile/ProfileTabs";
-import React from "react";
+import { getTranslations } from "next-intl/server";
 
-const ProfileLayout = ({ children }) => {
+export async function generateMetadata() {
+  const t = await getTranslations("meta");
+
+  return {
+    title: {
+      template: `%s | ${t("profile.title")}`,
+      default: t("profile.title"),
+    },
+    description: t("profile.description"),
+  };
+}
+
+const ProfileLayout = async ({ children }) => {
   return (
     <div className="profile-page">
       <div className="container ">

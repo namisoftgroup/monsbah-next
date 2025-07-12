@@ -52,7 +52,6 @@ export default function Header() {
               <>
                 {userType === "client" ? (
                   <>
-                    {console.log("👤 [Header] Rendering client profile link")}
                     <Link
                       aria-label="Profile"
                       href="/profile"
