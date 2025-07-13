@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ImageLoad from "../loaders/ImageLoad";
+import Image from "next/image";
 
 function ProductCard({ product }) {
   const t = useTranslations();
@@ -15,7 +16,7 @@ function ProductCard({ product }) {
   const handleImageLoad = () => setIsImageLoaded(false);
 
   const handleCardClick = () => {
-    router.push(`/product/${product?.id}`);
+    router.push(`/product/${product?.slug}-id=${product?.id}`);
   };
 
   return (
@@ -27,7 +28,7 @@ function ProductCard({ product }) {
       onKeyDown={(e) => e.key === "Enter" && handleCardClick()}
       className="product_vertical cursor-pointer outline-none   "
     >
-      <div className="img">
+      <div className="img  position-relative ">
         {isValidVideoExtension(product?.image) ? (
           <video
             src={product.image}
@@ -38,7 +39,8 @@ function ProductCard({ product }) {
             onLoadedMetadata={handleImageLoad}
           />
         ) : (
-          <img
+          <Image
+            fill={true}
             src={product.image}
             onLoad={handleImageLoad}
             alt={product.name}

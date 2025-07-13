@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { isValidVideoExtension } from "@/utils/helpers";
 import { useState } from "react";
@@ -21,6 +21,7 @@ function ProductVertical({
   removeItem = false,
 }) {
   const t = useTranslations();
+  const router = useRouter();
   const locale = useLocale();
   const lang = locale.split("-")[1];
   const [loading, setLoading] = useState(false);
@@ -77,14 +78,10 @@ function ProductVertical({
     <>
       <Link
         aria-label="Product"
-        href={`/product/${product.id}`}
+        href={`/product/${product?.slug}-id=${product?.id}`}
         className={`product_vertical ${className} `}
       >
-        <Link
-          aria-label="Product"
-          href={`/product/${product.id}`}
-          className="img"
-        >
+        <div className="img">
           {isValidVideoExtension(product?.image) ? (
             <video
               src={product?.image}
@@ -99,24 +96,23 @@ function ProductVertical({
               <Image fill={true} src={product?.image} alt="" />
             </div>
           )}
-          {/* <ImageLoad isImageLoaded={isImageLoaded} /> */}
           <div className="thums_pro">
             <span className="type">{t(`${product?.type}`)}</span>
             {product?.is_popular ? (
               <span className="popular  position-relative">
-                <Image fill={true} src="/icons/crown.svg" alt="" />{" "}
+                <Image width={42} height={32} src="/icons/crown.svg" alt="" />{" "}
                 {t("popular")}
               </span>
             ) : null}
           </div>
-        </Link>
+        </div>
 
         <div className="content">
-          <Link
+          <div
             aria-label="Product"
-            to={`/product/${product?.id}`}
+            // to={`/product/${product?.id}`}
             className="title"
-            onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => e.stopPropagation()}
           >
             <h3>{product?.name}</h3>
             {user &&
@@ -150,7 +146,7 @@ function ProductVertical({
                   </button>
                 </div>
               ) : null)}
-          </Link>
+          </div>
 
           <h3 className="price">
             <span>{product?.price}</span> {product?.currency?.name}
