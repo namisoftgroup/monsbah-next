@@ -4,11 +4,15 @@ import { getSubCategories } from "@/services/categories/getSubCategories";
 import AdvancedFilter from "./AdvancedFilter";
 import SubCategoriesSlider from "./SubCategoriesSlider";
 import CategoriesSlider from "./CategoriesSlider";
+import { getUserType } from "@/services/auth/getUserType";
 
 export default async function FilterSection({ selectedCategory }) {
   const countries = await getCountries();
-  const categories = await getCategories("/company/categories");
-  
+  const user = await getUserType();
+  console.log(user);
+
+  const categories = await getCategories(`/${user}/categories`);
+
   const subCategories = await getSubCategories(
     {
       category_slug: selectedCategory,
