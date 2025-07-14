@@ -4,6 +4,8 @@ export async function getCategories(endPoint = "/client/categories") {
   try {
     const res = await serverAxios.get(endPoint);
     if (res?.status === 200) {
+      console.log(res.config);
+
       return res.data.data.data;
     }
   } catch (error) {

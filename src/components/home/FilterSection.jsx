@@ -9,6 +9,7 @@ import { getUserType } from "@/services/auth/getUserType";
 export default async function FilterSection({ selectedCategory }) {
   const countries = await getCountries();
   const user = await getUserType();
+
   console.log(user);
 
   const categories = await getCategories(`/${user}/categories`);
@@ -17,7 +18,7 @@ export default async function FilterSection({ selectedCategory }) {
     {
       category_slug: selectedCategory,
     },
-    "/company/sub-categories"
+    `/${user}/sub-categories`
   );
 
   return (

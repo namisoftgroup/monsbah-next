@@ -22,7 +22,6 @@ export default async function page({ searchParams }) {
   const search = (await searchParams)?.search;
   const t = await getTranslations();
   const lang = (await getLocale()).split("-")[1];
-  console.log("search", search);
   const queryClient = getQueryClient();
 
   await queryClient.prefetchInfiniteQuery({

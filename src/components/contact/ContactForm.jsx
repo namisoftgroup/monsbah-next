@@ -40,7 +40,6 @@ export default function ContactForm() {
   }, [selectedCountry]);
 
   const onSubmit = async (data) => {
-    console.log(data);
     setIsLoading(true);
     const res = await contactAction(data);
     if (!res.success) {

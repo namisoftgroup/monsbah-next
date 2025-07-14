@@ -5,7 +5,6 @@ import { getProduct } from "@/services/products/getProduct";
 export default async function Page({ params }) {
   const user = await getAuthedUser();
   const { id } = await params;
-  console.log(id);
 
   const product = await getProduct(id);
   return (

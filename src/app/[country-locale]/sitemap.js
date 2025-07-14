@@ -158,9 +158,6 @@ async function getCompanies() {
       `${process.env.NEXT_PUBLIC_API_URL}/client/companies`
     );
     const data = await res.json();
-    console.log("------- companies -------------");
-
-    console.log(data?.data?.data);
 
     return data?.data?.data;
   } catch (error) {
@@ -188,10 +185,8 @@ async function getCompanyProducts() {
       `${process.env.NEXT_PUBLIC_API_URL}/company/products`
     );
     const data = await res.json();
-    console.log(data?.data?.data);
 
     return data?.data?.data;
-    return [];
   } catch (error) {
     console.error("Error fetching company products:", error);
     return [];
