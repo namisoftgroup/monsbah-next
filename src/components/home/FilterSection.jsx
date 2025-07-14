@@ -8,6 +8,7 @@ import CategoriesSlider from "./CategoriesSlider";
 export default async function FilterSection({ selectedCategory }) {
   const countries = await getCountries();
   const categories = await getCategories("/company/categories");
+  
   const subCategories = await getSubCategories(
     {
       category_slug: selectedCategory,

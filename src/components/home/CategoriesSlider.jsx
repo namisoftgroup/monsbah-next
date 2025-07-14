@@ -44,13 +44,13 @@ export default function CategoriesSlider({ categories }) {
       </SwiperSlide>
 
       {categories.map((category) => (
-        <SwiperSlide key={category.id} className="p-1">
+        <SwiperSlide key={category?.slug} className="p-1">
           <button
             className={`category ${
               selectedCategory == category.slug ? "active" : ""
             }`}
-            onClick={() => handleSelectCategory(category.slug)}
-            aria-label={`Category ${category.slug}`}
+            onClick={() => handleSelectCategory(category?.slug)}
+            aria-label={`Category ${category?.slug}`}
           >
             <div className="img">
               <img src={category?.image} alt={category?.slug} />

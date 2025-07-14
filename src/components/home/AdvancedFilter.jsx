@@ -80,12 +80,12 @@ export default function AdvancedFilter({ countries, selectedCategory }) {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => updateURLParam("sort", "near")}>
+            <Dropdown.Item onClick={() => updateURLParam("sort", "new")}>
               <i className="fa-regular fa-calendar"></i>
               <span>{t("latest")}</span>
             </Dropdown.Item>
 
-            <Dropdown.Item onClick={() => updateURLParam("sort", "new")}>
+            <Dropdown.Item onClick={() => updateURLParam("sort", "near")}>
               <i className="fa-regular fa-location-dot"></i>
               <span>{t("fromNearest")}</span>
             </Dropdown.Item>

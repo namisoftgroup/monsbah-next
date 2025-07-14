@@ -1,11 +1,15 @@
 "use client";
 
 import clientAxios from "@/libs/axios/clientAxios";
+import { useAuthModal } from "@/stores/useAuthModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
 
 function useGetProducts() {
+  const { userType } = useAuthModal((state) => state);
+  console.log(userType);
+
   const searchParams = useSearchParams();
   const lang = useLocale().split("-")[1];
 
@@ -36,17 +40,20 @@ function useGetProducts() {
     ],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await clientAxios.get(`/client/products`, {
-        params: {
-          page: pageParam,
-          // country_id: country_id,
-          // type: type,
-          // sort: sort,
-          // city_id: city_id,
-          category_slug: category_slug,
-          sub_category_slug: sub_category_slug,
-        },
-      });
+      const res = await clientAxios.get(
+        `/${localStorage.getItem("user_type")}/products`,
+        {
+          params: {
+            page: pageParam,
+            country_id: country_id,
+            type: type,
+            sort: sort,
+            city_id: city_id,
+            category_slug: category_slug,
+            sub_category_slug: sub_category_slug,
+          },
+        }
+      );
       if (res.status === 200) {
         return {
           data: res.data?.data?.data,
@@ -62,11 +69,6 @@ function useGetProducts() {
       const isMore = lastPage.data.length >= lastPage.per_page;
       return isMore ? pages.length + 1 : undefined;
     },
-
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    retry: false,
   });
 
   return {

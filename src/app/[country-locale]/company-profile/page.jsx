@@ -17,7 +17,7 @@ export default async function page() {
       <div className="container mt-4 p-0">
         <div className="row">
           <div className="company_header">
-            <CompanyImageProfile client={profile?.client} />
+            <CompanyImageProfile client={profile?.client}  />
             <CompanyProfileContent
               client={profile?.client}
               isMyProfile={true}

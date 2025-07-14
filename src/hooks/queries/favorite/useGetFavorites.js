@@ -1,15 +1,12 @@
 "use client";
 
 import clientAxios from "@/libs/axios/clientAxios";
-import { useAuthModal } from "@/stores/useAuthModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 
 function useGetFavorites() {
   const locale = useLocale();
-  const lang = locale.split("-")[0];
-  const { userType } = useAuthModal((state) => state);
-  console.log(lang, userType);
+  const lang = locale.split("-")[1];
 
   const {
     isLoading,
@@ -19,10 +16,10 @@ function useGetFavorites() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["user-favorites", lang, userType],
+    queryKey: ["user-favorites", lang],
 
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await clientAxios.get(`/${userType}/favorites`, {
+      const res = await clientAxios.get(`/client/favorites`, {
         params: {
           page: pageParam,
         },

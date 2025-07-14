@@ -24,8 +24,10 @@ export default function CompaniesSection() {
     hasNextPage: hasNextPageProducts,
     isFetchingNextPage: isFetchingNextPageProducts,
   } = useGetCompanyProducts();
+
   const allProducts =
     products?.pages?.flatMap((page) => page?.data?.data) ?? [];
+
   const {
     data: companies,
     isLoading: isLoadingCompanies,
@@ -74,14 +76,14 @@ export default function CompaniesSection() {
       <div className="container p-1">
         {!shouldShowCompanies ? (
           <div className="row">
-            {/* products */}
+        
             {allProducts?.map((product, index) => (
               <div className="col-lg-4 col-md-6 col-12 p-2" key={index}>
                 <ProductCard product={product} isShowAction={false} />
               </div>
             ))}
 
-            {/* loaders */}
+        
             {(isLoadingProducts || isFetchingNextPageProducts) && (
               <>
                 {Array(3)

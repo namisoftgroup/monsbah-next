@@ -17,11 +17,10 @@ export async function generateMetadata() {
 export default async function Favorites() {
   const queryClient = getQueryClient();
   const locale = await getLocale();
-  const lang = locale.split("-")[0];
-  const userType = await getUserType();
+  const lang = locale.split("-")[1];
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ["user-favorites", lang, userType],
+    queryKey: ["user-favorites", lang],
     queryFn: ({ pageParam = 1 }) => getFavorites(pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {

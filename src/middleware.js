@@ -47,7 +47,7 @@ export function middleware(req) {
     "/company-favorites",
   ].map((route) => `/${locale}${route}`);
 
-  // 🔒 Block unauthenticated users from protected routes
+  // Block unauthenticated users from protected routes
   if (protectedRoutes.some((route) => normalizedPathname.startsWith(route))) {
     if (!token) {
       const homeUrl = req.nextUrl.clone();
@@ -57,7 +57,7 @@ export function middleware(req) {
     }
   }
 
-  // 🏢 Block company from user-only routes
+  //  Block company from user-only routes
   if (
     role === "company" &&
     restrictedForCompany.some((route) => normalizedPathname.startsWith(route))
@@ -69,7 +69,7 @@ export function middleware(req) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // 👤 Block user/client from company-only routes
+  //  Block user/client from company-only routes
   if (
     (role === "user" || role === "client") &&
     restrictedForUserOrClient.some((route) =>

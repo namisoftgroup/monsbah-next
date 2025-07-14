@@ -4,9 +4,22 @@ import { useRef, useEffect } from "react";
 import ProductCard from "@/components/shared/cards/ProductCard";
 import ProductLoader from "@/components/shared/loaders/ProductLoader";
 import useGetProducts from "@/hooks/queries/products/useGetProducts";
+import useGetCompanies from "@/hooks/queries/companies/useGetCompanies";
+import CompanyLoader from "../shared/loaders/CompanyLoader";
+import { useSearchParams } from "next/navigation";
+import CompanyCard from "../shared/cards/CompanyCard";
 
 export default function ProductsSection() {
   const sectionRef = useRef(null);
+  const searchParams = useSearchParams();
+
+  const hasCategory = searchParams.get("category");
+  const hasSubcategory = searchParams.get("sub_category");
+
+  const shouldShowCompanies =
+    !hasSubcategory &&
+    hasCategory &&
+    localStorage.getItem("user_type") === "company";
 
   const {
     data: productsData,
@@ -16,7 +29,16 @@ export default function ProductsSection() {
     hasNextPage,
   } = useGetProducts();
 
-  
+  const {
+    data: companiesData,
+    isLoading: isLoadingCompanies,
+    fetchNextPage: fetchNextPageCompanies,
+    hasNextPage: hasNextPageCompanies,
+    isFetchingNextPage: isFetchingNextPageCompanies,
+  } = useGetCompanies();
+
+  const allCompanies =
+    companiesData?.pages?.flatMap((page) => page?.data?.data) ?? [];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,8 +47,14 @@ export default function ProductsSection() {
       const viewportHeight = window.innerHeight;
 
       if (sectionBottom <= viewportHeight + 200) {
-        if (hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
+        if (shouldShowCompanies) {
+          if (hasNextPageCompanies && !isFetchingNextPageCompanies) {
+            fetchNextPageCompanies();
+          }
+        } else {
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+          }
         }
       }
     };
@@ -34,33 +62,65 @@ export default function ProductsSection() {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [
+    shouldShowCompanies,
+    hasNextPageCompanies,
+    isFetchingNextPageCompanies,
+    fetchNextPageCompanies,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  ]);
 
   return (
-    <section className="products_section mb-3" ref={sectionRef}>
+    <section className="products_section " ref={sectionRef}>
       <div className="container p-1">
-        <div className="row gy-4">
-          {productsData?.map((product, index) => (
-            <div
-              className="col-lg-4 col-md-6 col-12"
-              key={product?.id || index}
-            >
-              <ProductCard product={product} isShowAction={false} />
-            </div>
-          ))}
+        {shouldShowCompanies ? (
+          <div className="row">
+            {allCompanies?.map((company) => (
+              <div className="col-lg-4 col-md-6 col-12 p-2" key={company?.id}>
+                <CompanyCard company={company} />
+              </div>
+            ))}
+            {(isLoadingCompanies || isFetchingNextPageCompanies) && (
+              <>
+                {Array(3)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div
+                      className="col-lg-4 col-md-6 col-12 p-2"
+                      key={`loader-${index}`}
+                    >
+                      <CompanyLoader />
+                    </div>
+                  ))}
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="row">
+            {productsData?.map((product, index) => (
+              <div
+                className="col-lg-4 col-md-6 col-12 p-2"
+                key={product?.id || index}
+              >
+                <ProductCard product={product} isShowAction={false} />
+              </div>
+            ))}
 
-          {(isLoading || isFetchingNextPage) &&
-            Array(3)
-              .fill(0)
-              .map((_, index) => (
-                <div
-                  className="col-lg-4 col-md-6 col-12"
-                  key={`loader-${index}`}
-                >
-                  <ProductLoader />
-                </div>
-              ))}
-        </div>
+            {(isLoading || isFetchingNextPage) &&
+              Array(3)
+                .fill(0)
+                .map((_, index) => (
+                  <div
+                    className="col-lg-4 col-md-6 col-12 p-2"
+                    key={`loader-${index}`}
+                  >
+                    <ProductLoader />
+                  </div>
+                ))}
+          </div>
+        )}
       </div>
     </section>
   );

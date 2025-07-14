@@ -19,6 +19,8 @@ import "swiper/css/pagination";
 import "@/assets/styles/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@/assets/styles/main.css";
+import BackToTop from "@/components/shared/BackToTop";
+import DownloadApp from "@/components/shared/DownloadApp";
 
 export async function generateMetadata({ params }) {
   const locale = await params;
@@ -108,6 +110,8 @@ export default async function RootLayout(props) {
           <Footer />
           <ResponsiveNav />
           <AuthModal />
+          <BackToTop />
+          <DownloadApp />
         </Providers>
       </body>
     </html>

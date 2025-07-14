@@ -1,21 +1,22 @@
 "use client";
 
-import useGetPersons from "@/hooks/queries/search/useGetPersons";
 import { useEffect, useRef } from "react";
 import PersonCard from "../shared/cards/PersonCard";
 import PersonLoader from "../shared/loaders/PersonLoader";
+import { useGetFollowings } from "@/hooks/queries/follow/useGetFollowings";
 
-export default function PersonsList() {
+export default function FollowingList({ userId }) {
   const sectionRef = useRef();
   const {
-    data: persons,
+    data: followers,
     isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetPersons();
+  } = useGetFollowings(userId);
+  const allFollowers =
+    followers?.pages?.flatMap((page) => page?.data?.data) ?? [];
 
-  const allPersons = persons?.pages?.flatMap((page) => page?.data?.data) ?? [];
   useEffect(() => {
     const handleScroll = () => {
       if (!sectionRef.current) return;
@@ -37,14 +38,13 @@ export default function PersonsList() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
   return (
-    <div className="row" ref={sectionRef}>
-      {allPersons?.map((person) => (
+    <section className="row" ref={sectionRef}>
+      {allFollowers?.map((person) => (
         <div className="col-lg-4 col-md-6 col-12 p-2" key={person.id}>
           <PersonCard person={person} />
         </div>
-      ))}
+      ))}{" "}
       {(isLoading || isFetchingNextPage) && (
         <>
           {Array(3)
@@ -56,6 +56,6 @@ export default function PersonsList() {
             ))}
         </>
       )}
-    </div>
+    </section>
   );
 }

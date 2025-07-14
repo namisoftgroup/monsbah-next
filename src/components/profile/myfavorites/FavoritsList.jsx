@@ -2,6 +2,7 @@
 import ProductVertical from "@/components/shared/cards/ProductVertical";
 import EmptyData from "@/components/shared/EmptyData";
 import ProductLoader from "@/components/shared/loaders/ProductLoader";
+import useGetCompanyFavorites from "@/hooks/queries/favorite/useGetCompanyFavorites";
 import useGetFavorites from "@/hooks/queries/favorite/useGetFavorites";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";

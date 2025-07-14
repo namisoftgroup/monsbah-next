@@ -1,11 +1,11 @@
 "use client";
 
-import useGetFavorites from "@/hooks/queries/favorite/useGetFavorites";
+import useGetCompanyFavorites from "@/hooks/queries/favorite/useGetCompanyFavorites";
 import { useTranslations } from "next-intl";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import ProductVertical from "../shared/cards/ProductVertical";
-import ProductLoader from "../shared/loaders/ProductLoader";
 import EmptyData from "../shared/EmptyData";
+import ProductLoader from "../shared/loaders/ProductLoader";
 
 export default function CompanyFavoritesList() {
   const sectionRef = useRef();
@@ -17,7 +17,7 @@ export default function CompanyFavoritesList() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetFavorites();
+  } = useGetCompanyFavorites();
 
   const allFavs = favorites?.pages?.flatMap((page) => page?.data?.data) ?? [];
 
