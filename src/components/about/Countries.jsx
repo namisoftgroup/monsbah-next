@@ -3,9 +3,8 @@ import { getCountries } from "@/services/getCountries";
 import { getTranslations } from "next-intl/server";
 
 export default async function Countries() {
-  const t = await getTranslations();
-
   const countries = await getCountries();
+  const t = await getTranslations();
 
   return (
     <div className="countries-section">
@@ -23,7 +22,7 @@ export default async function Countries() {
             <div className="info-wrapper">
               <h5>{country?.name}</h5>
               <span>
-                {country?.products_count} {t("ads")}
+                {country?.products_count} {t("about.ads")}
               </span>
             </div>
           </div>
