@@ -1,6 +1,7 @@
 import FilterSection from "@/components/home/FilterSection";
 import HeroSection from "@/components/home/HeroSection";
 import ProductsSection from "@/components/home/ProductsSection";
+import { getUserType } from "@/services/auth/getUserType";
 
 export async function generateMetadata() {
   return {
@@ -12,13 +13,14 @@ export async function generateMetadata() {
 
 export default async function Home({ searchParams }) {
   const paramsObj = await searchParams;
+  const user = await getUserType();
   const selectedCategory = paramsObj?.category;
 
   return (
     <>
       <HeroSection />
       <FilterSection selectedCategory={selectedCategory} />
-      <ProductsSection />
+      <ProductsSection userType={user} />
     </>
   );
 }

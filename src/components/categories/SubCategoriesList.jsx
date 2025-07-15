@@ -1,10 +1,11 @@
 import { Link } from "@/i18n/navigation";
+import { getSubCategories } from "@/services/categories/getSubCategories";
 import Image from "next/image";
 
-export default async function SubCategoriesList({
-  selectedCategory,
-  subCategories,
-}) {
+export default async function SubCategoriesList({ selectedCategory }) {
+  const subCategories = await getSubCategories({
+    category_slug: selectedCategory,
+  });
   return (
     <div className="col-lg-10 col-md-9 col-8 p-lg-2 p-1">
       <div className="categories_slider subcategories_slider">
@@ -18,7 +19,7 @@ export default async function SubCategoriesList({
               <div className="image-wrapper" style={{ height: "200px" }}>
                 <Image fill={true} src={sub?.image} alt={sub?.slug} />
               </div>
-              <h6>{sub?.slug}</h6>
+              <h6>{sub?.name}</h6>
             </Link>
           </div>
         ))}

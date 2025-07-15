@@ -1,4 +1,5 @@
 import CompaniesSection from "@/components/companies/CompaniesSection";
+import FilterCompanySection from "@/components/home/FilterCompanySection";
 import FilterSection from "@/components/home/FilterSection";
 import { getTranslations } from "next-intl/server";
 
@@ -37,7 +38,7 @@ export default async function Companies({ searchParams }) {
 
   return (
     <div className="pt-4 pb-4">
-      <FilterSection selectedCategory={selectedCategory} />
+      <FilterCompanySection selectedCategory={selectedCategory} />
       <CompaniesSection />
     </div>
   );

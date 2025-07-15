@@ -11,9 +11,11 @@ import useGetCities from "@/hooks/queries/settings/useGetCities";
 export default function AdvancedFilter({ countries, selectedCategory }) {
   const t = useTranslations();
   const searchParams = useSearchParams();
+
   const locale = useLocale();
   const lang = locale.split("-")[1];
   const countryUrl = locale.split("-")[0];
+
   const selectedCountry = countries.find(
     (country) => country?.iso_code === countryUrl
   );

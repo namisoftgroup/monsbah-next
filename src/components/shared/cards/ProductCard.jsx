@@ -36,13 +36,13 @@ function ProductCard({ product }) {
             loop
             muted
             playsInline
-            onLoadedMetadata={handleImageLoad}
+            // onLoadedM  etadata={handleImageLoad}
           />
         ) : (
           <Image
             fill={true}
             src={product.image}
-            onLoad={handleImageLoad}
+            // onLoad={handleImageLoad}
             alt={product.name}
           />
         )}
@@ -51,10 +51,12 @@ function ProductCard({ product }) {
 
         <div className="thums_pro">
           <span className="type">{t(`${product?.type}`)}</span>
-          {product?.is_popular && (
+          {product?.is_popular ? (
             <span className="popular">
               <img src="/icons/crown.svg" alt="" /> {t("popular")}
             </span>
+          ) : (
+            <></>
           )}
         </div>
       </div>

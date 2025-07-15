@@ -10,6 +10,7 @@ export default function SubCategoriesSlider({ subCategories }) {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const selectedSubCategory = searchParams.get("sub_category");
 
   const handleSelectSubCategory = useCallback(

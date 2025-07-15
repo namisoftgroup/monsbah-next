@@ -1,23 +1,24 @@
 import { getCategories } from "@/services/categories/getCategories";
-import { getCountries } from "@/services/getCountries";
 import { getSubCategories } from "@/services/categories/getSubCategories";
+import { getCountries } from "@/services/getCountries";
 import AdvancedFilter from "./AdvancedFilter";
-import SubCategoriesSlider from "./SubCategoriesSlider";
 import CategoriesSlider from "./CategoriesSlider";
-import { getUserType } from "@/services/auth/getUserType";
+import SubCategoriesSlider from "./SubCategoriesSlider";
 
-export default async function FilterSection({ selectedCategory }) {
-  const countries = await getCountries();
-  const user = await getUserType();
-
-  const categories = await getCategories(`/${user}/categories`);
+export default async function FilterCompanySection({ selectedCategory }) {
+  const [countries, categories] = await Promise.all([
+    getCountries(),
+    getCategories(`/company/categories`),
+  ]);
 
   const subCategories = await getSubCategories(
     {
       category_slug: selectedCategory,
     },
-    `/${user}/sub-categories`
+    `/company/sub-categories`
   );
+
+  console.log(subCategories);
 
   return (
     <section className="explore_ads">

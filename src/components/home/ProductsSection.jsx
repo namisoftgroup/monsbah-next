@@ -8,8 +8,9 @@ import useGetCompanies from "@/hooks/queries/companies/useGetCompanies";
 import CompanyLoader from "../shared/loaders/CompanyLoader";
 import { useSearchParams } from "next/navigation";
 import CompanyCard from "../shared/cards/CompanyCard";
+import ProductVertical from "../shared/cards/ProductVertical";
 
-export default function ProductsSection() {
+export default function ProductsSection({ userType }) {
   const sectionRef = useRef(null);
   const searchParams = useSearchParams();
 
@@ -27,7 +28,7 @@ export default function ProductsSection() {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useGetProducts();
+  } = useGetProducts(userType);
 
   const {
     data: companiesData,
@@ -104,7 +105,7 @@ export default function ProductsSection() {
                 className="col-lg-4 col-md-6 col-12 p-2"
                 key={product?.id || index}
               >
-                <ProductCard product={product} isShowAction={false} />
+                <ProductVertical product={product} isShowAction={false} />
               </div>
             ))}
 

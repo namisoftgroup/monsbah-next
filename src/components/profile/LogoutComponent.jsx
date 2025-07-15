@@ -22,6 +22,7 @@ export default function LogoutComponent({ withIcon = true }) {
     } else {
       toast.success(res?.data?.message);
       router.replace("/");
+      localStorage.removeItem("user_type");
       logout();
     }
     setisLoading(false);

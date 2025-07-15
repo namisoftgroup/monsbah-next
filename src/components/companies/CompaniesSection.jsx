@@ -7,6 +7,8 @@ import ProductLoader from "@/components/shared/loaders/ProductLoader";
 import CompanyLoader from "@/components/shared/loaders/CompanyLoader";
 import useGetCompanies from "@/hooks/queries/companies/useGetCompanies";
 import useGetCompanyProducts from "@/hooks/queries/products/useGetCompanyProducts";
+import CompanyCard from "../shared/cards/CompanyCard";
+import ProductVertical from "../shared/cards/ProductVertical";
 
 export default function CompaniesSection() {
   const sectionRef = useRef(null);
@@ -15,7 +17,8 @@ export default function CompaniesSection() {
   const hasCategory = searchParams.get("category");
   const hasSubcategory = searchParams.get("sub_category");
 
-  const shouldShowCompanies = !hasSubcategory && hasCategory;
+  const shouldShowCompanies = Boolean(!hasSubcategory && hasCategory);
+  console.log("is companies", shouldShowCompanies);
 
   const {
     data: products,
@@ -38,6 +41,8 @@ export default function CompaniesSection() {
 
   const allCompanies =
     companies?.pages?.flatMap((page) => page?.data?.data) ?? [];
+
+  console.log("compamies", companies);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,14 +81,12 @@ export default function CompaniesSection() {
       <div className="container p-1">
         {!shouldShowCompanies ? (
           <div className="row">
-        
             {allProducts?.map((product, index) => (
               <div className="col-lg-4 col-md-6 col-12 p-2" key={index}>
-                <ProductCard product={product} isShowAction={false} />
+                <ProductVertical product={product} isShowAction={false} />
               </div>
             ))}
 
-        
             {(isLoadingProducts || isFetchingNextPageProducts) && (
               <>
                 {Array(3)

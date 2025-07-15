@@ -1,7 +1,11 @@
 import { Link } from "@/i18n/navigation";
+import { getCategories } from "@/services/categories/getCategories";
 import Image from "next/image";
 
-export default function SideBar({ categoryList, selectedCategory }) {
+export default async function SideBar({ selectedCategory }) {
+  const categoryList = await getCategories();
+  console.log(selectedCategory);
+
   return (
     <div className="col-lg-2 col-md-3 col-4 p-lg-2 p-1">
       <div className="categories_sidebar">
