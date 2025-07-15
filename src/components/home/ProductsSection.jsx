@@ -1,14 +1,13 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import ProductCard from "@/components/shared/cards/ProductCard";
 import ProductLoader from "@/components/shared/loaders/ProductLoader";
-import useGetProducts from "@/hooks/queries/products/useGetProducts";
 import useGetCompanies from "@/hooks/queries/companies/useGetCompanies";
-import CompanyLoader from "../shared/loaders/CompanyLoader";
+import useGetProducts from "@/hooks/queries/products/useGetProducts";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
 import CompanyCard from "../shared/cards/CompanyCard";
 import ProductVertical from "../shared/cards/ProductVertical";
+import CompanyLoader from "../shared/loaders/CompanyLoader";
 
 export default function ProductsSection({ userType }) {
   const sectionRef = useRef(null);

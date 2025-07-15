@@ -7,7 +7,19 @@ import ChatContainer from "./ChatContainer";
 import ChatForm from "./ChatForm";
 import ChatRoomHeader from "./ChatRoomHeader";
 
-export default function ChatRoom({ chat }) {
+import lottieChat from "@/assets/lotties/chat.json";
+import Lottie from "react-lottie";
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: lottieChat,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
+
+export default function ChatRoom({ chat, userId }) {
   const { user } = useAuthStore((state) => state);
   const [messages, setMessages] = useState([]);
   const [isBlocked, setIsBlocked] = useState(false);
@@ -56,21 +68,30 @@ export default function ChatRoom({ chat }) {
 
     setMessages((prev) => [...prev, message]);
   };
+  console.log(userId, chat);
 
   return (
-    <div className="chat_room">
-      <ChatRoomHeader
-        isBlocked={isBlocked}
-        setIsBlocked={setIsBlocked}
-        chat={chat?.chat}
-      />
-      <ChatContainer messages={messages} />
-      <ChatForm
-        isBlocked={isBlocked}
-        setIsBlocked={setIsBlocked}
-        chat={chat?.chat}
-        setMessages={setMessages}
-      />
-    </div>
+    <>
+      {userId && chat ? (
+        <div className="chat_room">
+          <ChatRoomHeader
+            isBlocked={isBlocked}
+            setIsBlocked={setIsBlocked}
+            chat={chat?.chat}
+          />
+          <ChatContainer messages={messages} />
+          <ChatForm
+            isBlocked={isBlocked}
+            setIsBlocked={setIsBlocked}
+            chat={chat?.chat}
+            setMessages={setMessages}
+          />
+        </div>
+      ) : (
+        <div className="lottie_player_holder">
+          <Lottie options={defaultOptions} height={250} width={250} />
+        </div>
+      )}
+    </>
   );
 }

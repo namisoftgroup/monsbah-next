@@ -8,7 +8,6 @@ export async function getSubCategories(
     const res = await serverAxios.get(endPoint, {
       params: params,
     });
-    console.log(res.config);
 
     const data = res?.data?.data?.data;
 

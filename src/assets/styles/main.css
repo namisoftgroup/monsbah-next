@@ -782,6 +782,34 @@ button {
   display: block;
 }
 
+.css-t3ipsp-control {
+  border-color: #eeeeee !important;
+  box-shadow: none !important;
+}
+.css-t3ipsp-control:hover {
+  background-color: #fff !important;
+}
+
+.css-13cymwt-control {
+  border-color: #eeeeee !important;
+}
+
+.select__indicator-separator {
+  display: none !important;
+}
+
+.select__menu {
+  z-index: 999999 !important;
+}
+
+.css-1hac4vs-dummyInput {
+  width: 0 !important;
+}
+
+.css-1s80ejz-dummyInput-DummyInput {
+  width: 0 !important;
+}
+
 body {
   position: relative;
   overflow-x: hidden;

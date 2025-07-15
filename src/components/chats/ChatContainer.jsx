@@ -60,6 +60,7 @@ export default function ChatContainer({ messages }) {
         chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
   return (
     <div className="chat_wrapper" ref={chatContainerRef}>
       {messages?.map((message) => (
@@ -111,7 +112,7 @@ export default function ChatContainer({ messages }) {
                 <>
                   <div className="contact_card">
                     <div className="icon">
-                       <img src="/icons/contact.svg" alt="" />
+                      <img src="/icons/contact.svg" alt="" />
                     </div>
                     <div className="content">
                       <h6>{message?.message?.split("%%")[0].trim()}</h6>

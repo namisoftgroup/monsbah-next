@@ -790,3 +790,27 @@ button {
 .invalid-feedback {
   display: block;
 }
+
+.css-t3ipsp-control {
+  border-color: $lightGray !important;
+  box-shadow: none !important;
+  &:hover {
+    background-color: $white !important;
+  }
+}
+.css-13cymwt-control {
+  border-color: $lightGray !important;
+}
+.select__indicator-separator {
+  display: none !important;
+}
+.select__menu {
+  z-index: 999999 !important;
+}
+.css-1hac4vs-dummyInput {
+  width: 0 !important;
+}
+
+.css-1s80ejz-dummyInput-DummyInput {
+  width: 0 !important;
+}
