@@ -12,7 +12,7 @@ export default async function Countries() {
       {countries?.map((country) => (
         <Link
           aria-label="Country products"
-          to={`/?country=${country?.id}`}
+          href={`/?country=${country?.id}`}
           className="col-lg-4 col-md-6 col-12 p-3"
           key={country?.id}
         >

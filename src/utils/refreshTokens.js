@@ -14,6 +14,5 @@ export async function refreshToken() {
     return newToken;
   } catch (e) {
     console.log("error Refresh Token", e);
-    console.log(e);
   }
 }

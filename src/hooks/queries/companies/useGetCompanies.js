@@ -35,8 +35,6 @@ function useGetCompanies() {
         },
       });
       if (res.status === 200) {
-        console.log("response", res);
-
         return res.data;
       } else {
         throw new Error("Failed to fetch companies");

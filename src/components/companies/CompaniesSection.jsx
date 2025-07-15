@@ -18,7 +18,6 @@ export default function CompaniesSection() {
   const hasSubcategory = searchParams.get("sub_category");
 
   const shouldShowCompanies = Boolean(!hasSubcategory && hasCategory);
-  console.log("is companies", shouldShowCompanies);
 
   const {
     data: products,
@@ -41,8 +40,6 @@ export default function CompaniesSection() {
 
   const allCompanies =
     companies?.pages?.flatMap((page) => page?.data?.data) ?? [];
-
-  console.log("compamies", companies);
 
   useEffect(() => {
     const handleScroll = () => {

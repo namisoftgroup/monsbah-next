@@ -61,8 +61,6 @@ export async function changePasswordAction(formData) {
       return response?.data;
     }
   } catch (error) {
-    console.log("Error", error);
-
     throw new Error(error?.response?.data?.message);
   }
 }
@@ -82,7 +80,6 @@ export async function changePhoneAction(formData) {
       return res.data;
     }
   } catch (error) {
-    console.log(error);
     throw new Error(error);
   }
 }
@@ -108,8 +105,6 @@ export async function verifyOtpAction(formData) {
       return res.data;
     }
   } catch (error) {
-    console.log(error);
-
     throw new error(error);
   }
 }

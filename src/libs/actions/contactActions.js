@@ -9,7 +9,6 @@ export async function contactAction(data) {
       data: res?.data,
     };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       message: error?.response?.data?.message,

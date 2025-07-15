@@ -7,7 +7,6 @@ export async function getCountries() {
 
     return data;
   } catch (error) {
-    console.log("Error Feathcing countries ", error);
     throw err;
   }
 }

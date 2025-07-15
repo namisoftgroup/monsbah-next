@@ -55,7 +55,6 @@ export default function UserCard({ product }) {
     if (!res.success) {
       toast.error(res.message);
     }
-    console.log(res.data.message);
   };
 
   const profileLink =

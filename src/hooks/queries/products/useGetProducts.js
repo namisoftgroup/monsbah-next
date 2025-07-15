@@ -7,9 +7,6 @@ import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
 
 function useGetProducts(userType) {
-  // const { userType } = useAuthModal((state) => state);
-  // console.log(userType);
-
   const searchParams = useSearchParams();
   const lang = useLocale().split("-")[1];
 

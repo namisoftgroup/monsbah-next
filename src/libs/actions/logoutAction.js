@@ -10,7 +10,6 @@ export async function logout() {
   const userType = await getUserType();
 
   if (!token) {
-    console.log("there is no token");
     return;
   }
 

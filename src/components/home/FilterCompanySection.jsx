@@ -18,8 +18,6 @@ export default async function FilterCompanySection({ selectedCategory }) {
     `/company/sub-categories`
   );
 
-  console.log(subCategories);
-
   return (
     <section className="explore_ads">
       <div className="container d-flex flex-column gap-2">

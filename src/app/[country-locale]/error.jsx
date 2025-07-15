@@ -7,7 +7,6 @@ import { useTranslations } from "use-intl";
 export default function Error({ error, reset }) {
   const t = useTranslations();
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
