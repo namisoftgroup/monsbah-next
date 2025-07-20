@@ -80,10 +80,10 @@ export default function AddCompanyAdForm({ user, product }) {
     setLoading(true);
 
     const res = await submitCompanyProduct(formValues, user, productId);
-    if (!res.success) {
-      toast.error(res.data.message);
+    if (!res?.success) {
+      toast.error(res?.data?.message);
     } else {
-      toast.success(res.data.message);
+      toast.success(res?.data?.message);
       router.replace("/company-profile");
       reset();
     }
@@ -162,6 +162,7 @@ export default function AddCompanyAdForm({ user, product }) {
                     name: area?.name,
                     value: area?.id,
                   }))}
+                  error={errors?.state_id?.message}
                 />
               </div>{" "}
               <div className="col-12 p-2">

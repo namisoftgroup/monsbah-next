@@ -130,8 +130,8 @@ function ProductVertical({
                     aria-label="Profile"
                     href={
                       user?.client?.user_type === "company"
-                        ? `/add-company-product/${product?.id}`
-                        : `/profile/addAd/${product?.id}`
+                        ? `/add-company-product/${product?.slug}`
+                        : `/profile/addAd/${product?.slug}`
                     }
                     className={`favourite_btn dark`}
                     onClick={(e) => e.stopPropagation()}

@@ -8506,4 +8506,8 @@ html[lang=en] body .form .phone_field input {
   padding: 12px 24px !important;
   border-radius: 12px;
   background: #f8f8f8;
+}
+
+.color-white i {
+  color: white;
 }/*# sourceMappingURL=main.css.map */

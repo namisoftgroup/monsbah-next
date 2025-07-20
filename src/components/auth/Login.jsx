@@ -68,6 +68,7 @@ export default function Login() {
         data.client_data?.user_type === "user" ? "client" : "company"
       );
       onClose(false);
+      router.refresh();
       router.push("/");
     } catch (error) {
       toast.error(getErrorMessage(error) || t("somethingWentWrong"));
@@ -85,9 +86,8 @@ export default function Login() {
         <p className="sub-head">{t("loginSubtitle")}</p>
       </div>
 
-
-      <form className="form"  onSubmit={handleSubmit(onSubmit)}>
-      <ChooseUserType setUserType={setUserType} />
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <ChooseUserType setUserType={setUserType} />
         <Controller
           name="country_code"
           control={control}

@@ -8,7 +8,8 @@ export async function updateProfileAction(formData) {
   const userType = await getUserType();
   const form = new FormData();
 
-  form.append("name", formData.name);
+  form.append("name_ar", formData.name);
+  form.append("name_en", formData.name);
   form.append("username", formData.username);
   form.append("phone", formData.phone);
   form.append("email", formData.email);
@@ -27,6 +28,9 @@ export async function updateProfileAction(formData) {
   if (formData.cover instanceof File) {
     form.append("cover", formData.cover);
   }
+  console.log(formData);
+
+  console.log(form);
 
   try {
     const res = await serverAxios.post(
@@ -44,7 +48,8 @@ export async function updateProfileAction(formData) {
       return res?.data;
     }
   } catch (error) {
-    console.error("Server action error:", error);
+    // console.error("Server action error:", error);
+    console.log(error?.response);
     throw new Error(error?.response?.data?.message);
   }
 }

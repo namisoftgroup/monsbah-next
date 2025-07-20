@@ -48,7 +48,7 @@ export default function SubCategoriesSlider({ subCategories }) {
             }`}
             onClick={() => handleSelectSubCategory(sub?.slug)}
           >
-            <h6>{sub?.slug}</h6>
+            <h6>{sub?.name}</h6>
           </button>
         </SwiperSlide>
       ))}

@@ -55,7 +55,7 @@ export default function CategoriesSlider({ categories }) {
             <div className="img">
               <img src={category?.image} alt={category?.slug} />
             </div>
-            <h6>{category?.slug}</h6>
+            <h6>{category?.name}</h6>
           </button>
         </SwiperSlide>
       ))}

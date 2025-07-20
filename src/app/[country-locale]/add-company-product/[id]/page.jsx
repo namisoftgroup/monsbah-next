@@ -5,8 +5,9 @@ import { getProduct } from "@/services/products/getProduct";
 export default async function Page({ params }) {
   const user = await getAuthedUser();
   const { id } = await params;
+  const decodedSlug = decodeURIComponent(id);
 
-  const product = await getProduct(id);
+  const product = await getProduct(decodedSlug);
   return (
     <div className="container my-5">
       <div className="row justify-content-center">

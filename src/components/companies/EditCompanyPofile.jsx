@@ -21,10 +21,12 @@ import SubmitButton from "../shared/forms/SubmitButton";
 import { updateProfileAction } from "@/libs/actions/profileActions";
 import ChangePhoneModal from "../shared/modals/ChangePhoneModal";
 import { toast } from "sonner";
+import { useRouter } from "@/i18n/navigation";
 
 export default function EditCompanyPofile({ user }) {
   const [showPasswordModal, setShowPasswordModal] = useState();
   const [showPhoneModal, setShowPhoneModal] = useState(false);
+  const router = useRouter();
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const {
@@ -107,11 +109,12 @@ export default function EditCompanyPofile({ user }) {
 
       if (res.status === 200) {
         toast.success(res?.message);
+        router.push("/company-profile");
       } else {
         toast.error(t("someThingWentWrong"));
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "some Thing Went Wrong");
+      toast.error(error?.message || "some Thing Went Wrong");
     } finally {
       setLoading(false);
     }

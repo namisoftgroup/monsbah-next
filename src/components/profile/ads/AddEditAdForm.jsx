@@ -193,6 +193,7 @@ export default function AddEditAdForm({ product }) {
                     name: area?.name,
                     value: area?.id,
                   }))}
+                  error={errors?.state_id?.message}
                 />
               </div>
               <div className="col-12 p-2">
