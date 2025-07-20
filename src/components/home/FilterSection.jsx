@@ -9,7 +9,6 @@ import { getUserType } from "@/services/auth/getUserType";
 export default async function FilterSection({ selectedCategory }) {
   const countries = await getCountries();
   const user = await getUserType();
-
   const categories = await getCategories(`/${user}/categories`);
 
   const subCategories = await getSubCategories(

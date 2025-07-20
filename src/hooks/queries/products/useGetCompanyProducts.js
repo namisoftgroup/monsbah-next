@@ -6,18 +6,20 @@ import { useLocale } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 
 function useGetCompanyProducts(isMyCompany) {
-  const loacle = useLocale();
   const { id } = useParams();
-  const lang = loacle.split("-")[1];
   const { user } = useAuthStore((state) => state);
+
+  const loacle = useLocale();
   const searchParams = useSearchParams();
 
-  const country_id = searchParams.get("country");
+  const lang = loacle.split("-")[1];
+  const country_slug = useLocale().split("-")[0];
+
   const type = searchParams.get("type");
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
-  const category_id = searchParams.get("category");
-  const sub_category_id = searchParams.get("sub_category");
+  const category_slug = searchParams.get("category");
+  const sub_category_slug = searchParams.get("sub_category");
 
   const {
     isLoading,
@@ -29,13 +31,13 @@ function useGetCompanyProducts(isMyCompany) {
   } = useInfiniteQuery({
     queryKey: [
       "company-products",
-      country_id,
+      country_slug,
       type,
       sort,
       city_id,
       id,
-      category_id,
-      sub_category_id,
+      category_slug,
+      sub_category_slug,
       lang,
     ],
 
@@ -45,11 +47,11 @@ function useGetCompanyProducts(isMyCompany) {
           type,
           sort,
           city_id,
-          country_id,
+          country_slug,
           company_id: isMyCompany ? user?.id : id,
           page: pageParam,
-          category_id,
-          sub_category_id,
+          category_slug,
+          sub_category_slug,
         },
       });
       if (res.status === 200) {
@@ -63,6 +65,7 @@ function useGetCompanyProducts(isMyCompany) {
       const nextUrl = lastPage?.data?.links?.next;
       return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
+    retry: false,
   });
 
   return {

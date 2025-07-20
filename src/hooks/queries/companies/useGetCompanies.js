@@ -8,8 +8,8 @@ function useGetCompanies() {
   const searchParams = useSearchParams();
   const locale = useLocale();
   const lang = locale.split("-")[1];
+  const country_slug = useLocale().split("-")[0];
 
-  const country_id = searchParams.get("country");
   const city_id = searchParams.get("city");
   const category_slug = searchParams.get("category");
   const search = searchParams.get("search");
@@ -22,14 +22,14 @@ function useGetCompanies() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["companies", country_id, city_id, category_slug, lang, search],
+    queryKey: ["companies", country_slug, city_id, category_slug, lang, search],
 
     queryFn: async ({ pageParam = 1 }) => {
       const res = await clientAxios.get("/client/companies", {
         params: {
           page: pageParam,
           city_id,
-          country_id,
+          country_slug,
           category_slug,
           search,
         },
@@ -45,6 +45,7 @@ function useGetCompanies() {
       const nextUrl = lastPage?.data?.links?.next;
       return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
+    retry: false,
   });
 
   return {

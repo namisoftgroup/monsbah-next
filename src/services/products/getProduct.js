@@ -1,10 +1,10 @@
 import serverAxios from "@/libs/axios/severAxios";
 
-export async function getProduct(id) {
+export async function getProduct(slug) {
   try {
     const res = await serverAxios.get(`/client/product-details`, {
       params: {
-        product_id: id,
+        product_slug: slug,
       },
     });
 
@@ -12,6 +12,7 @@ export async function getProduct(id) {
       return res?.data?.data;
     }
   } catch (error) {
+    // console.log(error?.response?.data);
     console.log(error);
 
     console.error("Error fetching product:", error.message);

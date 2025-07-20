@@ -11,8 +11,9 @@ export const fetchProduct = cache(async (id) => {
 
 export async function generateMetadata({ params }) {
   const { productSlug } = await params;
+  const decodedSlug = decodeURIComponent(productSlug);
 
-  const product = await fetchProduct(productSlug);
+  const product = await fetchProduct(decodedSlug);
 
   return {
     title: product.name,
@@ -39,7 +40,9 @@ export async function generateMetadata({ params }) {
 export default async function page({ params }) {
   const { productSlug } = await params;
 
-  const product = await fetchProduct(productSlug);
+  const decodedSlug = decodeURIComponent(productSlug);
+
+  const product = await fetchProduct(decodedSlug);
 
   return (
     <section className="product_details">

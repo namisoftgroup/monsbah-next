@@ -1,6 +1,6 @@
 import FilterSection from "@/components/home/FilterSection";
 import HeroSection from "@/components/home/HeroSection";
-import MemoizedProductsSection from "@/components/home/ProductsSection";
+import ProductsSection from "@/components/home/ProductsSection";
 import { getUserType } from "@/services/auth/getUserType";
 
 export async function generateMetadata() {
@@ -20,7 +20,7 @@ export default async function Home({ searchParams }) {
     <>
       <HeroSection />
       <FilterSection selectedCategory={selectedCategory} />
-      <MemoizedProductsSection userType={user} />
+      <ProductsSection userType={user} />
     </>
   );
 }

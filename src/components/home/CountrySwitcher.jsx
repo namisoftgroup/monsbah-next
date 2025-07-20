@@ -36,21 +36,11 @@ export default function CountrySwitcher({ countries }) {
     setSelectedCountry(selectedOption);
     const language = locale.split("-")[1];
     const newLocale = `${selectedOption.value}-${language}`;
+    const fullPath = `${pathname}`;
+    const params = searchParams.toString();
+    const fullPathWithQuery = `${fullPath}${params ? `?${params}` : ""}`;
 
-    // Clone existing searchParams and add/update country_id
-    const newParams = new URLSearchParams(searchParams.toString());
-    const countryData = countries.find(
-      (c) => c.iso_code === selectedOption.value
-    );
-
-    if (countryData?.id) {
-      newParams.set("country", countryData.id.toString());
-    }
-
-    const queryString = newParams.toString();
-    const fullPath = `${pathname}${queryString ? "?" + queryString : ""}`;
-
-    router.replace(fullPath, { locale: newLocale });
+    router.replace(fullPathWithQuery, { locale: newLocale });
   }
 
   return (
