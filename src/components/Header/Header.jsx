@@ -36,7 +36,7 @@ export default function Header() {
           <div className="moreActions">
             <MoreActions />
 
-            {user?.id && (
+            {user && (
               <>
                 <NotificationsDropDown />
               </>

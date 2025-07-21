@@ -5,8 +5,10 @@ import NotificationCard from "./NotificationCard";
 import { useEffect, useRef } from "react";
 import NotificationLoader from "@/components/shared/loaders/NotificationLoader";
 import useGetNotifications from "@/hooks/queries/notifications/useGetNotifications";
+import { useTranslations } from "use-intl";
 
 export default function NotificationList() {
+  const t = useTranslations();
   const sectionRef = useRef();
   const {
     data: notifications,

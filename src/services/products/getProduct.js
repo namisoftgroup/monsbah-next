@@ -15,7 +15,7 @@ export async function getProduct(slug) {
     }
   } catch (error) {
     // console.log(error?.response?.data);
-    console.log(error?.response?.data?.message);
+    console.log(error?.response);
 
     console.error("Error fetching product:", error.message);
     throw error;

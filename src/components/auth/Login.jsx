@@ -16,6 +16,7 @@ import { getErrorMessage } from "@/utils/get-error-message";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { Controller } from "react-hook-form";
 import { handleLogin } from "@/services/auth/LoginService";
+import { loginAction } from "@/libs/actions/authActions";
 
 export default function Login() {
   const t = useTranslations("auth");
@@ -48,33 +49,33 @@ export default function Login() {
   }, [selectedCountry]);
 
   const onSubmit = async () => {
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const data = await handleLogin({
-        userType,
-        phone: watch("phone"),
-        country_code: watch("country_code"),
-        password: watch("password"),
-        fcm_token: watch("fcm_token"),
-      });
+    const res = await loginAction({
+      userType,
+      phone: watch("phone"),
+      country_code: watch("country_code"),
+      password: watch("password"),
+      fcm_token: watch("fcm_token"),
+    });
+    if (res.success === true) {
+      console.log("---- login response in cient ----- ", res);
 
-      loginState(data.token, data.client_data);
+      loginState(res?.data?.token, res?.data?.client_data);
       setUserType(
-        data.client_data?.user_type === "user" ? "client" : "company"
+        res?.data?.client_data?.user_type === "user" ? "client" : "company"
       );
       localStorage.setItem(
         "user_type",
-        data.client_data?.user_type === "user" ? "client" : "company"
+        res?.data?.client_data?.user_type === "user" ? "client" : "company"
       );
       onClose(false);
-      router.refresh();
-      router.push("/");
-    } catch (error) {
-      toast.error(getErrorMessage(error) || t("somethingWentWrong"));
-    } finally {
-      setLoading(false);
+      toast.success(res?.message);
+      window.location.reload();
+    } else if (res.success === false) {
+      toast.error(res.message);
     }
+    setLoading(false);
   };
 
   return (

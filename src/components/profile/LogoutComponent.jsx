@@ -24,6 +24,7 @@ export default function LogoutComponent({ withIcon = true }) {
       router.replace("/");
       localStorage.removeItem("user_type");
       logout();
+      window.location.reload();
     }
     setisLoading(false);
   };
