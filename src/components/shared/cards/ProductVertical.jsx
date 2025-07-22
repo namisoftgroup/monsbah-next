@@ -78,7 +78,7 @@ function ProductVertical({
     <>
       <Link
         aria-label="Product"
-        href={`/product/${product?.slug}`}
+        href={`/product/${product?.slug}-id=${product?.id}`}
         className={`product_vertical ${className} `}
       >
         <div className="img">

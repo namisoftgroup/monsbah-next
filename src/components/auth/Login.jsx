@@ -1,22 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useAuthModal } from "@/stores/useAuthModal";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import PasswordField from "@/components/shared/forms/PasswordField";
-import SubmitButton from "@/components/shared/forms/SubmitButton";
 import PhoneInput from "@/components/shared/forms/PhoneInput";
-import ChooseUserType from "./ChooseUserType";
+import SubmitButton from "@/components/shared/forms/SubmitButton";
 import useLoginForm from "@/hooks/controllers/useLoginForm";
 import useGetCurrentLocation from "@/hooks/queries/settings/useGetCurrentLocation";
-import { getErrorMessage } from "@/utils/get-error-message";
+import { loginAction } from "@/libs/actions/authActions";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { Controller } from "react-hook-form";
-import { handleLogin } from "@/services/auth/LoginService";
-import { loginAction } from "@/libs/actions/authActions";
+import ChooseUserType from "./ChooseUserType";
 
 export default function Login() {
   const t = useTranslations("auth");
@@ -59,8 +57,6 @@ export default function Login() {
       fcm_token: watch("fcm_token"),
     });
     if (res.success === true) {
-      console.log("---- login response in cient ----- ", res);
-
       loginState(res?.data?.token, res?.data?.client_data);
       setUserType(
         res?.data?.client_data?.user_type === "user" ? "client" : "company"

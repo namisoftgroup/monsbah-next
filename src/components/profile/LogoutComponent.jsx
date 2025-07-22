@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 
-export default function LogoutComponent({ withIcon = true }) {
+export default function LogoutComponent({ withIcon = true, isHome = false }) {
   const t = useTranslations("profile");
   const [loading, setisLoading] = useState(false);
   const router = useRouter();
@@ -24,7 +24,9 @@ export default function LogoutComponent({ withIcon = true }) {
       router.replace("/");
       localStorage.removeItem("user_type");
       logout();
-      window.location.reload();
+      if (isHome === true) {
+        window.location.reload();
+      }
     }
     setisLoading(false);
   };

@@ -4,7 +4,7 @@ import { detectMobileTypeAndAppLink } from "@/utils/helpers";
 import { useEffect, useState } from "react";
 
 export default function DownloadApp() {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     const isAppDownloaded = localStorage.getItem("appDownloaded");

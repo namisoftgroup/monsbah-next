@@ -92,7 +92,7 @@ export default function Header() {
                         </Dropdown.Item>
 
                         <Dropdown.Item>
-                          <LogoutComponent withIcon={false} />
+                          <LogoutComponent withIcon={false} isHome={true} />
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>

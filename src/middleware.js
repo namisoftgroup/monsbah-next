@@ -1,14 +1,38 @@
 import { routing } from "@/i18n/routing";
 import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
+import { API_URL } from "./utils/constants";
 
 const intlMiddleware = createMiddleware(routing);
 
-export function middleware(req) {
+export async function middleware(req) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname === "/") {
+    try {
+      const res = await fetch(`${API_URL}/client/current_location`);
+
+      // console.log("-------------  detect coutry  response", res);
+      if (!res.ok) throw new Error("Location API failed");
+      const data = await res.json();
+
+      const countrySlug = data?.data?.iso_code ?? "default";
+
+      const redirectUrl = new URL(`/${countrySlug}-ar`, req.url);
+      return NextResponse.redirect(redirectUrl);
+    } catch (error) {
+      console.error("Error detecting location:", error);
+      // Fallback redirect
+      const fallbackUrl = new URL("/kuwait-en", req.url);
+      return NextResponse.redirect(fallbackUrl);
+    }
+  }
+
+  // ===  Proceed with intlMiddleware + your custom logic ===
   const res = intlMiddleware(req);
+
   const token = req.cookies.get("token");
   const role = req.cookies.get("user_type")?.value;
-  const { pathname } = req.nextUrl;
 
   const locale = pathname.split("/")[1];
   const normalizedPathname = pathname.replace(/\/$/, "");
@@ -27,6 +51,7 @@ export function middleware(req) {
     "/add-company-product",
     "/company-verification",
     "/company-favorites",
+    "/company-notification",
   ].map((route) => `/${locale}${route}`);
 
   const restrictedForCompany = [
@@ -45,6 +70,7 @@ export function middleware(req) {
     "/add-company-product",
     "/company-verification",
     "/company-favorites",
+    "/company-notification",
   ].map((route) => `/${locale}${route}`);
 
   // Block unauthenticated users from protected routes
