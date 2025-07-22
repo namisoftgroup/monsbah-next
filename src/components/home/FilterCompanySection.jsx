@@ -10,8 +10,6 @@ export default async function FilterCompanySection({ selectedCategory }) {
     getCountries(),
     getCategories(`/company/categories`),
   ]);
-  console.log("countries : -", countries);
-  console.log("categories : -", categories);
 
   const subCategories = await getSubCategories(
     {

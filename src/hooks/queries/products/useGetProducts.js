@@ -48,8 +48,6 @@ function useGetProducts(userType) {
         },
       });
       if (res.status === 200) {
-        console.log(res?.config);
-
         return {
           data: res.data?.data?.data,
           total: res.data?.data?.meta?.total,

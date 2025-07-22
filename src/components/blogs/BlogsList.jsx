@@ -5,7 +5,6 @@ import { getTranslations } from "next-intl/server";
 export default async function BlogsList() {
   const t = await getTranslations("blogs");
   const blogs = await getBlogs();
-  console.log(blogs);
 
   return (
     <section className="blogs_section">

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import serverAxios from "../axios/severAxios";
+import { getUserType } from "@/services/auth/getUserType";
 
 // ! ---------------------  submitProduct ------------------------!
 
@@ -87,8 +88,9 @@ export async function submitProduct(formData, user, id) {
 // --------------------------  delete ADs action ----------------------
 
 export async function deleteAdAction(id) {
+  const userType = await getUserType();
   try {
-    const res = await serverAxios.post("/client/delete-product", {
+    const res = await serverAxios.post(`/${userType}/delete-product`, {
       product_id: id,
     });
 
@@ -177,7 +179,6 @@ export async function submitCompanyProduct(formData, user, id) {
       },
     });
 
-    console.log(response.config);
     if (response.status === 200) {
       revalidatePath("/");
 
@@ -187,7 +188,6 @@ export async function submitCompanyProduct(formData, user, id) {
       };
     }
   } catch (error) {
-    console.log(error?.response?.data);
     const message =
       error?.response?.data?.message || "Failed to submit product";
     return {

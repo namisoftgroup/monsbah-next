@@ -28,9 +28,6 @@ export async function updateProfileAction(formData) {
   if (formData.cover instanceof File) {
     form.append("cover", formData.cover);
   }
-  console.log(formData);
-
-  console.log(form);
 
   try {
     const res = await serverAxios.post(
@@ -48,8 +45,6 @@ export async function updateProfileAction(formData) {
       return res?.data;
     }
   } catch (error) {
-    // console.error("Server action error:", error);
-    console.log(error?.response);
     throw new Error(error?.response?.data?.message);
   }
 }

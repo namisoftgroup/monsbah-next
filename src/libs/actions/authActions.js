@@ -25,14 +25,10 @@ export async function loginAction({
     country_code,
     fcm_token: FCM,
   };
-  console.log("---- payload ----", payload);
-  console.log("---- End point ----", endPoint);
 
   try {
     const res = await serverAxios.post(endPoint, payload);
-    console.log("---login response---", res);
     if (res.status === 200) {
-      console.log("---login response---", res?.data);
       cookieStore.set("token", res?.data?.data?.token, {
         path: "/",
         maxAge: 60 * 60 * 24 * 7,
@@ -59,8 +55,6 @@ export async function loginAction({
       };
     }
   } catch (e) {
-    console.log("----login error ----", e);
-
     return {
       success: false,
       message: e.response.data.message,

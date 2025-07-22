@@ -68,7 +68,6 @@ export default function ChatRoom({ chat, userId }) {
 
     setMessages((prev) => [...prev, message]);
   };
-  console.log(userId, chat);
 
   return (
     <>

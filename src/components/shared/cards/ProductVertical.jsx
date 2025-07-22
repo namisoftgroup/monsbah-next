@@ -78,19 +78,12 @@ function ProductVertical({
     <>
       <Link
         aria-label="Product"
-        href={`/product/${product?.slug}-id=${product?.id}`}
+        href={`/product/${product?.slug}`}
         className={`product_vertical ${className} `}
       >
         <div className="img">
           {isValidVideoExtension(product?.image) ? (
-            <video
-              src={product?.image}
-              autoPlay
-              loop
-              muted
-              playsInline
-              // onLoadedMetadata={handleImageLoad}
-            />
+            <video src={product?.image} autoPlay loop muted playsInline />
           ) : (
             <div className="position-relative w-100" style={{ height: "100%" }}>
               <Image fill={true} src={product?.image} alt="" />
@@ -108,12 +101,7 @@ function ProductVertical({
         </div>
 
         <div className="content">
-          <div
-            aria-label="Product"
-            // to={`/product/${product?.id}`}
-            className="title"
-            // onClick={(e) => e.stopPropagation()}
-          >
+          <div aria-label="Product" className="title">
             <h3>{product?.name}</h3>
             {user &&
               (user?.id !== product?.user?.id && removeItem ? (

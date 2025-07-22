@@ -12,7 +12,6 @@ export async function middleware(req) {
     try {
       const res = await fetch(`${API_URL}/client/current_location`);
 
-      // console.log("-------------  detect coutry  response", res);
       if (!res.ok) throw new Error("Location API failed");
       const data = await res.json();
 
