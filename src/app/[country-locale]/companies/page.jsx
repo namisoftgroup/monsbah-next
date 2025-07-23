@@ -1,6 +1,5 @@
 import CompaniesSection from "@/components/companies/CompaniesSection";
 import FilterCompanySection from "@/components/home/FilterCompanySection";
-import FilterSection from "@/components/home/FilterSection";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ searchParams }) {

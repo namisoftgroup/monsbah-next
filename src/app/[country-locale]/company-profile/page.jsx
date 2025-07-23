@@ -6,8 +6,16 @@ import { getAuthedUser } from "@/services/auth/getAuthedUser";
 import { getCompanyProducts } from "@/services/companies/getCompanyProducts";
 import Image from "next/image";
 
-export default async function page() {
+export default async function page({ searchParams }) {
   const profile = await getAuthedUser();
+  const { sub_category } = await searchParams;
+
+  const products = await getCompanyProducts({
+    id: profile.client.id,
+    sub_category_id: sub_category,
+  });
+
+  console.log(products);
 
   return (
     <section className="company_profile_section">
@@ -17,7 +25,7 @@ export default async function page() {
       <div className="container mt-4 p-0">
         <div className="row">
           <div className="company_header">
-            <CompanyImageProfile client={profile?.client}  />
+            <CompanyImageProfile client={profile?.client} />
             <CompanyProfileContent
               client={profile?.client}
               isMyProfile={true}
@@ -31,7 +39,7 @@ export default async function page() {
           <CompanyCategoriesSlider categories={profile?.client?.categories} />
         </div>
         <div className="row mb-5">
-          {profile?.products?.data?.map((product, index) => (
+          {products?.data?.data?.map((product, index) => (
             <div className="col-lg-4 col-md-6 col-12 p-2" key={index}>
               <ProductVertical product={product} />
             </div>

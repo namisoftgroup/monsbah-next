@@ -77,7 +77,11 @@ export default function UserCard({ product }) {
     <div className="mulen_user">
       <div className="mulen_user_info">
         <div className="user_wrapper">
-          <Link aria-label="Profile" to={profileLink} className="image_wrapper">
+          <Link
+            aria-label="Profile"
+            href={profileLink}
+            className="image_wrapper"
+          >
             <Image
               width={90}
               height={90}

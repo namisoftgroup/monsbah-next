@@ -28,7 +28,7 @@ export default async function page({ params, searchParams }) {
   const { slug } = await params;
   const { sub_category } = await searchParams;
 
-  const profile = await fetchProduct(Number(slug));
+  const profile = await fetchCompany(Number(slug));
   const products = await getCompanyProducts({
     id: slug,
     sub_category_id: sub_category,

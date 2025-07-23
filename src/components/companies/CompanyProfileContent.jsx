@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import ShareButton from "../shared/ShareButton";
 import StarsRate from "../shared/StarsRate";
 import CopyButton from "./CopyButton";
+import ShareMyProfile from "../shared/ShareMyProfile";
+import { profile } from "console";
 
 export default async function CompanyProfileContent({
   client,
@@ -43,7 +45,11 @@ export default async function CompanyProfileContent({
                 <i className="fa-solid fa-comment-dots"></i>
               </Link>
             )}
-            <ShareButton />
+            {isMyProfile ? (
+              <ShareMyProfile profile={client} />
+            ) : (
+              <ShareButton />
+            )}
           </div>
         </div>
 
