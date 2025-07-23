@@ -47,7 +47,7 @@ export default async function page({ params }) {
             <UserProfileContent client={profile?.data} />
           </div>
         </div>
-        <div className="row mb-5">
+        <div className="row my-5">
           {products?.data?.data?.map((product, index) => (
             <div className="col-lg-4 col-md-6 col-12 p-2" key={index}>
               <ProductVertical product={product} isShowAction={false} />

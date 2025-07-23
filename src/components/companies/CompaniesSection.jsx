@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
-import ProductCard from "@/components/shared/cards/ProductCard";
-import ProductLoader from "@/components/shared/loaders/ProductLoader";
 import CompanyLoader from "@/components/shared/loaders/CompanyLoader";
+import ProductLoader from "@/components/shared/loaders/ProductLoader";
 import useGetCompanies from "@/hooks/queries/companies/useGetCompanies";
 import useGetCompanyProducts from "@/hooks/queries/products/useGetCompanyProducts";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
 import CompanyCard from "../shared/cards/CompanyCard";
-import ProductVertical from "../shared/cards/ProductVertical";
+import ProductVerticalCompany from "../shared/cards/ProductVerticalCompany";
 
 export default function CompaniesSection() {
   const sectionRef = useRef(null);
@@ -80,7 +79,10 @@ export default function CompaniesSection() {
           <div className="row">
             {allProducts?.map((product, index) => (
               <div className="col-lg-4 col-md-6 col-12 p-2" key={index}>
-                <ProductVertical product={product} isShowAction={false} />
+                <ProductVerticalCompany
+                  product={product}
+                  isShowAction={false}
+                />
               </div>
             ))}
 

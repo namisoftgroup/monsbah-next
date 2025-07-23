@@ -9,7 +9,7 @@ import { startTransition, useOptimistic } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "use-intl";
 
-export default function UserCard({ product }) {
+export default function UserCardCompany({ product }) {
   const { user } = useAuthStore((state) => state);
 
   const { userType, onOpen } = useAuthModal((state) => state);
@@ -60,12 +60,10 @@ export default function UserCard({ product }) {
 
   const profileLink =
     +optimisticUser?.id === +user?.id
-      ? userType === "client"
-        ? "/profile"
-        : "/company-profile"
-      : `/${userType === "client" ? "user-profile" : "companies"}/${
-          optimisticUser?.id
-        }`;
+      ? `/company-profile`
+      : `/companies/${optimisticUser?.id}`;
+
+  console.log(profileLink);
 
   const followerKey =
     optimisticUser.user_type === "user" ? "followers-count" : "followers";

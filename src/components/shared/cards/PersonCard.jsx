@@ -4,12 +4,15 @@ import { toggleFollowAction } from "@/libs/actions/followActions";
 import { useAuthStore } from "@/stores/useAuthStore";
 import Image from "next/image";
 import { startTransition, useOptimistic } from "react";
+import { toast } from "sonner";
 import { useTranslations } from "use-intl";
 
 export default function PersonCard({ person }) {
   const { user } = useAuthStore((state) => state);
   const t = useTranslations();
   const initialUser = person;
+  console.log(user);
+  console.log(person);
 
   const [optimisticUser, setOptimisticUser] = useOptimistic(
     initialUser,
@@ -31,13 +34,24 @@ export default function PersonCard({ person }) {
     }
   );
 
+  console.log("--- opti  user", optimisticUser);
+
   const handleFollow = async () => {
     startTransition(() => {
       setOptimisticUser({ type: "TOGGLE_FOLLOW" });
     });
 
     try {
-      await toggleFollowAction(optimisticUser.is_follow, optimisticUser.id);
+      const res = await toggleFollowAction(
+        optimisticUser.is_follow,
+        optimisticUser.id
+      );
+
+      if (!res.success) {
+        toast.error(res.message);
+      } else {
+        toast.success(res.data.message);
+      }
     } catch (error) {
       console.error(error?.message);
       toast.error(error?.message || "Failed to update follow status");

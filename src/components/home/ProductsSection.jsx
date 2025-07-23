@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import CompanyCard from "../shared/cards/CompanyCard";
 import ProductVertical from "../shared/cards/ProductVertical";
 import CompanyLoader from "../shared/loaders/CompanyLoader";
+import ProductVerticalCompany from "../shared/cards/ProductVerticalCompany";
 
 export default function ProductsSection({ userType }) {
   const sectionRef = useRef(null);
@@ -104,7 +105,15 @@ export default function ProductsSection({ userType }) {
                 className="col-lg-4 col-md-6 col-12 p-2"
                 key={product?.id || index}
               >
-                <ProductVertical product={product} isShowAction={false} />
+                {" "}
+                {localStorage.getItem("user_type") === "company" ? (
+                  <ProductVerticalCompany
+                    product={product}
+                    isShowAction={false}
+                  />
+                ) : (
+                  <ProductVertical product={product} isShowAction={false} />
+                )}
               </div>
             ))}
 

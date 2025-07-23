@@ -23,7 +23,7 @@ export default function LogoutComponent({ withIcon = true, isHome = false }) {
       toast.error(error?.message);
     } else {
       toast.success(res?.data?.message);
-      router.replace("/");
+      router.push("/");
       localStorage.removeItem("user_type");
       logout();
       if (isHome === true) {

@@ -26,7 +26,7 @@ export default function Login() {
   const { setFormType, onClose, userType, setUserType } = useAuthModal(
     (state) => state
   );
-  const loginState = useAuthStore((state) => state.login);
+  const login = useAuthStore((state) => state.login);
 
   const { data: currentLocation } = useGetCurrentLocation();
   const { register, handleSubmit, errors, watch, control } = useLoginForm();
@@ -57,7 +57,7 @@ export default function Login() {
       fcm_token: watch("fcm_token"),
     });
     if (res.success === true) {
-      loginState(res?.data?.token, res?.data?.client_data);
+      login(res?.data?.token, res?.data?.client_data);
       setUserType(
         res?.data?.client_data?.user_type === "user" ? "client" : "company"
       );

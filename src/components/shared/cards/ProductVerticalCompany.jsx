@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { useLocale, useTranslations } from "use-intl";
 import ConfirmationModal from "../modals/ConfirmationModal";
 
-function ProductVertical({
+function ProductVerticalCompany({
   product,
   className,
   isShowAction = true,
@@ -31,6 +31,7 @@ function ProductVertical({
   const { userType } = useAuthModal((state) => state);
 
   const queryClient = useQueryClient();
+  console.log(product);
 
   const handleOpenDeleteModal = async (e) => {
     e.preventDefault();
@@ -77,7 +78,7 @@ function ProductVertical({
     <>
       <Link
         aria-label="Product"
-        href={`/product/${product?.slug}`}
+        href={`/company-product/${product?.slug}`}
         className={`product_vertical ${className} `}
       >
         <div className="img">
@@ -154,19 +155,11 @@ function ProductVertical({
             <li style={{ flex: 1 }}>
               <Link
                 aria-label="Profile"
-                href={
-                  userType === "client"
-                    ? `${
-                        +product?.user?.id === +user?.id
-                          ? "/profile"
-                          : `/user-profile/${product?.user?.id}`
-                      }`
-                    : `${
-                        +product?.user?.id === +user?.client?.id
-                          ? "company-profile"
-                          : `/companies/${product?.user?.id}`
-                      }`
-                }
+                href={`${
+                  +product?.user?.id === +user?.client?.id
+                    ? "company-profile"
+                    : `/companies/${product?.user?.id}`
+                }`}
               >
                 <i className="fa-light fa-user"></i> {product?.user?.username}
               </Link>
@@ -191,4 +184,4 @@ function ProductVertical({
   );
 }
 
-export default ProductVertical;
+export default ProductVerticalCompany;

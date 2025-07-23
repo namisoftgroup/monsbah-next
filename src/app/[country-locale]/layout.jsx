@@ -21,6 +21,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "@/assets/styles/main.css";
 import BackToTop from "@/components/shared/BackToTop";
 import DownloadApp from "@/components/shared/DownloadApp";
+import NextTopLoader from "nextjs-toploader";
 
 export async function generateMetadata({ params }) {
   const locale = await params;
@@ -106,7 +107,10 @@ export default async function RootLayout(props) {
         <Providers locale={fullLocale} messages={messages}>
           <Toaster expand={false} richColors position="bottom-right" />
           <Header />
-          <main>{props.children}</main>
+          <main>
+            <NextTopLoader color="#1abc9c" showSpinner={false} height={6} />
+            {props.children}
+          </main>
           <Footer />
           <ResponsiveNav />
           <AuthModal />

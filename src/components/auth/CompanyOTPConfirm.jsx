@@ -13,7 +13,7 @@ import clientAxios from "@/libs/axios/clientAxios";
 const CompanyOTPConfirm = () => {
   const t = useTranslations();
   const { setFormType, onClose, userType } = useAuthModal((state) => state);
-  const loginState = useAuthStore((state) => state.login);
+  const login = useAuthStore((state) => state.login);
   const [otpVerifyCode, setOtpVerifyCode] = useState("");
   const [loading, setLoading] = useState(false);
   const { watch } = useFormContext();
@@ -70,7 +70,7 @@ const CompanyOTPConfirm = () => {
         });
 
         toast.success(data?.message);
-        loginState(data.token, data.client_data);
+        login(data.token, data.client_data);
         localStorage.setItem(
           "user_type",
           data.client_data?.user_type === "user" ? "client" : "company"

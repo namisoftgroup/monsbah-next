@@ -1,8 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React from "react";
 
 export default function ShareMyProfile({ className, profile }) {
+  const { t } = useTranslations();
   let currentUrl = window.location.href;
   const currentPageLink = currentUrl.replace(
     "/company-profile",

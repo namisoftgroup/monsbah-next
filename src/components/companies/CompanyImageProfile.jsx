@@ -3,7 +3,8 @@
 import { toggleFollowAction } from "@/libs/actions/followActions";
 import { useAuthStore } from "@/stores/useAuthStore";
 import Image from "next/image";
-import React, { startTransition, useOptimistic } from "react";
+import React, { startTransition, useOptimistic, useEffect } from "react";
+import { toast } from "sonner";
 
 export default function CompanyImageProfile({ client }) {
   const { user } = useAuthStore((state) => state);
@@ -18,13 +19,15 @@ export default function CompanyImageProfile({ client }) {
         const followerKey =
           currentUser.user_type === "user" ? "followers-count" : "followers";
 
-        return {
+        const updatedUser = {
           ...currentUser,
           is_follow: isFollowing,
           [followerKey]: isFollowing
             ? currentUser[followerKey] + 1
             : currentUser[followerKey] - 1,
         };
+
+        return updatedUser;
       }
       return currentUser;
     }
@@ -36,11 +39,14 @@ export default function CompanyImageProfile({ client }) {
     });
 
     try {
-      await toggleFollowAction(optimisticUser.is_follow, optimisticUser.id);
-    } catch (error) {
-      console.error(error?.message);
-      toast.error(error?.message || "Failed to update follow status");
-    }
+      const res = await toggleFollowAction(
+        optimisticUser.is_follow,
+        optimisticUser.id
+      );
+      if (!res.success) {
+        toast.error(res.message);
+      }
+    } catch (error) {}
   };
 
   return (
