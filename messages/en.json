@@ -196,7 +196,8 @@
     "noFavoritesYet": "You don't have any favorite ads, yet.",
     "noNotificationsYet": "You don't have any notifications, yet.",
     "noRatesYet": "There is no rates, yet.",
-    "notifications": "notifications"
+    "notifications": "notifications",
+    "areYouSureYouWantToLogout": "Are you sure you want to logout?"
   },
   "contact": {
     "titleHint": "Contact Us",

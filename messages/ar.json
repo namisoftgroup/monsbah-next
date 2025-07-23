@@ -194,7 +194,8 @@
     "noFavoritesYet": "ليس لديك اعلانات مفضلة حتى الان",
     "noNotificationsYet": "ليس لديك اشعارات حتى الان",
     "noRatesYet": "لا توجد تقييمات حتى الان",
-    "notifications": "الاشعارات"
+    "notifications": "الاشعارات",
+    "areYouSureYouWantToLogout": "هل أنت متأكد من رغبتك بتسجيل الخروج؟"
   },
   "contact": {
     "titleHint": "هل لديك استفسار؟",

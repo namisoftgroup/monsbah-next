@@ -6,9 +6,11 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
+import ConfirmationModal from "../shared/modals/ConfirmationModal";
 
 export default function LogoutComponent({ withIcon = true, isHome = false }) {
-  const t = useTranslations("profile");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const t = useTranslations();
   const [loading, setisLoading] = useState(false);
   const router = useRouter();
   const { logout } = useAuthStore();
@@ -31,11 +33,22 @@ export default function LogoutComponent({ withIcon = true, isHome = false }) {
     setisLoading(false);
   };
   return (
-    <button onClick={() => performLogout()} disabled={loading}>
-      {withIcon && (
-        <i className={`fa-regular fa-arrow-right-from-bracket mr-2`} />
-      )}
-      {t("logout")}
-    </button>
+    <>
+      <button onClick={() => setShowLogoutModal(true)} disabled={loading}>
+        {withIcon && (
+          <i className={`fa-regular fa-arrow-right-from-bracket mr-2`} />
+        )}
+        {t("logout")}
+      </button>
+      <ConfirmationModal
+        showModal={showLogoutModal}
+        setShowModal={setShowLogoutModal}
+        type="logout"
+        eventFun={performLogout}
+        loading={loading}
+        buttonText={t("profile.logout")}
+        text={t("auth.areYouSureYouWantToLogout")}
+      />
+    </>
   );
 }

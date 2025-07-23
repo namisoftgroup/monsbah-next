@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
 import { Modal } from "react-bootstrap";
-import SubmitButton from "../forms/SubmitButton";
 
 const ConfirmationModal = ({
   showModal,
