@@ -38,7 +38,11 @@ export default async function page({ params }) {
     <section className="company_profile_section">
       {" "}
       <div className="banner position-relative">
-        <Image fill={true} src="/banner.png" alt="banner" />
+        <Image
+          fill={true}
+          src={profile.cover ? profile.cover : "/banner.png"}
+          alt="banner"
+        />
       </div>
       <div className="container mt-4 p-0">
         <div className="row">

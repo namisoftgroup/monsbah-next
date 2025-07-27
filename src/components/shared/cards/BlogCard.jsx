@@ -5,7 +5,7 @@ export default async function BlogCard({ blog }) {
   const t = await getTranslations();
 
   return (
-    <Link href={`/blogs/${blog?.id}`} className="blog_card">
+    <Link href={`/blogs/${blog?.slug}`} className="blog_card">
       <div className="blog_image">
         <img src={blog?.image} alt="فساتين زفاف" />
       </div>
