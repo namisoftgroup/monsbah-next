@@ -77,7 +77,7 @@ function ProductVertical({
     <>
       <Link
         aria-label="Product"
-        href={`/product/${product?.slug}`}
+        href={`/product/${product?.slug}-id=${product?.id}`}
         className={`product_vertical ${className} `}
       >
         <div className="img">
@@ -122,8 +122,8 @@ function ProductVertical({
                     aria-label="Profile"
                     href={
                       user?.client?.user_type === "company"
-                        ? `/add-company-product/${product?.slug}`
-                        : `/profile/addAd/${product?.slug}`
+                        ? `/add-company-product/${product?.slug}-id=${product?.id}`
+                        : `/profile/addAd/${product?.slug}-id=${product?.id}`
                     }
                     className={`favourite_btn dark`}
                     onClick={(e) => e.stopPropagation()}
