@@ -1,10 +1,19 @@
 import SideBar from "@/components/categories/SideBar";
 import SubCategoriesList from "@/components/categories/SubCategoriesList";
+import { getSubCategories } from "@/services/categories/getSubCategories";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
   const categorySlug = (await searchParams)?.category ?? null;
+  const subCategories = await getSubCategories({
+    category_slug: categorySlug,
+  });
+
+  console.log(
+    "------------ subcategories ---------------------------",
+    subCategories
+  );
 
   return {
     title: categorySlug

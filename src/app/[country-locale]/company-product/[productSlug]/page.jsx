@@ -17,23 +17,28 @@ export async function generateMetadata({ params }) {
   const product = await fetchProduct(decodedSlug);
 
   return {
-    title: product.name,
-    description: product.description,
+    title: product.meta_title,
+    description: product.meta_description,
 
     openGraph: {
-      title: product.name,
-      description: product.description,
+      title: product.meta_title,
+      description: product.meta_description,
       images: product.images,
       url: `https://www.monsbah.com/products/${productSlug}`,
     },
     twitter: {
       card: "summary_large_image",
-      title: product.name,
-      description: product.description,
+      title: product.meta_title,
+      description: product.meta_description,
       images: product.images,
     },
     alternates: {
-      canonical: `https://yourstore.com/products/${productSlug}`,
+      canonical: product.canonical_url,
+      // `https://yourstore.com/products/${productSlug}`,
+    },
+    robots: {
+      index: product.is_index,
+      follow: product.is_follow,
     },
   };
 }

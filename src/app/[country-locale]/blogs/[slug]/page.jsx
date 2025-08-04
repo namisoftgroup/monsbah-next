@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { getBlogs } from "@/services/blogs/getBlogs";
 import { getBlogsDetails } from "@/services/blogs/getBlogsDetails";
 import { getTranslations } from "next-intl/server";
-import React, { cache } from "react";
+import { cache } from "react";
 
 const fetchBlogDetails = cache(async (id) => {
   return await getBlogsDetails(id);
@@ -13,23 +13,39 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const t = await getTranslations("meta");
   const blog = await fetchBlogDetails(slug);
+  console.log("----- blog ------", blog);
 
   return {
-    title: { absolute: `${t("blogs.detailsTitle")} - ${blog?.title}` },
-    description: blog?.description,
+    title: blog?.meta_title,
+    description: blog?.meta_description,
+
     openGraph: {
-      title: { absolute: `${t("blogs.detailsTitle")} - ${blog?.title}` },
-      description: blog?.description,
+      title: blog?.meta_title,
+      description: blog?.meta_description,
       images: blog?.image
         ? [
             {
               url: blog.image,
               width: 800,
               height: 600,
-              alt: blog.title,
+              alt: blog?.meta_title,
             },
           ]
         : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog?.meta_title,
+      description: blog?.meta_description,
+      images: blog?.image,
+    },
+    alternates: {
+      canonical: blog?.canonical_url,
+    },
+
+    robots: {
+      index: blog?.is_index,
+      follow: blog?.is_follow,
     },
   };
 }
