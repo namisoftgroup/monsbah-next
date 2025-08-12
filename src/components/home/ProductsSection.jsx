@@ -29,7 +29,8 @@ export default function ProductsSection({ userType }) {
     fetchNextPage,
     hasNextPage,
   } = useGetProducts(userType);
-
+  const allProducts =
+    productsData?.pages?.flatMap((page) => page?.data?.data) ?? [];
   const {
     data: companiesData,
     isLoading: isLoadingCompanies,
@@ -100,7 +101,7 @@ export default function ProductsSection({ userType }) {
           </div>
         ) : (
           <div className="row">
-            {productsData?.map((product, index) => (
+            {allProducts?.map((product, index) => (
               <div
                 className="col-lg-4 col-md-6 col-12 p-2"
                 key={product?.id || index}

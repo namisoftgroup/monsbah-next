@@ -9,7 +9,6 @@ function useGetProducts(userType) {
   const searchParams = useSearchParams();
   const lang = useLocale().split("-")[1];
   const country_slug = useLocale().split("-")[0];
-
   const type = searchParams.get("type");
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
@@ -48,26 +47,23 @@ function useGetProducts(userType) {
         },
       });
       if (res.status === 200) {
-        return {
-          data: res.data?.data?.data,
-          total: res.data?.data?.meta?.total,
-          per_page: res.data?.data?.meta?.per_page,
-        };
+        return res.data;
       } else {
         throw new Error("Failed to fetch products");
       }
     },
 
     getNextPageParam: (lastPage, pages) => {
-      const isMore = lastPage.data.length >= lastPage.per_page;
-      return isMore ? pages.length + 1 : undefined;
+      const nextUrl = lastPage?.data?.links?.next;
+      return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
   });
 
   return {
     isLoading,
-    data: data?.pages.flatMap((page) => page.data),
+    data,
     error,
+    total: data?.pages?.[0]?.total || 0,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,

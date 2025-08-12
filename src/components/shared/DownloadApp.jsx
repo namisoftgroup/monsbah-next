@@ -17,6 +17,8 @@ export default function DownloadApp() {
     localStorage.setItem("appDownloaded", "true");
     setShow(false);
   };
+  const mobileLink = detectMobileTypeAndAppLink();
+  console.log(mobileLink);
 
   if (!show) return null;
 
@@ -39,11 +41,7 @@ export default function DownloadApp() {
             <p>Get it on</p>
           </div>
         </div>
-        <a
-          href={detectMobileTypeAndAppLink}
-          className="get_app"
-          onClick={handleClose}
-        >
+        <a href={mobileLink} className="get_app" onClick={handleClose}>
           Get
         </a>
       </div>
