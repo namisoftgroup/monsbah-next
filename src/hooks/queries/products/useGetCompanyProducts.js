@@ -11,10 +11,8 @@ function useGetCompanyProducts(isMyCompany) {
 
   const loacle = useLocale();
   const searchParams = useSearchParams();
-
   const lang = loacle.split("-")[1];
   const country_slug = useLocale().split("-")[0];
-
   const type = searchParams.get("type");
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
@@ -35,7 +33,7 @@ function useGetCompanyProducts(isMyCompany) {
       type,
       sort,
       city_id,
-      id,
+      id ?? null,
       category_slug,
       sub_category_slug,
       lang,
