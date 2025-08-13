@@ -14,6 +14,18 @@ function useGetProducts(userType) {
   const city_id = searchParams.get("city");
   const category_slug = searchParams.get("category");
   const sub_category_slug = searchParams.get("sub_category");
+  const search = searchParams.get("search");
+  console.log(
+    "client keys",
+    lang,
+    country_slug,
+    type,
+    sort,
+    city_id,
+    category_slug,
+    sub_category_slug,
+    search
+  );
 
   const {
     isLoading,
@@ -32,6 +44,8 @@ function useGetProducts(userType) {
       city_id,
       category_slug,
       sub_category_slug,
+      search,
+      userType,
     ],
 
     queryFn: async ({ pageParam = 1 }) => {
@@ -41,9 +55,10 @@ function useGetProducts(userType) {
           country_slug,
           type: type,
           sort: sort,
-          city_id: city_id,
-          category_slug: category_slug,
-          sub_category_slug: sub_category_slug,
+          city_id,
+          category_slug,
+          sub_category_slug,
+          search, // Added search to params
         },
       });
       if (res.status === 200) {

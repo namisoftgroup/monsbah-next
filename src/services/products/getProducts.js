@@ -9,22 +9,27 @@ export default async function getProducts({
   city_id,
   category_slug,
   sub_category_slug,
-  userType,
+  search,
+  user,
 }) {
-  const res = await serverAxios.get(`/${userType}/products`, {
-    params: {
-      page: pageParam,
-      country_slug,
-      type,
-      sort,
-      city_id,
-      category_slug,
-      sub_category_slug,
-    },
-  });
-  if (res.status === 200) {
-    return res.data;
-  } else {
+  try {
+    const res = await serverAxios.get(`/${user}/products`, {
+      params: {
+        page: pageParam,
+        country_slug,
+        type,
+        sort,
+        city_id,
+        category_slug,
+        sub_category_slug,
+        search,
+      },
+    });
+    if (res.status === 200) {
+      return res.data;
+    }
+  } catch (error) {
+    console.log(error);
     throw new Error("Failed to fetch products");
   }
 }
