@@ -2,30 +2,27 @@
 
 import { useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export default function CategoriesSlider({ categories }) {
   const t = useTranslations();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedCategory = searchParams.get("category");
+  const pathname = usePathname();
+  const params = useParams();
+  // const searchParams = useSearchParams();
+  const selectedCategory = params?.category ?? "";
 
   const handleSelectCategory = useCallback(
-    (newValue) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      if (newValue === "") {
-        params.delete("category");
+    (slug) => {
+      if (!slug) {
+        router.push("/");
       } else {
-        params.set("category", newValue);
+        router.push(`/${slug}`);
       }
-
-      params.delete("sub_category");
-      router.push(`?${params.toString()}`);
     },
-    [router, searchParams]
+    [router]
   );
 
   return (
