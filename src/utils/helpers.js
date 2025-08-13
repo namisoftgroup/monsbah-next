@@ -44,10 +44,13 @@ export function formatDateToYMDHM(dateString) {
 
 export const detectMobileTypeAndAppLink = () => {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  console.log(userAgent);
 
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
     return "https://apps.apple.com/eg/app/%D9%85%D9%86%D8%A7%D8%B3%D8%A8%D8%A9/id1589937521";
   } else if (/android/i.test(userAgent)) {
     return "https://play.google.com/store/apps/details?id=com.app.monasba&pcampaignid=web_share";
+  } else {
+    return "https://apps.apple.com/eg/app/%D9%85%D9%86%D8%A7%D8%B3%D8%A8%D8%A9/id1589937521";
   }
 };
