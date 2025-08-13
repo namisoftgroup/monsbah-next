@@ -9,12 +9,23 @@ function useGetProducts(userType) {
   const searchParams = useSearchParams();
   const lang = useLocale().split("-")[1];
   const country_slug = useLocale().split("-")[0];
-
   const type = searchParams.get("type");
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
   const category_slug = searchParams.get("category");
   const sub_category_slug = searchParams.get("sub_category");
+  const search = searchParams.get("search");
+  console.log(
+    "client keys",
+    lang,
+    country_slug,
+    type,
+    sort,
+    city_id,
+    category_slug,
+    sub_category_slug,
+    search
+  );
 
   const {
     isLoading,
@@ -33,6 +44,8 @@ function useGetProducts(userType) {
       city_id,
       category_slug,
       sub_category_slug,
+      search,
+      userType,
     ],
 
     queryFn: async ({ pageParam = 1 }) => {
@@ -42,32 +55,30 @@ function useGetProducts(userType) {
           country_slug,
           type: type,
           sort: sort,
-          city_id: city_id,
-          category_slug: category_slug,
-          sub_category_slug: sub_category_slug,
+          city_id,
+          category_slug,
+          sub_category_slug,
+          search, // Added search to params
         },
       });
       if (res.status === 200) {
-        return {
-          data: res.data?.data?.data,
-          total: res.data?.data?.meta?.total,
-          per_page: res.data?.data?.meta?.per_page,
-        };
+        return res.data;
       } else {
         throw new Error("Failed to fetch products");
       }
     },
 
     getNextPageParam: (lastPage, pages) => {
-      const isMore = lastPage.data.length >= lastPage.per_page;
-      return isMore ? pages.length + 1 : undefined;
+      const nextUrl = lastPage?.data?.links?.next;
+      return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
     },
   });
 
   return {
     isLoading,
-    data: data?.pages.flatMap((page) => page.data),
+    data,
     error,
+    total: data?.pages?.[0]?.total || 0,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,

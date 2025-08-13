@@ -1,20 +1,28 @@
 import serverAxios from "@/libs/axios/severAxios";
 
-export async function getCompanies({
+export default async function getProducts({
   pageParam = 1,
-  city_id,
+  lang,
   country_slug,
+  type,
+  sort,
+  city_id,
   category_slug,
+  sub_category_slug,
   search,
+  user,
 }) {
   try {
-    const res = await serverAxios.get("/client/companies", {
+    const res = await serverAxios.get(`/${user}/products`, {
       params: {
         page: pageParam,
-        search,
         country_slug,
+        type,
+        sort,
         city_id,
         category_slug,
+        sub_category_slug,
+        search,
       },
     });
     if (res.status === 200) {
@@ -22,6 +30,6 @@ export async function getCompanies({
     }
   } catch (error) {
     console.log(error);
-    throw new Error("Failed to fetch companies");
+    throw new Error("Failed to fetch products");
   }
 }
