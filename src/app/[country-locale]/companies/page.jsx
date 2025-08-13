@@ -5,7 +5,7 @@ import { getCompanies } from "@/services/ads/getCompanies";
 import { getCompanyProducts } from "@/services/companies/getCompanyProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
@@ -36,21 +36,22 @@ export async function generateMetadata({ searchParams }) {
   };
 }
 
-export default async function Companies({ searchParams }) {
+export default async function Companies({ searchParams, params }) {
   const paramsObj = await searchParams;
+  const paramsId = await params;
+  const locale = await getLocale();
   const selectedCategory = paramsObj?.category;
   const queryClient = getQueryClient();
 
   // Extract params from URL
-  const country_slug = searchParams.country || "kw";
-  const type = searchParams.type || null;
-  const sort = searchParams.sort || null;
+  const [country_slug, lang] = locale.split("-");
+  const type = paramsObj.type || null;
+  const sort = paramsObj.sort || null;
   const city_id = paramsObj?.city || null;
-  const category_slug = searchParams.category || null;
-  const sub_category_slug = searchParams.sub_category || null;
-  const lang = searchParams.lang || "en";
-  const search = searchParams.search || null;
-  // const id = params?.id || null;
+  const category_slug = paramsObj.category || null;
+  const sub_category_slug = paramsObj.sub_category || null;
+  const search = paramsObj.search || null;
+  const id = paramsId?.id;
 
   const hasCategory = !!paramsObj?.category;
   const hasSubcategory = !!paramsObj?.sub_category;
@@ -64,7 +65,7 @@ export default async function Companies({ searchParams }) {
       type,
       sort,
       city_id,
-      // id,
+      id,
       category_slug,
       sub_category_slug,
       lang,
@@ -76,10 +77,9 @@ export default async function Companies({ searchParams }) {
         country_slug,
         type,
         sort,
-        city_slug,
+        city_id,
         category_slug,
         sub_category_slug,
-        id,
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
