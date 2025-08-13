@@ -8,11 +8,10 @@ import { useParams, useSearchParams } from "next/navigation";
 function useGetCompanyProducts(isMyCompany) {
   const { id } = useParams();
   const { user } = useAuthStore((state) => state);
-
-  const loacle = useLocale();
+  const locale = useLocale();
   const searchParams = useSearchParams();
-  const lang = loacle.split("-")[1];
-  const country_slug = useLocale().split("-")[0];
+  const lang = locale.split("-")[1];
+  const country_slug = locale.split("-")[0];
   const type = searchParams.get("type");
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
@@ -33,7 +32,7 @@ function useGetCompanyProducts(isMyCompany) {
       type,
       sort,
       city_id,
-      id ?? null,
+      id,
       category_slug,
       sub_category_slug,
       lang,
