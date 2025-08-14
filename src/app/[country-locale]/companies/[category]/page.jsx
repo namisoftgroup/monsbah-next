@@ -1,17 +1,19 @@
-import FilterSection from "@/components/home/FilterSection";
-import HeroSection from "@/components/home/HeroSection";
-import ProductsSection from "@/components/home/ProductsSection";
-import CompaniesList from "@/components/search/CompaniesList";
+import CompaniesSection from "@/components/companies/CompaniesSection";
+import ProductList from "@/components/companies/ProductList";
+import FilterCompanySection from "@/components/home/FilterCompanySection";
 import { getCompanies } from "@/services/ads/getCompanies";
 import { getUserType } from "@/services/auth/getUserType";
 import getProducts from "@/services/products/getProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
-import React from "react";
 
 export default async function page({ params, searchParams }) {
+  const locale = await getLocale();
+  const user = await getUserType();
   const { category, subcategory, sale } = await params;
+  const paramsObj = await searchParams;
+  
   const categoryDecoded =
     category && category !== "undefined" ? decodeURIComponent(category) : null;
   const subCategoryDecoded =
@@ -21,9 +23,6 @@ export default async function page({ params, searchParams }) {
   const saleDecoded =
     sale && sale !== "undefined" ? decodeURIComponent(sale) : null;
 
-  const paramsObj = await searchParams;
-  const user = await getUserType();
-  const locale = await getLocale();
 
   // Create a QueryClient for server-side
   const queryClient = getQueryClient();
@@ -37,19 +36,6 @@ export default async function page({ params, searchParams }) {
   const category_slug = categoryDecoded || null;
   const sub_category_slug = subCategoryDecoded || null;
   const search = paramsObj?.search || null;
-
-  // render check
-  const hasCategory = Boolean(
-    categoryDecoded &&
-      categoryDecoded !== "undefined" &&
-      categoryDecoded !== "null"
-  );
-  const hasSubcategory = Boolean(
-    subCategoryDecoded &&
-      subCategoryDecoded !== "undefined" &&
-      subCategoryDecoded !== "null"
-  );
-  const showCompanies = !hasSubcategory && hasCategory && user === "company";
 
   // Prefetch products with ALL parameters including search
   await queryClient.prefetchInfiniteQuery({
@@ -106,15 +92,12 @@ export default async function page({ params, searchParams }) {
 
   return (
     <>
-      <HeroSection />
-      <FilterSection selectedCategory={selectedCategory} />
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        {showCompanies ? (
-          <CompaniesList />
-        ) : (
-          <ProductsSection userType={user} />
-        )}
-      </HydrationBoundary>
+      <div className="pt-4 pb-4">
+        <FilterCompanySection selectedCategory={selectedCategory} />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <CompaniesSection />
+        </HydrationBoundary>
+      </div>
     </>
   );
 }

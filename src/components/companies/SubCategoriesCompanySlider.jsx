@@ -10,7 +10,7 @@ import {
   useParams,
 } from "next/navigation";
 
-export default function SubCategoriesSlider({ subCategories }) {
+export default function SubCategoriesCompanySlider({ subCategories }) {
   const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
@@ -25,16 +25,16 @@ export default function SubCategoriesSlider({ subCategories }) {
     (newValue) => {
       if (!decoudedCategory) {
         // If categoryName is missing, just push subcategory or home
-        router.push(newValue ? `/${newValue}` : `/`);
+        router.push(newValue ? `/companies/${newValue}` : `/companies`);
         return;
       }
 
       if (!newValue) {
         // Remove subcategory
-        router.push(`/${decoudedCategory}`);
+        router.push(`/companies/${decoudedCategory}`);
       } else {
         // Navigate to category/subcategory
-        router.push(`/${decoudedCategory}/${newValue}`);
+        router.push(`/companies/${decoudedCategory}/${newValue}`);
       }
     },
     [router, decoudedCategory]

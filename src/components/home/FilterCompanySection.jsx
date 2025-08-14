@@ -1,9 +1,9 @@
 import { getCategories } from "@/services/categories/getCategories";
 import { getSubCategories } from "@/services/categories/getSubCategories";
 import { getCountries } from "@/services/getCountries";
+import CompanyPageCategoriesSlider from "../companies/CompanyPageCategoriesSlider";
+import SubCategoriesCompanySlider from "../companies/SubCategoriesCompanySlider";
 import AdvancedFilter from "./AdvancedFilter";
-import CategoriesSlider from "./CategoriesSlider";
-import SubCategoriesSlider from "./SubCategoriesSlider";
 
 export default async function FilterCompanySection({ selectedCategory }) {
   const [countries, categories] = await Promise.all([
@@ -21,9 +21,9 @@ export default async function FilterCompanySection({ selectedCategory }) {
   return (
     <section className="explore_ads">
       <div className="container d-flex flex-column gap-2">
-        <CategoriesSlider categories={categories} />
+        <CompanyPageCategoriesSlider categories={categories} />
         {selectedCategory && (
-          <SubCategoriesSlider subCategories={subCategories} />
+          <SubCategoriesCompanySlider subCategories={subCategories} />
         )}
         <AdvancedFilter
           countries={countries}

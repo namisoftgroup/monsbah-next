@@ -29,9 +29,9 @@ export default async function page({ params, searchParams }) {
   const sub_category_slug = subCategoryDecoded || null;
   const search = paramsObj?.search || null;
 
-  const hasCategory = !!categoryDecoded;
-  const hasSubcategory = !!subCategoryDecoded;
-  const showCompanies = !hasSubcategory && hasCategory && user === "company";
+  // const hasCategory = !!categoryDecoded;
+  // const hasSubcategory = !!subCategoryDecoded;
+  // const showCompanies = !hasSubcategory && hasCategory && user === "company";
 
   // Prefetch products with ALL parameters including search
   await queryClient.prefetchInfiniteQuery({
@@ -67,34 +67,34 @@ export default async function page({ params, searchParams }) {
     },
   });
 
-  // Prefetch companies
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ["companies", country_slug, city_id, category_slug, lang, search],
-    queryFn: ({ pageParam = 1 }) =>
-      getCompanies({
-        pageParam,
-        city_id,
-        country_slug,
-        category_slug,
-        lang,
-        search,
-      }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      const nextUrl = lastPage?.data?.links?.next;
-      return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
-    },
-  });
+  // // Prefetch companies
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: ["companies", country_slug, city_id, category_slug, lang, search],
+  //   queryFn: ({ pageParam = 1 }) =>
+  //     getCompanies({
+  //       pageParam,
+  //       city_id,
+  //       country_slug,
+  //       category_slug,
+  //       lang,
+  //       search,
+  //     }),
+  //   initialPageParam: 1,
+  //   getNextPageParam: (lastPage) => {
+  //     const nextUrl = lastPage?.data?.links?.next;
+  //     return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
+  //   },
+  // });
   return (
     <>
       <HeroSection />
       <FilterSection selectedCategory={selectedCategory} />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        {showCompanies ? (
+        {/* {showCompanies ? (
           <CompaniesList />
-        ) : (
-          <ProductsSection userType={user} />
-        )}
+        ) : ( */}
+        <ProductsSection userType={user} />
+        {/* )} */}
       </HydrationBoundary>
     </>
   );
