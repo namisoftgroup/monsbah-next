@@ -6,7 +6,6 @@ export default async function SubCategoriesList({ selectedCategory }) {
   const subCategories = await getSubCategories({
     category_slug: selectedCategory,
   });
-  console.log(selectedCategory);
 
   return (
     <div className="col-lg-10 col-md-9 col-8 p-lg-2 p-1">

@@ -31,7 +31,6 @@ function ProductVerticalCompany({
   const { userType } = useAuthModal((state) => state);
 
   const queryClient = useQueryClient();
-  console.log(product);
 
   const handleOpenDeleteModal = async (e) => {
     e.preventDefault();

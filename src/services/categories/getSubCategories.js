@@ -13,7 +13,7 @@ export async function getSubCategories(
 
     return data;
   } catch (error) {
-    console.log("Error Fetching subcategories ", error);
+    console.log("Error Fetching subcategories ", error.config);
     throw error;
   }
 }

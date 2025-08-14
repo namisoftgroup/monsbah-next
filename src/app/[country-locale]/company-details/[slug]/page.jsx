@@ -1,12 +1,12 @@
-import CompanyCategoriesSlider from "@/components/companies/CompanyCategoriesSlider";
-import CompanyImageProfile from "@/components/companies/CompanyImageProfile";
-import CompanyProfileContent from "@/components/companies/CompanyProfileContent";
-import ProductVertical from "@/components/shared/cards/ProductVertical";
-import { getCompanyProducts } from "@/services/companies/getCompanyProducts";
-import { getCompanyProfile } from "@/services/companies/getCompanyProfile";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { cache } from "react";
+import { getCompanyProfile } from "@/services/companies/getCompanyProfile";
+import { getCompanyProducts } from "@/services/companies/getCompanyProducts";
+import CompanyImageProfile from "@/components/companies/CompanyImageProfile";
+import CompanyProfileContent from "@/components/companies/CompanyProfileContent";
+import CompanyCategoriesSlider from "@/components/companies/CompanyCategoriesSlider";
+import ProductVertical from "@/components/shared/cards/ProductVertical";
 
 export const fetchCompany = cache(async (id) => {
   return await getCompanyProfile(id);
@@ -26,6 +26,7 @@ export async function generateMetadata({ params }) {
 
 export default async function page({ params, searchParams }) {
   const { slug } = await params;
+
   const { sub_category } = await searchParams;
 
   const profile = await fetchCompany(Number(slug));
@@ -38,7 +39,7 @@ export default async function page({ params, searchParams }) {
     <section className="company_profile_section">
       <div className="banner position-relative">
         <Image fill={true} src="/banner.png" alt="banner" />
-      </div>{" "}
+      </div>
       <div className="container mt-4 p-0">
         <div className="row">
           <div className="company_header">

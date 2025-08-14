@@ -3,29 +3,27 @@
 import clientAxios from "@/libs/axios/clientAxios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 function useGetProducts(userType) {
   const searchParams = useSearchParams();
+  const params = useParams();
   const lang = useLocale().split("-")[1];
   const country_slug = useLocale().split("-")[0];
   const type = searchParams.get("type");
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
-  const category_slug = searchParams.get("category");
-  const sub_category_slug = searchParams.get("sub_category");
+
+  const category_slug =
+    params.category && params.category !== "undefined"
+      ? decodeURIComponent(params.category)
+      : undefined;
+
+  const sub_category_slug =
+    params.subcategory && params.subcategory !== "undefined"
+      ? decodeURIComponent(params.subcategory)
+      : undefined;
   const search = searchParams.get("search");
-  console.log(
-    "client keys",
-    lang,
-    country_slug,
-    type,
-    sort,
-    city_id,
-    category_slug,
-    sub_category_slug,
-    search
-  );
 
   const {
     isLoading,
@@ -58,7 +56,7 @@ function useGetProducts(userType) {
           city_id,
           category_slug,
           sub_category_slug,
-          search, // Added search to params
+          search,
         },
       });
       if (res.status === 200) {

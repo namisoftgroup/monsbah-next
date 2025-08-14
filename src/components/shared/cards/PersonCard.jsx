@@ -11,8 +11,6 @@ export default function PersonCard({ person }) {
   const { user } = useAuthStore((state) => state);
   const t = useTranslations();
   const initialUser = person;
-  console.log(user);
-  console.log(person);
 
   const [optimisticUser, setOptimisticUser] = useOptimistic(
     initialUser,
@@ -33,8 +31,6 @@ export default function PersonCard({ person }) {
       return currentUser;
     }
   );
-
-  console.log("--- opti  user", optimisticUser);
 
   const handleFollow = async () => {
     startTransition(() => {

@@ -15,8 +15,6 @@ export default async function page({ searchParams }) {
     sub_category_id: sub_category,
   });
 
-  console.log(products);
-
   return (
     <section className="company_profile_section">
       <div className="banner position-relative">

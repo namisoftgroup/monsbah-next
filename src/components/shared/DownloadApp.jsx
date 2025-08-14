@@ -19,8 +19,6 @@ export default function DownloadApp() {
   };
 
   const mobileTypeAndLink = detectMobileTypeAndAppLink();
-  console.log(mobileTypeAndLink);
-
 
   if (!show) return null;
 
@@ -45,7 +43,6 @@ export default function DownloadApp() {
         </div>
 
         <a href={mobileTypeAndLink} className="get_app" onClick={handleClose}>
-
           Get
         </a>
       </div>

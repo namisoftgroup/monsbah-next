@@ -6,18 +6,27 @@ import { useLocale } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 
 function useGetCompanyProducts(isMyCompany) {
-  const { id } = useParams();
+  const { id, category, subcategory } = useParams();
   const { user } = useAuthStore((state) => state);
-
-  const loacle = useLocale();
+  const locale = useLocale();
   const searchParams = useSearchParams();
-  const lang = loacle.split("-")[1];
-  const country_slug = useLocale().split("-")[0];
+  const lang = locale.split("-")[1];
+  const country_slug = locale.split("-")[0];
   const type = searchParams.get("type");
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
-  const category_slug = searchParams.get("category");
-  const sub_category_slug = searchParams.get("sub_category");
+  // const category_slug = searchParams.get("category");
+  // const sub_category_slug = searchParams.get("sub_category");
+
+  const category_slug =
+    category && category !== "undefined"
+      ? decodeURIComponent(category)
+      : undefined;
+
+  const sub_category_slug =
+    subcategory && subcategory !== "undefined"
+      ? decodeURIComponent(subcategory)
+      : undefined;
 
   const {
     isLoading,
@@ -33,7 +42,7 @@ function useGetCompanyProducts(isMyCompany) {
       type,
       sort,
       city_id,
-      id ?? null,
+      id,
       category_slug,
       sub_category_slug,
       lang,

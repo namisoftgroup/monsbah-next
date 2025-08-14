@@ -21,7 +21,6 @@ export default function UserCard({ product }) {
   const encodedWhatsappMessage = encodeURIComponent(whatsappMessage);
 
   const initialUser = product.user;
-  console.log(initialUser);
 
   const [optimisticUser, setOptimisticUser] = useOptimistic(
     initialUser,
