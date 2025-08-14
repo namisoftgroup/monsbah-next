@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { useParams, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-export default function CategoriesSlider({ categories }) {
+export default function CompanyPageCategoriesSlider({ categories }) {
   const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
@@ -18,9 +18,9 @@ export default function CategoriesSlider({ categories }) {
   const handleSelectCategory = useCallback(
     (slug) => {
       if (!slug) {
-        router.push("/");
+        router.push("/companies");
       } else {
-        router.push(`/${slug}`);
+        router.push(`/companies/${slug}`);
       }
     },
     [router]

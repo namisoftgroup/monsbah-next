@@ -21,7 +21,6 @@ export default function UserCardCompany({ product }) {
   const encodedWhatsappMessage = encodeURIComponent(whatsappMessage);
 
   const initialUser = product.user;
-  console.log(initialUser);
 
   const [optimisticUser, setOptimisticUser] = useOptimistic(
     initialUser,
@@ -61,9 +60,7 @@ export default function UserCardCompany({ product }) {
   const profileLink =
     +optimisticUser?.id === +user?.id
       ? `/company-profile`
-      : `/companies/${optimisticUser?.id}`;
-
-  console.log(profileLink);
+      : `/company-details/${optimisticUser?.id}`;
 
   const followerKey =
     optimisticUser.user_type === "user" ? "followers-count" : "followers";

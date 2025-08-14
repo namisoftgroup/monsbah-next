@@ -13,7 +13,6 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const t = await getTranslations("meta");
   const blog = await fetchBlogDetails(slug);
-  console.log("----- blog ------", blog);
 
   return {
     title: blog?.meta_title,

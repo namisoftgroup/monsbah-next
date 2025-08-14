@@ -35,20 +35,28 @@ export async function generateMetadata({ searchParams }) {
 }
 
 export default async function Companies({ searchParams, params }) {
-  const paramsObj = await searchParams;
-  const { id } = await params;
   const locale = await getLocale();
+  const paramsObj = await searchParams;
+  const { id, category, subcategory, sale } = await params;
+
+  const categoryDecoded =
+    category && category !== "undefined" ? decodeURIComponent(category) : null;
+  const subCategoryDecoded =
+    subcategory && subcategory !== "undefined"
+      ? decodeURIComponent(subcategory)
+      : null;
 
   // Create a QueryClient for server-side
   const queryClient = getQueryClient();
+  const selectedCategory = categoryDecoded;
   const [country_slug, lang] = locale.split("-");
 
   // Extract all search parameters
   const type = paramsObj?.type || null;
   const sort = paramsObj?.sort || null;
   const city_id = paramsObj?.city || null;
-  const category_slug = paramsObj?.category || null;
-  const sub_category_slug = paramsObj?.sub_category || null;
+  const category_slug = categoryDecoded || null;
+  const sub_category_slug = subCategoryDecoded || null;
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: [
@@ -82,7 +90,7 @@ export default async function Companies({ searchParams, params }) {
 
   return (
     <div className="pt-4 pb-4">
-      <FilterCompanySection />
+      <FilterCompanySection selectedCategory={selectedCategory} />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ProductList />
       </HydrationBoundary>

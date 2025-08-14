@@ -1,38 +1,39 @@
 import FilterSection from "@/components/home/FilterSection";
 import HeroSection from "@/components/home/HeroSection";
 import ProductsSection from "@/components/home/ProductsSection";
+import CompaniesList from "@/components/search/CompaniesList";
 import { getUserType } from "@/services/auth/getUserType";
-import getProducts from "@/services/products/getProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
+import React from "react";
 
-export async function generateMetadata() {
-  return {
-    other: {
-      "google-site-verification": "kOD-M71HEym30Cx4W8U0FqAJXpQy8f5TgdYkxqNXeAk",
-    },
-  };
-}
-
-export default async function Home({ searchParams }) {
+export default async function page({ params, searchParams }) {
+  const { category, subCategory, sale } = await params;
+  const categoryDecoded = decodeURIComponent(category);
+  const subCategoryDecoded = decodeURIComponent(subCategory);
+  const saleDecoded = decodeURIComponent(sale);
   const paramsObj = await searchParams;
   const user = await getUserType();
   const locale = await getLocale();
-
   // Create a QueryClient for server-side
   const queryClient = getQueryClient();
-
+  const selectedCategory = categoryDecoded;
   const [country_slug, lang] = locale.split("-");
 
   // Extract all search parameters
-  const type = paramsObj?.type || null;
+  const type = saleDecoded || null;
   const sort = paramsObj?.sort || null;
   const city_id = paramsObj?.city || null;
-  const category_slug = paramsObj?.category || null;
-  const sub_category_slug = paramsObj?.sub_category || null;
+  const category_slug = categoryDecoded || null;
+  const sub_category_slug = subCategoryDecoded || null;
   const search = paramsObj?.search || null;
 
+  // const hasCategory = !!categoryDecoded;
+  // const hasSubcategory = !!subCategoryDecoded;
+  // const showCompanies = !hasSubcategory && hasCategory && user === "company";
+
+  // Prefetch products with ALL parameters including search
   await queryClient.prefetchInfiniteQuery({
     queryKey: [
       "products",
@@ -66,12 +67,34 @@ export default async function Home({ searchParams }) {
     },
   });
 
+  // // Prefetch companies
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: ["companies", country_slug, city_id, category_slug, lang, search],
+  //   queryFn: ({ pageParam = 1 }) =>
+  //     getCompanies({
+  //       pageParam,
+  //       city_id,
+  //       country_slug,
+  //       category_slug,
+  //       lang,
+  //       search,
+  //     }),
+  //   initialPageParam: 1,
+  //   getNextPageParam: (lastPage) => {
+  //     const nextUrl = lastPage?.data?.links?.next;
+  //     return nextUrl ? new URL(nextUrl).searchParams.get("page") : undefined;
+  //   },
+  // });
   return (
     <>
       <HeroSection />
-      <FilterSection />
+      <FilterSection selectedCategory={selectedCategory} />
       <HydrationBoundary state={dehydrate(queryClient)}>
+        {/* {showCompanies ? (
+          <CompaniesList />
+        ) : ( */}
         <ProductsSection userType={user} />
+        {/* )} */}
       </HydrationBoundary>
     </>
   );

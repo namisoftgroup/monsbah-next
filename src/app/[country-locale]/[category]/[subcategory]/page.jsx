@@ -7,30 +7,32 @@ import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
 
-export async function generateMetadata() {
-  return {
-    other: {
-      "google-site-verification": "kOD-M71HEym30Cx4W8U0FqAJXpQy8f5TgdYkxqNXeAk",
-    },
-  };
-}
+export default async function page({ params, searchParams }) {
+  const { category, subcategory, sale } = await params;
+  const categoryDecoded =
+    category && category !== "undefined" ? decodeURIComponent(category) : null;
+  const subCategoryDecoded =
+    subcategory && subcategory !== "undefined"
+      ? decodeURIComponent(subcategory)
+      : null;
+  const saleDecoded =
+    sale && sale !== "undefined" ? decodeURIComponent(sale) : null;
 
-export default async function Home({ searchParams }) {
   const paramsObj = await searchParams;
   const user = await getUserType();
   const locale = await getLocale();
 
   // Create a QueryClient for server-side
   const queryClient = getQueryClient();
-
+  const selectedCategory = categoryDecoded;
   const [country_slug, lang] = locale.split("-");
 
   // Extract all search parameters
-  const type = paramsObj?.type || null;
+  const type = saleDecoded || null;
   const sort = paramsObj?.sort || null;
   const city_id = paramsObj?.city || null;
-  const category_slug = paramsObj?.category || null;
-  const sub_category_slug = paramsObj?.sub_category || null;
+  const category_slug = categoryDecoded || null;
+  const sub_category_slug = subCategoryDecoded || null;
   const search = paramsObj?.search || null;
 
   await queryClient.prefetchInfiniteQuery({
@@ -69,7 +71,7 @@ export default async function Home({ searchParams }) {
   return (
     <>
       <HeroSection />
-      <FilterSection />
+      <FilterSection selectedCategory={selectedCategory} />{" "}
       <HydrationBoundary state={dehydrate(queryClient)}>
         <ProductsSection userType={user} />
       </HydrationBoundary>

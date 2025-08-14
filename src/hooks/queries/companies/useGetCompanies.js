@@ -2,18 +2,29 @@
 import clientAxios from "@/libs/axios/clientAxios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 function useGetCompanies() {
   const searchParams = useSearchParams();
+  const params = useParams();
   const locale = useLocale();
+
   const lang = locale.split("-")[1];
   const country_slug = useLocale().split("-")[0];
 
   const city_id = searchParams.get("city");
-  const category_slug = searchParams.get("category");
+  const category_slug =
+    params.category && params.category !== "undefined"
+      ? decodeURIComponent(params.category)
+      : null;
   const search = searchParams.get("search");
-
+  console.log(
+    typeof country_slug,
+    typeof city_id,
+    typeof category_slug,
+    typeof lang,
+    typeof search
+  );
   const {
     isLoading,
     data,

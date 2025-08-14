@@ -10,11 +10,6 @@ export async function generateMetadata({ searchParams }) {
     category_slug: categorySlug,
   });
 
-  console.log(
-    "------------ subcategories ---------------------------",
-    subCategories
-  );
-
   return {
     title: categorySlug
       ? `${t("categories.titlePrefix")} ${categorySlug}`
