@@ -11,15 +11,13 @@ import { getLocale } from "next-intl/server";
 import React from "react";
 
 export default async function page({ params, searchParams }) {
-  const { category, subcategory, sale } = await params;
+  const { category, subcategory } = await params;
   const categoryDecoded =
     category && category !== "undefined" ? decodeURIComponent(category) : null;
   const subCategoryDecoded =
     subcategory && subcategory !== "undefined"
       ? decodeURIComponent(subcategory)
       : null;
-  const saleDecoded =
-    sale && sale !== "undefined" ? decodeURIComponent(sale) : null;
 
   const paramsObj = await searchParams;
   const user = await getUserType();
@@ -31,7 +29,7 @@ export default async function page({ params, searchParams }) {
   const [country_slug, lang] = locale.split("-");
 
   // Extract all search parameters
-  const type = saleDecoded || null;
+  const type = paramsObj?.type || null;
   const sort = paramsObj?.sort || null;
   const city_id = paramsObj?.city || null;
   const category_slug = categoryDecoded || null;
