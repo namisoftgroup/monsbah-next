@@ -10,7 +10,7 @@ function useGetProducts(userType) {
   const params = useParams();
   const lang = useLocale().split("-")[1];
   const country_slug = useLocale().split("-")[0];
-  const type = searchParams.get("type");
+  const type = searchParams.get("type") || null;
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
 
@@ -51,8 +51,8 @@ function useGetProducts(userType) {
         params: {
           page: pageParam,
           country_slug,
-          type: type,
-          sort: sort,
+          type,
+          sort,
           city_id,
           category_slug,
           sub_category_slug,
