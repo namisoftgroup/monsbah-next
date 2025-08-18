@@ -14,7 +14,7 @@ export default function CompanyCard({ company }) {
       href={`${
         company?.id === user?.id
           ? "/company-profile"
-          : `/companies/${company?.id}`
+          : `/company-details/${company?.id}`
       }`}
       className="campany_card"
     >

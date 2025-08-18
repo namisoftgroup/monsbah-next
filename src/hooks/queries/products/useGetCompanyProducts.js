@@ -15,6 +15,7 @@ function useGetCompanyProducts(isMyCompany) {
   const type = searchParams.get("type");
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
+  const search = searchParams.get("search");
   // const category_slug = searchParams.get("category");
   // const sub_category_slug = searchParams.get("sub_category");
 
@@ -45,6 +46,7 @@ function useGetCompanyProducts(isMyCompany) {
       id,
       category_slug,
       sub_category_slug,
+      search,
       lang,
     ],
 
