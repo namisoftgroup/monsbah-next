@@ -49,6 +49,7 @@ export default async function Companies({ searchParams, params }) {
   const city_id = paramsObj?.city || null;
   const category_slug = paramsObj?.category || null;
   const sub_category_slug = paramsObj?.sub_category || null;
+  const search = paramsObj?.search || null;
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: [
@@ -60,6 +61,7 @@ export default async function Companies({ searchParams, params }) {
       id,
       category_slug,
       sub_category_slug,
+      search,
       lang,
     ],
     queryFn: ({ pageParam = 1 }) =>

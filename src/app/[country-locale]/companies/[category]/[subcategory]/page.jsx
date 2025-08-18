@@ -55,6 +55,7 @@ export default async function Companies({ searchParams, params }) {
   const type = paramsObj?.type || null;
   const sort = paramsObj?.sort || null;
   const city_id = paramsObj?.city || null;
+  const search = paramsObj?.search || null;
   const category_slug = categoryDecoded || null;
   const sub_category_slug = subCategoryDecoded || null;
 
@@ -68,6 +69,7 @@ export default async function Companies({ searchParams, params }) {
       id,
       category_slug,
       sub_category_slug,
+      search,
       lang,
     ],
     queryFn: ({ pageParam = 1 }) =>
