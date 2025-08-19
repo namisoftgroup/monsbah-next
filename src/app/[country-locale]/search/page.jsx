@@ -3,10 +3,14 @@ import { getAds } from "@/services/ads/getAds";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
   const query = (await searchParams)?.search;
+
+  const pathname = query ? `/search?search=${encodeURIComponent(query)}` : "/search";
+  const alternates = generateHreflangAlternates(pathname);
 
   return {
     title: query
@@ -15,6 +19,7 @@ export async function generateMetadata({ searchParams }) {
     description: query
       ? `${t("searchResults.description")} "${query}"`
       : t("popularAds.description"),
+    alternates,
   };
 }
 

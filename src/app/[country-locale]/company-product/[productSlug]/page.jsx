@@ -5,6 +5,7 @@ import UserCard from "@/components/product/UserCard";
 import UserCardCompany from "@/components/product/UserCardCompany";
 import { getProduct } from "@/services/products/getProduct";
 import { cache } from "react";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export const fetchProduct = cache(async (id) => {
   return await getProduct(id);
@@ -15,6 +16,9 @@ export async function generateMetadata({ params }) {
   const decodedSlug = decodeURIComponent(productSlug);
 
   const product = await fetchProduct(decodedSlug);
+
+  const pathname = `/company-product/${productSlug}`;
+  const alternates = generateHreflangAlternates(pathname);
 
   return {
     title: product.meta_title,
@@ -32,10 +36,7 @@ export async function generateMetadata({ params }) {
       description: product.meta_description,
       images: product.images,
     },
-    alternates: {
-      canonical: product.canonical_url,
-      // `https://yourstore.com/products/${productSlug}`,
-    },
+    alternates,
     robots: {
       index: product.is_index,
       follow: product.is_follow,

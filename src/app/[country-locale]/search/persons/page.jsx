@@ -4,10 +4,14 @@ import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
 import React from "react";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
-export async function generateMetadata(searchParams) {
+export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
-  const query = searchParams?.search;
+  const query = (await searchParams)?.search;
+
+  const pathname = query ? `/search/persons?search=${encodeURIComponent(query)}` : "/search/persons";
+  const alternates = generateHreflangAlternates(pathname);
 
   return {
     title: query
@@ -16,6 +20,7 @@ export async function generateMetadata(searchParams) {
     description: query
       ? `${t("searchPersons.description")} "${query}"`
       : t("popularPersons.description"),
+    alternates,
   };
 }
 

@@ -1,13 +1,17 @@
 import SettingsTab from "@/components/profile/SettingsTab";
 import { getAuthedUser } from "@/services/auth/getAuthedUser";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
 
+  const alternates = generateHreflangAlternates("/profile/settings");
+
   return {
     title: t("settings.title"),
     description: t("settings.description"),
+    alternates,
   };
 }
 export default async function page() {

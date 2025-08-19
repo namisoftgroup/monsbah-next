@@ -1,9 +1,12 @@
 import SearchField from "@/components/search/SearchField";
 import SearchNav from "@/components/search/SearchNav";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
+
+  const alternates = generateHreflangAlternates("/search");
 
   return {
     title: {
@@ -11,6 +14,7 @@ export async function generateMetadata() {
       default: t("search.title"),
     },
     description: t("search.description"),
+    alternates,
   };
 }
 

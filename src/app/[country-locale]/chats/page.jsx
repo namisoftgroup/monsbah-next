@@ -3,13 +3,21 @@ import ChatRoom from "@/components/chats/ChatRoom";
 import { getChat } from "@/hooks/queries/chat/getChat";
 import { getChats } from "@/services/chats/getChats";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
-export async function generateMetadata() {
+export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
+
+  const { user_id } = searchParams || {};
+  const pathname = user_id
+    ? `/chats?user_id=${encodeURIComponent(user_id)}`
+    : "/chats";
+  const alternates = generateHreflangAlternates(pathname);
 
   return {
     title: t("chats.defaultTitle"),
     description: t("chats.defaultDescription"),
+    alternates,
   };
 }
 

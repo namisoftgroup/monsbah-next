@@ -10,6 +10,7 @@ import Header from "@/components/Header/Header";
 import ResponsiveNav from "@/components/Header/ResponsiveNav";
 import Providers from "@/providers/Providers";
 import { META_DATA_CONTENT } from "@/utils/constants";
+import { generateHreflangLinks, generateHreflangAlternates } from "@/utils/hreflang";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
@@ -28,6 +29,9 @@ export async function generateMetadata({ params }) {
 
   const lang = locale["country-locale"].split("-")[1];
   const content = META_DATA_CONTENT[lang];
+
+  // إضافة alternates على مستوى الموقع (يتم استبدال pathname ديناميكياً في كل صفحة)
+  const alternates = generateHreflangAlternates("/");
 
   return {
     metadataBase: new URL("https://monsbah.com"),
@@ -64,6 +68,7 @@ export async function generateMetadata({ params }) {
       icon: "/branding/icon.svg",
       apple: "/branding/icon.svg",
     },
+    alternates,
   };
 }
 export const viewport = {
@@ -82,9 +87,15 @@ export default async function RootLayout(props) {
   const lang = fullLocale.split("-")[1];
   const messages = await getMessages(lang);
 
+  // توليد hreflang links للصفحة الحالية (سيتم ضبطها من الصفحات عبر metadata ولكن نضيف fallback عام)
+  const hreflangLinks = generateHreflangLinks("/");
+
   return (
     <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
       <head>
+        {hreflangLinks.map((link) => (
+          <link key={link.hrefLang} rel="alternate" hrefLang={link.hrefLang} href={link.href} />
+        ))}
         <script id="gtm" strategy="beforeInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

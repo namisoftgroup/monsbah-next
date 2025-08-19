@@ -1,13 +1,16 @@
 import ContactForm from "@/components/contact/ContactForm";
 import ContactInfo from "@/components/contact/ContactInfo";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
+  const alternates = generateHreflangAlternates("/contact");
 
   return {
     title: t("contact.title"),
     description: t("contact.description"),
+    alternates,
   };
 }
 

@@ -7,6 +7,7 @@ import CompanyImageProfile from "@/components/companies/CompanyImageProfile";
 import CompanyProfileContent from "@/components/companies/CompanyProfileContent";
 import CompanyCategoriesSlider from "@/components/companies/CompanyCategoriesSlider";
 import ProductVertical from "@/components/shared/cards/ProductVertical";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export const fetchCompany = cache(async (id) => {
   return await getCompanyProfile(id);
@@ -16,11 +17,15 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const profile = await fetchCompany(Number(slug));
   const t = await getTranslations("meta");
+  
+  const pathname = `/company-details/${slug}`;
+  const alternates = generateHreflangAlternates(pathname);
 
   return {
     title: `${profile?.client?.name} | ${t("companyProfile.titleSuffix")}`,
     description:
       profile?.client?.about?.slice(0, 160) || t("companyProfile.description"),
+    alternates,
   };
 }
 

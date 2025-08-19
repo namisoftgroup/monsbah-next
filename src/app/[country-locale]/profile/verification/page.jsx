@@ -2,13 +2,17 @@ import VerificationTab from "@/components/profile/verification/VerificationTab";
 import { getCategories } from "@/services/categories/getCategories";
 import { getCountries } from "@/services/getCountries";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
 
+  const alternates = generateHreflangAlternates("/profile/verification");
+
   return {
     title: t("verification.title"),
     description: t("verification.description"),
+    alternates,
   };
 }
 

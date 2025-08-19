@@ -3,6 +3,7 @@ import { getCompanyProducts } from "@/services/companies/getCompanyProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
@@ -19,6 +20,18 @@ export async function generateMetadata({ searchParams }) {
   const hasFilters =
     search || category_id || sub_category_id || country_id || city_id;
 
+  const params = new URLSearchParams();
+  if (search) params.set("search", search);
+  if (country_id) params.set("country_id", country_id);
+  if (city_id) params.set("city_id", city_id);
+  if (category_id) params.set("category_id", category_id);
+  if (type) params.set("type", type);
+  if (sort) params.set("sort", sort);
+  if (sub_category_id) params.set("sub_category_id", sub_category_id);
+  const q = params.toString();
+  const pathname = q ? `/search/companies-ads?${q}` : "/search/companies-ads";
+  const alternates = generateHreflangAlternates(pathname);
+
   return {
     title: hasFilters
       ? `${t("companyAds.searchTitle")} "${search || ""}"`
@@ -26,6 +39,7 @@ export async function generateMetadata({ searchParams }) {
     description: hasFilters
       ? `${t("companyAds.searchDescription")} "${search || ""}"`
       : t("companyAds.description"),
+    alternates,
   };
 }
 

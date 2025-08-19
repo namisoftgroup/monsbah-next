@@ -2,6 +2,7 @@ import SideBar from "@/components/categories/SideBar";
 import SubCategoriesList from "@/components/categories/SubCategoriesList";
 import { getSubCategories } from "@/services/categories/getSubCategories";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
@@ -10,6 +11,9 @@ export async function generateMetadata({ searchParams }) {
     category_slug: categorySlug,
   });
 
+  const pathname = categorySlug ? `/categories?category=${categorySlug}` : "/categories";
+  const alternates = generateHreflangAlternates(pathname);
+
   return {
     title: categorySlug
       ? `${t("categories.titlePrefix")} ${categorySlug}`
@@ -17,6 +21,7 @@ export async function generateMetadata({ searchParams }) {
     description: categorySlug
       ? `${t("categories.descriptionPrefix")} ${categorySlug}`
       : t("categories.defaultDescription"),
+    alternates,
   };
 }
 

@@ -3,13 +3,17 @@ import getNotifications from "@/services/notifications/getNotifications";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
 
+  const alternates = generateHreflangAlternates("/profile/notifications");
+
   return {
     title: t("notifications.title"),
     description: t("notifications.description"),
+    alternates,
   };
 }
 

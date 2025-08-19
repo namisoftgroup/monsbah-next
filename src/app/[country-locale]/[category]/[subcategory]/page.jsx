@@ -6,6 +6,25 @@ import getProducts from "@/services/products/getProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
+
+export async function generateMetadata({ params }) {
+  const { category, subcategory } = await params;
+  const categoryDecoded =
+    category && category !== "undefined" ? decodeURIComponent(category) : null;
+  const subCategoryDecoded =
+    subcategory && subcategory !== "undefined"
+      ? decodeURIComponent(subcategory)
+      : null;
+  let pathname = "/";
+  if (categoryDecoded && subCategoryDecoded) {
+    pathname = `/${categoryDecoded}/${subCategoryDecoded}`;
+  } else if (categoryDecoded) {
+    pathname = `/${categoryDecoded}`;
+  }
+  const alternates = generateHreflangAlternates(pathname);
+  return { alternates };
+}
 
 export default async function page({ params, searchParams }) {
   const { category, subcategory } = await params;

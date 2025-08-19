@@ -4,6 +4,7 @@ import { getBlogs } from "@/services/blogs/getBlogs";
 import { getBlogsDetails } from "@/services/blogs/getBlogsDetails";
 import { getTranslations } from "next-intl/server";
 import { cache } from "react";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 const fetchBlogDetails = cache(async (id) => {
   return await getBlogsDetails(id);
@@ -13,6 +14,9 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const t = await getTranslations("meta");
   const blog = await fetchBlogDetails(slug);
+
+  const pathname = `/blogs/${slug}`;
+  const alternates = generateHreflangAlternates(pathname);
 
   return {
     title: blog?.meta_title,
@@ -38,9 +42,7 @@ export async function generateMetadata({ params }) {
       description: blog?.meta_description,
       images: blog?.image,
     },
-    alternates: {
-      canonical: blog?.canonical_url,
-    },
+    alternates,
 
     robots: {
       index: blog?.is_index,

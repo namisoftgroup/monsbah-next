@@ -3,12 +3,22 @@ import { getCompanies } from "@/services/ads/getCompanies";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
   const { search, country_id, city_id, category_id } = searchParams || {};
 
   const hasFilters = search || country_id || city_id || category_id;
+
+  const params = new URLSearchParams();
+  if (search) params.set("search", search);
+  if (country_id) params.set("country_id", country_id);
+  if (city_id) params.set("city_id", city_id);
+  if (category_id) params.set("category_id", category_id);
+  const q = params.toString();
+  const pathname = q ? `/search/companies?${q}` : "/search/companies";
+  const alternates = generateHreflangAlternates(pathname);
 
   return {
     title: hasFilters
@@ -17,6 +27,7 @@ export async function generateMetadata({ searchParams }) {
     description: hasFilters
       ? `${t("searchCompanies.description")} "${search || ""}"`
       : t("popularCompanies.description"),
+    alternates,
   };
 }
 

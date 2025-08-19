@@ -9,6 +9,18 @@ import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
 import React from "react";
+import { generateHreflangAlternates } from "@/utils/hreflang";
+
+export async function generateMetadata({ params }) {
+  const { category } = await params;
+  const categoryDecoded =
+    category && category !== "undefined" ? decodeURIComponent(category) : null;
+  const pathname = categoryDecoded ? `/${categoryDecoded}` : "/";
+  const alternates = generateHreflangAlternates(pathname);
+  return {
+    alternates,
+  };
+}
 
 export default async function page({ params, searchParams }) {
   const { category, subcategory } = await params;

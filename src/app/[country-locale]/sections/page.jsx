@@ -3,14 +3,18 @@ import { getCompaniesCategories } from "@/services/categories/getCompaniesCatego
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import React from "react";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
 
+  const alternates = generateHreflangAlternates("/sections");
+
   return {
     title: t("companyCategories.title"),
     description: t("companyCategories.description"),
+    alternates,
   };
 }
 

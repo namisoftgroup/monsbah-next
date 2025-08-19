@@ -4,11 +4,19 @@ import { getCompanyProducts } from "@/services/companies/getCompanyProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
   const category = (await searchParams)?.category;
   const sub_category = (await searchParams)?.sub_category;
+
+  const params = new URLSearchParams();
+  if (category) params.set("category", category);
+  if (sub_category) params.set("sub_category", sub_category);
+  const q = params.toString();
+  const pathname = q ? `/companies?${q}` : "/companies";
+  const alternates = generateHreflangAlternates(pathname);
 
   if (category && sub_category) {
     return {
@@ -18,6 +26,7 @@ export async function generateMetadata({ searchParams }) {
       description: `${t(
         "companies.descriptionByCategorySub"
       )} ${category}, ${sub_category}`,
+      alternates,
     };
   }
 
@@ -25,12 +34,14 @@ export async function generateMetadata({ searchParams }) {
     return {
       title: `${t("companies.titleByCategory")} ${category}`,
       description: `${t("companies.descriptionByCategory")} ${category}`,
+      alternates,
     };
   }
 
   return {
     title: t("companies.defaultTitle"),
     description: t("companies.defaultDescription"),
+    alternates,
   };
 }
 

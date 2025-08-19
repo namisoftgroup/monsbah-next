@@ -5,13 +5,17 @@ import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
 
+  const alternates = generateHreflangAlternates("/profile/favorites");
+
   return {
     title: t("favorites.title"),
     description: t("favorites.description"),
+    alternates,
   };
 }
 export default async function Favorites() {

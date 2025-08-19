@@ -6,12 +6,15 @@ import getProducts from "@/services/products/getProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
+  const alternates = generateHreflangAlternates("/");
   return {
     other: {
       "google-site-verification": "kOD-M71HEym30Cx4W8U0FqAJXpQy8f5TgdYkxqNXeAk",
     },
+    alternates,
   };
 }
 

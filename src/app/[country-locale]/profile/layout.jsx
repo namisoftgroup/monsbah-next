@@ -1,9 +1,12 @@
 import MobileHeaderComponent from "@/components/profile/MobileHeaderComponent";
 import ProfileTabs from "@/components/profile/ProfileTabs";
 import { getTranslations } from "next-intl/server";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
+
+  const alternates = generateHreflangAlternates("/profile");
 
   return {
     title: {
@@ -11,6 +14,7 @@ export async function generateMetadata() {
       default: t("profile.title"),
     },
     description: t("profile.description"),
+    alternates,
   };
 }
 

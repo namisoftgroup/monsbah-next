@@ -6,6 +6,7 @@ import { getUserProfile } from "@/services/profile/getUserProfile";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { cache } from "react";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export const fetchUserProfile = cache(async (id) => {
   return await getUserProfile(id);
@@ -17,6 +18,9 @@ export async function generateMetadata({ params }) {
   const profile = await fetchUserProfile(Number(id));
   const user = profile?.data;
 
+  const pathname = `/user-profile/${id}`;
+  const alternates = generateHreflangAlternates(pathname);
+
   return {
     title: user?.name
       ? `${user.name} | ${t("userProfile.title")}`
@@ -24,6 +28,7 @@ export async function generateMetadata({ params }) {
     description: user?.about
       ? user.about.slice(0, 160)
       : t("userProfile.description"),
+    alternates,
   };
 }
 
