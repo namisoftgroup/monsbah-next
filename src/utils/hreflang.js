@@ -34,6 +34,65 @@ export function generateHreflangAlternates(pathname, baseUrl = "https://monsbah.
 }
 
 /**
+ * Generates hreflang URLs for product pages based on product's country
+ * @param {string} pathname - The current pathname (without locale)
+ * @param {Object} product - The product object containing country information
+ * @param {string} baseUrl - The base URL of the website
+ * @returns {Object} Object with alternates for hreflang
+ */
+export function generateHreflangAlternatesForProduct(pathname, product, baseUrl = "https://monsbah.com") {
+    const alternates = {
+        canonical: `${baseUrl}/${LOCALES[0]}${pathname}`,
+        languages: {}
+    };
+
+    // Get product's country code (assuming it's available in product.country)
+    let productCountryCode = null;
+    
+    if (product?.country?.slug) {
+        productCountryCode = product.country.slug.toLowerCase();
+    } else if (product?.country_slug) {
+        productCountryCode = product.country_slug.toLowerCase();
+    } else if (product?.country?.code) {
+        productCountryCode = product.country.code.toLowerCase();
+    }
+
+    if (!productCountryCode) {
+        // Fallback to all locales if country is not available
+        return generateHreflangAlternates(pathname, baseUrl);
+    }
+
+    // Filter locales to only those matching the product's country
+    const relevantLocales = LOCALES.filter(locale => {
+        const [country] = locale.split('-');
+        return country.toLowerCase() === productCountryCode;
+    });
+
+    if (relevantLocales.length === 0) {
+        // Fallback to all locales if no matching country found
+        return generateHreflangAlternates(pathname, baseUrl);
+    }
+
+    // Add alternates only for the product's country locales
+    relevantLocales.forEach(locale => {
+        const [country, lang] = locale.split('-');
+        
+        // Use full locale as key for more specific targeting
+        alternates.languages[locale] = `${baseUrl}/${locale}${pathname}`;
+        
+        // Also add just language for broader targeting
+        if (!alternates.languages[lang]) {
+            alternates.languages[lang] = `${baseUrl}/${locale}${pathname}`;
+        }
+    });
+
+    // Use the first relevant locale for x-default
+    alternates.languages['x-default'] = `${baseUrl}/${relevantLocales[0]}${pathname}`;
+
+    return alternates;
+}
+
+/**
  * Creates hreflang link elements for head
  * @param {string} pathname - The current pathname
  * @param {string} baseUrl - The base URL

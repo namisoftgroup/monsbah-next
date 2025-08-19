@@ -5,7 +5,7 @@ import UserCard from "@/components/product/UserCard";
 import UserCardCompany from "@/components/product/UserCardCompany";
 import { getProduct } from "@/services/products/getProduct";
 import { cache } from "react";
-import { generateHreflangAlternates } from "@/utils/hreflang";
+import { generateHreflangAlternatesForProduct } from "@/utils/hreflang";
 
 export const fetchProduct = cache(async (id) => {
   return await getProduct(id);
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   const product = await fetchProduct(decodedSlug);
 
   const pathname = `/company-product/${productSlug}`;
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = generateHreflangAlternatesForProduct(pathname, product);
 
   return {
     title: product.meta_title,
