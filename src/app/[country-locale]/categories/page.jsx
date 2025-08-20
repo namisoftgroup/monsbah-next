@@ -33,11 +33,6 @@ export async function generateMetadata({ searchParams }) {
 
 export default async function Categories({ searchParams }) {
   const selectedCategory = (await searchParams).category ?? null;
-  // const isValidSlug =
-  //   typeof selectedCategoryRaw === "string" &&
-  //   /^[a-z0-9-]+$/i.test(selectedCategoryRaw);
-  // const selectedCategory = isValidSlug ? selectedCategoryRaw : null;
-  // console.log(selectedCategory);
 
   return (
     <section className="categories-page explore_ads">

@@ -19,22 +19,6 @@ export async function generateMetadata({ params }) {
 
   if (process?.env?.NODE_ENV !== "production") {
     const c = product?.country || {};
-    console.log("[company-product-meta] country summary", {
-      productSlug,
-      country: {
-        name: c?.name,
-        english_name: c?.english_name,
-        slug: c?.slug,
-        code: c?.code,
-        iso_code: c?.iso_code,
-        iso: c?.iso,
-        iso2: c?.iso2,
-        country_code: c?.country_code,
-      },
-      product_country_slug: product?.country_slug,
-      product_country_code: product?.country_code,
-      keys: c ? Object.keys(c) : null,
-    });
   }
 
   const pathname = `/company-product/${productSlug}`;

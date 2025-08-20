@@ -18,13 +18,7 @@ function useGetCompanies() {
       ? decodeURIComponent(params.category)
       : null;
   const search = searchParams.get("search");
-  console.log(
-    typeof country_slug,
-    typeof city_id,
-    typeof category_slug,
-    typeof lang,
-    typeof search
-  );
+ 
   const {
     isLoading,
     data,

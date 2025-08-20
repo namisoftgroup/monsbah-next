@@ -14,8 +14,12 @@ export async function generateMetadata({ searchParams }) {
 
   if (category && sub_category) {
     return {
-      title: `${t("companies.titleByCategorySub")} ${category} - ${sub_category}`,
-      description: `${t("companies.descriptionByCategorySub")} ${category}, ${sub_category}`,
+      title: `${t(
+        "companies.titleByCategorySub"
+      )} ${category} - ${sub_category}`,
+      description: `${t(
+        "companies.descriptionByCategorySub"
+      )} ${category}, ${sub_category}`,
       alternates,
     };
   }

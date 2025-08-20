@@ -5,50 +5,51 @@ import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale, getTranslations } from "next-intl/server";
 import { generateHreflangAlternates } from "@/utils/hreflang";
+import { getSubCategories } from "@/services/categories/getSubCategories";
 
-export async function generateMetadata({ searchParams }) {
+export async function generateMetadata({ params }) {
   const t = await getTranslations("meta");
-  const category = (await searchParams)?.category;
-  const sub_category = (await searchParams)?.sub_category;
-
-  const params = new URLSearchParams();
-  if (category) params.set("category", category);
-  if (sub_category) params.set("sub_category", sub_category);
-  const q = params.toString();
-  const pathname = q ? `/companies?${q}` : "/companies";
+  const { category, subcategory } = await params;
+  const categoryDecoded =
+    category && category !== "undefined" ? decodeURIComponent(category) : null;
+  const subCategoryDecoded =
+    subcategory && subcategory !== "undefined"
+      ? decodeURIComponent(subcategory)
+      : null;
+  let pathname = "/";
+  if (categoryDecoded && subCategoryDecoded) {
+    pathname = `/${categoryDecoded}/${subCategoryDecoded}`;
+  } else if (categoryDecoded) {
+    pathname = `/${categoryDecoded}`;
+  }
+  const subCategories = await getSubCategories(
+    {
+      category_slug: categoryDecoded,
+    },
+    `/company/sub-categories`
+  );
+  const subCategoryData = subCategories.find(
+    (item) => item.slug === subCategoryDecoded
+  );
   const alternates = generateHreflangAlternates(pathname);
 
-  if (category && sub_category) {
-    return {
-      title: `${t(
-        "companies.titleByCategorySub"
-      )} ${category} - ${sub_category}`,
-      description: `${t(
-        "companies.descriptionByCategorySub"
-      )} ${category}, ${sub_category}`,
-      alternates,
-    };
-  }
-
-  if (category) {
-    return {
-      title: `${t("companies.titleByCategory")} ${category}`,
-      description: `${t("companies.descriptionByCategory")} ${category}`,
-      alternates,
-    };
-  }
-
   return {
-    title: t("companies.defaultTitle"),
-    description: t("companies.defaultDescription"),
+    title: `${t("companies.titleByCategorySub")} ${category} - ${subcategory}`,
+    description: `${t(
+      "companies.descriptionByCategorySub"
+    )} ${category}, ${subcategory}`,
     alternates,
+    robots: {
+      index: subCategoryData.is_index,
+      follow: subCategoryData.is_follow,
+    },
   };
 }
 
 export default async function Companies({ searchParams, params }) {
   const locale = await getLocale();
   const paramsObj = await searchParams;
-  const { id, category, subcategory, sale } = await params;
+  const { id, category, subcategory } = await params;
 
   const categoryDecoded =
     category && category !== "undefined" ? decodeURIComponent(category) : null;

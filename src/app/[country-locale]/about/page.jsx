@@ -1,10 +1,8 @@
 import AboutSection from "@/components/about/AboutSection";
 import Countries from "@/components/about/Countries";
 import HowItWorks from "@/components/about/HowItWorks";
-import { getCountries } from "@/services/getCountries";
-import { BASE_URL, LOCALES } from "@/utils/constants";
-import { getTranslations } from "next-intl/server";
 import { generateHreflangAlternates } from "@/utils/hreflang";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }) {
   const { "country-locale": countryLocale } = await params;

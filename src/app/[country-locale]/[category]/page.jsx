@@ -18,25 +18,11 @@ export async function generateMetadata({ params }) {
   const categoryDecoded =
     category && category !== "undefined" ? decodeURIComponent(category) : null;
   const pathname = categoryDecoded ? `/${categoryDecoded}` : "/";
+  const categories = await getCategories();
+  const categoryData = categories.find((item) => item.slug === categoryDecoded);
   const alternates = generateHreflangAlternates(pathname);
   return {
     alternates,
-  };
-}
-
-export async function generateMetadata({ params }) {
-  const { "country-locale": countryLocale, category } = await params;
-  const decodedCategory = decodeURIComponent(category);
-  const [country, locale] = countryLocale.split("-");
-  const categories = await getCategories();
-  const countries = await getCountries();
-  const hreflangs = [];
-  console.log(categories);
-
-  const categoryData = categories.find((item) => item.slug === decodedCategory);
-  console.log(categoryData);
-
-  return {
     robots: {
       index: categoryData.is_index,
       follow: categoryData.is_follow,

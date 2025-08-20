@@ -11,8 +11,6 @@ export async function getAds(search, pageParam = 1) {
       },
     });
     if (res.status === 200) {
-      console.log(res?.config);
-
       return res.data;
     }
   } catch (error) {

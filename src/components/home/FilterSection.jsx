@@ -11,11 +11,7 @@ export default async function FilterSection({ selectedCategory }) {
   const user = await getUserType();
   const categories = await getCategories(`/${user}/categories`);
 
-  // validate category slug to avoid accidental calls like "@vite"
-  const isValidSlug =
-    typeof selectedCategory === "string" && /^[a-z0-9-]+$/i.test(selectedCategory);
-
-  const subCategories = isValidSlug
+  const subCategories = selectedCategory
     ? await getSubCategories(
         {
           category_slug: selectedCategory,
@@ -28,12 +24,12 @@ export default async function FilterSection({ selectedCategory }) {
     <section className="explore_ads">
       <div className="container d-flex flex-column gap-2">
         <CategoriesSlider categories={categories} />
-        {isValidSlug && (
+        {selectedCategory && (
           <SubCategoriesSlider subCategories={subCategories} />
         )}
         <AdvancedFilter
           countries={countries}
-          selectedCategory={isValidSlug ? selectedCategory : null}
+          selectedCategory={selectedCategory}
         />
       </div>
     </section>

@@ -7,9 +7,11 @@ import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
 import { generateHreflangAlternates } from "@/utils/hreflang";
+import { getSubCategories } from "@/services/categories/getSubCategories";
 
 export async function generateMetadata({ params }) {
   const { category, subcategory } = await params;
+  const user = await getUserType();
   const categoryDecoded =
     category && category !== "undefined" ? decodeURIComponent(category) : null;
   const subCategoryDecoded =
@@ -22,8 +24,23 @@ export async function generateMetadata({ params }) {
   } else if (categoryDecoded) {
     pathname = `/${categoryDecoded}`;
   }
+  const subCategories = await getSubCategories(
+    {
+      category_slug: categoryDecoded,
+    },
+    `/${user}/sub-categories`
+  );
+  const subCategoryData = subCategories.find(
+    (item) => item.slug === subCategoryDecoded
+  );
   const alternates = generateHreflangAlternates(pathname);
-  return { alternates };
+  return {
+    alternates,
+    robots: {
+      index: subCategoryData.is_index,
+      follow: subCategoryData.is_follow,
+    },
+  };
 }
 
 export default async function page({ params, searchParams }) {

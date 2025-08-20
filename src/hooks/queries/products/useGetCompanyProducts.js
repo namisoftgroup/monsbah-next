@@ -16,8 +16,6 @@ function useGetCompanyProducts(isMyCompany) {
   const sort = searchParams.get("sort");
   const city_id = searchParams.get("city");
   const search = searchParams.get("search");
-  // const category_slug = searchParams.get("category");
-  // const sub_category_slug = searchParams.get("sub_category");
 
   const category_slug =
     category && category !== "undefined"
@@ -28,7 +26,6 @@ function useGetCompanyProducts(isMyCompany) {
     subcategory && subcategory !== "undefined"
       ? decodeURIComponent(subcategory)
       : undefined;
-
   const {
     isLoading,
     data,

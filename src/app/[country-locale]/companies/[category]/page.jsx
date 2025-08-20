@@ -1,22 +1,28 @@
 import CompaniesSection from "@/components/companies/CompaniesSection";
-import ProductList from "@/components/companies/ProductList";
 import FilterCompanySection from "@/components/home/FilterCompanySection";
 import { getCompanies } from "@/services/ads/getCompanies";
 import { getUserType } from "@/services/auth/getUserType";
+import { getCategories } from "@/services/categories/getCategories";
 import getProducts from "@/services/products/getProducts";
+import { generateHreflangAlternates } from "@/utils/hreflang";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getLocale } from "next-intl/server";
-import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata({ params }) {
   const { category } = await params;
   const categoryDecoded =
     category && category !== "undefined" ? decodeURIComponent(category) : null;
-  const pathname = categoryDecoded ? `/companies/${categoryDecoded}` : `/companies`;
+  const pathname = categoryDecoded
+    ? `/companies/${categoryDecoded}`
+    : `/companies`;
+  const categories = await getCategories(`/company/categories`);
+  const categoryData = categories.find((item) => item.slug === categoryDecoded);
+
   const alternates = generateHreflangAlternates(pathname);
   return {
     alternates,
+    robots: { index: categoryData.is_index, follow: categoryData.is_follow },
   };
 }
 

@@ -11,10 +11,7 @@ export default async function FilterCompanySection({ selectedCategory }) {
     getCategories(`/company/categories`),
   ]);
 
-  const isValidSlug =
-    typeof selectedCategory === "string" && /^[a-z0-9-]+$/i.test(selectedCategory);
-
-  const subCategories = isValidSlug
+  const subCategories = selectedCategory
     ? await getSubCategories(
         {
           category_slug: selectedCategory,
@@ -27,12 +24,12 @@ export default async function FilterCompanySection({ selectedCategory }) {
     <section className="explore_ads">
       <div className="container d-flex flex-column gap-2">
         <CompanyPageCategoriesSlider categories={categories} />
-        {isValidSlug && (
+        {selectedCategory && (
           <SubCategoriesCompanySlider subCategories={subCategories} />
         )}
         <AdvancedFilter
           countries={countries}
-          selectedCategory={isValidSlug ? selectedCategory : null}
+          selectedCategory={selectedCategory}
         />
       </div>
     </section>

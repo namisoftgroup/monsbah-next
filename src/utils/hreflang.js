@@ -130,11 +130,7 @@ export function generateHreflangAlternatesForProduct(pathname, product, baseUrl 
 
     if (!productCountryCode) {
         if (process?.env?.NODE_ENV !== 'production') {
-            console.log('[hreflang][product] country missing, fallback to all locales', {
-                pathname,
-                rawCandidates,
-                countryObjKeys: country ? Object.keys(country) : null
-            });
+        
         }
         return generateHreflangAlternates(pathname, baseUrl);
     }
@@ -146,11 +142,7 @@ export function generateHreflangAlternatesForProduct(pathname, product, baseUrl 
 
     if (relevantLocales.length === 0) {
         if (process?.env?.NODE_ENV !== 'production') {
-            console.log('[hreflang][product] no matching locales for country, fallback to all', {
-                pathname,
-                productCountryCode,
-                rawCandidates
-            });
+       
         }
         return generateHreflangAlternates(pathname, baseUrl);
     }
@@ -168,13 +160,7 @@ export function generateHreflangAlternatesForProduct(pathname, product, baseUrl 
 
     if (process?.env?.NODE_ENV !== 'production') {
         const langsKeys = Object.keys(alternates.languages || {});
-        console.log('[hreflang][product] alternates', {
-            pathname,
-            productCountryCode,
-            relevantLocales,
-            languagesKeys: langsKeys,
-            canonical: alternates.canonical
-        });
+   
     }
 
     return alternates;
