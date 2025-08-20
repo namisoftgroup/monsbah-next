@@ -4,6 +4,8 @@ import ProductsSection from "@/components/home/ProductsSection";
 import CompaniesList from "@/components/search/CompaniesList";
 import { getCompanies } from "@/services/ads/getCompanies";
 import { getUserType } from "@/services/auth/getUserType";
+import { getCategories } from "@/services/categories/getCategories";
+import { getCountries } from "@/services/getCountries";
 import getProducts from "@/services/products/getProducts";
 import { getQueryClient } from "@/utils/queryCLient";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -19,6 +21,26 @@ export async function generateMetadata({ params }) {
   const alternates = generateHreflangAlternates(pathname);
   return {
     alternates,
+  };
+}
+
+export async function generateMetadata({ params }) {
+  const { "country-locale": countryLocale, category } = await params;
+  const decodedCategory = decodeURIComponent(category);
+  const [country, locale] = countryLocale.split("-");
+  const categories = await getCategories();
+  const countries = await getCountries();
+  const hreflangs = [];
+  console.log(categories);
+
+  const categoryData = categories.find((item) => item.slug === decodedCategory);
+  console.log(categoryData);
+
+  return {
+    robots: {
+      index: categoryData.is_index,
+      follow: categoryData.is_follow,
+    },
   };
 }
 

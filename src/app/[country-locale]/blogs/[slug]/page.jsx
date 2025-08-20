@@ -11,7 +11,11 @@ const fetchBlogDetails = cache(async (id) => {
 });
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params;
+  const { slug, "country-locale": countryLocale } = await params;
+  const decoudedSlug = decodeURIComponent(slug);
+  console.log(slug, decoudedSlug);
+
+  const [country, locale] = countryLocale.split("-");
   const t = await getTranslations("meta");
   const blog = await fetchBlogDetails(slug);
 

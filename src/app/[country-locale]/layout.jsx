@@ -23,6 +23,21 @@ import BackToTop from "@/components/shared/BackToTop";
 import DownloadApp from "@/components/shared/DownloadApp";
 import NextTopLoader from "nextjs-toploader";
 
+const hreflangs = [
+  { href: "https://monsbah.com/sa-ar", hreflang: "ar-sa" },
+  { href: "https://monsbah.com/kw-ar", hreflang: "ar-kw" },
+  { href: "https://monsbah.com/ae-ar", hreflang: "ar-ae" },
+  { href: "https://monsbah.com/bh-ar", hreflang: "ar-bh" },
+  { href: "https://monsbah.com/om-ar", hreflang: "ar-om" },
+  { href: "https://monsbah.com/qa-ar", hreflang: "ar-qa" },
+  { href: "https://monsbah.com/sa-en", hreflang: "en-sa" },
+  { href: "https://monsbah.com/kw-en", hreflang: "en-kw" },
+  { href: "https://monsbah.com/ae-en", hreflang: "en-ae" },
+  { href: "https://monsbah.com/bh-en", hreflang: "en-bh" },
+  { href: "https://monsbah.com/om-en", hreflang: "en-om" },
+  { href: "https://monsbah.com/qa-en", hreflang: "en-qa" },
+];
+
 export async function generateMetadata({ params }) {
   const locale = await params;
 
