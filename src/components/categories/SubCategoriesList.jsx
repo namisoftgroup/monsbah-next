@@ -3,11 +3,12 @@ import { getSubCategories } from "@/services/categories/getSubCategories";
 import Image from "next/image";
 
 export default async function SubCategoriesList({ selectedCategory }) {
-  const isValidSlug =
-    typeof selectedCategory === "string" && /^[a-z0-9-]+$/i.test(selectedCategory);
-  const safeCategory = isValidSlug ? selectedCategory : null;
+  // const isValidSlug =
+  //   typeof selectedCategory === "string" && /^[a-z0-9-]+$/i.test(selectedCategory);
+  // const safeCategory = isValidSlug ? selectedCategory : null;
+
   const subCategories = await getSubCategories({
-    category_slug: safeCategory,
+    category_slug: selectedCategory,
   });
 
   return (
@@ -18,9 +19,9 @@ export default async function SubCategoriesList({ selectedCategory }) {
             <Link
               aria-label="subcategory"
               href={
-                safeCategory === null
+                selectedCategory === null
                   ? `/?sub_category=${sub?.slug}`
-                  : `/?category=${safeCategory}&sub_category=${sub?.slug}`
+                  : `/?category=${selectedCategory}&sub_category=${sub?.slug}`
               }
               className="category sub d-flex align-items-center flex-column gap-2"
             >

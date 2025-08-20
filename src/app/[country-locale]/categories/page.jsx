@@ -15,7 +15,9 @@ export async function generateMetadata({ searchParams }) {
     category_slug: safeSlug,
   });
 
-  const pathname = safeSlug ? `/categories?category=${safeSlug}` : "/categories";
+  const pathname = safeSlug
+    ? `/categories?category=${safeSlug}`
+    : "/categories";
   const alternates = generateHreflangAlternates(pathname);
 
   return {
@@ -30,10 +32,12 @@ export async function generateMetadata({ searchParams }) {
 }
 
 export default async function Categories({ searchParams }) {
-  const selectedCategoryRaw = (await searchParams).category ?? null;
-  const isValidSlug =
-    typeof selectedCategoryRaw === "string" && /^[a-z0-9-]+$/i.test(selectedCategoryRaw);
-  const selectedCategory = isValidSlug ? selectedCategoryRaw : null;
+  const selectedCategory = (await searchParams).category ?? null;
+  // const isValidSlug =
+  //   typeof selectedCategoryRaw === "string" &&
+  //   /^[a-z0-9-]+$/i.test(selectedCategoryRaw);
+  // const selectedCategory = isValidSlug ? selectedCategoryRaw : null;
+  // console.log(selectedCategory);
 
   return (
     <section className="categories-page explore_ads">
