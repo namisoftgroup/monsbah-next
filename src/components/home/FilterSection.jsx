@@ -11,23 +11,29 @@ export default async function FilterSection({ selectedCategory }) {
   const user = await getUserType();
   const categories = await getCategories(`/${user}/categories`);
 
-  const subCategories = await getSubCategories(
-    {
-      category_slug: selectedCategory,
-    },
-    `/${user}/sub-categories`
-  );
+  // validate category slug to avoid accidental calls like "@vite"
+  const isValidSlug =
+    typeof selectedCategory === "string" && /^[a-z0-9-]+$/i.test(selectedCategory);
+
+  const subCategories = isValidSlug
+    ? await getSubCategories(
+        {
+          category_slug: selectedCategory,
+        },
+        `/${user}/sub-categories`
+      )
+    : [];
 
   return (
     <section className="explore_ads">
       <div className="container d-flex flex-column gap-2">
         <CategoriesSlider categories={categories} />
-        {selectedCategory && (
+        {isValidSlug && (
           <SubCategoriesSlider subCategories={subCategories} />
         )}
         <AdvancedFilter
           countries={countries}
-          selectedCategory={selectedCategory}
+          selectedCategory={isValidSlug ? selectedCategory : null}
         />
       </div>
     </section>

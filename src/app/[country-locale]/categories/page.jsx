@@ -7,26 +7,33 @@ import { generateHreflangAlternates } from "@/utils/hreflang";
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
   const categorySlug = (await searchParams)?.category ?? null;
+  const isValidSlug =
+    typeof categorySlug === "string" && /^[a-z0-9-]+$/i.test(categorySlug);
+  const safeSlug = isValidSlug ? categorySlug : null;
+
   const subCategories = await getSubCategories({
-    category_slug: categorySlug,
+    category_slug: safeSlug,
   });
 
-  const pathname = categorySlug ? `/categories?category=${categorySlug}` : "/categories";
+  const pathname = safeSlug ? `/categories?category=${safeSlug}` : "/categories";
   const alternates = generateHreflangAlternates(pathname);
 
   return {
-    title: categorySlug
-      ? `${t("categories.titlePrefix")} ${categorySlug}`
+    title: safeSlug
+      ? `${t("categories.titlePrefix")} ${safeSlug}`
       : t("categories.defaultTitle"),
-    description: categorySlug
-      ? `${t("categories.descriptionPrefix")} ${categorySlug}`
+    description: safeSlug
+      ? `${t("categories.descriptionPrefix")} ${safeSlug}`
       : t("categories.defaultDescription"),
     alternates,
   };
 }
 
 export default async function Categories({ searchParams }) {
-  const selectedCategory = (await searchParams).category ?? null;
+  const selectedCategoryRaw = (await searchParams).category ?? null;
+  const isValidSlug =
+    typeof selectedCategoryRaw === "string" && /^[a-z0-9-]+$/i.test(selectedCategoryRaw);
+  const selectedCategory = isValidSlug ? selectedCategoryRaw : null;
 
   return (
     <section className="categories-page explore_ads">

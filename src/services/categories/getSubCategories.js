@@ -5,8 +5,20 @@ export async function getSubCategories(
   endPoint = "/client/sub-categories"
 ) {
   try {
+    // sanitize params to avoid invalid slugs (e.g., "@vite")
+    const safeParams = params && typeof params === "object" ? { ...params } : {};
+    if (
+      typeof safeParams.category_slug !== "undefined" &&
+      !(
+        typeof safeParams.category_slug === "string" &&
+        /^[a-z0-9-]+$/i.test(safeParams.category_slug)
+      )
+    ) {
+      delete safeParams.category_slug;
+    }
+
     const res = await serverAxios.get(endPoint, {
-      params: params,
+      params: safeParams,
     });
 
     const data = res?.data?.data?.data;

@@ -41,53 +41,141 @@ export function generateHreflangAlternates(pathname, baseUrl = "https://monsbah.
  * @returns {Object} Object with alternates for hreflang
  */
 export function generateHreflangAlternatesForProduct(pathname, product, baseUrl = "https://monsbah.com") {
+    // Helper mappers for various country representations
+    const PHONE_TO_ISO = {
+        '966': 'sa', // Saudi Arabia
+        '965': 'kw', // Kuwait
+        '971': 'ae', // UAE
+        '973': 'bh', // Bahrain
+        '968': 'om', // Oman
+        '974': 'qa'  // Qatar
+    };
+
+    const SLUG_TO_ISO = {
+        'sa': 'sa', 'ksa': 'sa', 'saudi': 'sa', 'saudi-arabia': 'sa', 'saudiarabia': 'sa',
+        'kw': 'kw', 'kuwait': 'kw',
+        'ae': 'ae', 'uae': 'ae', 'united-arab-emirates': 'ae', 'unitedarabemirates': 'ae',
+        'bh': 'bh', 'bahrain': 'bh',
+        'om': 'om', 'oman': 'om',
+        'qa': 'qa', 'qatar': 'qa'
+    };
+
+    const NAME_TO_ISO = {
+        // English
+        'saudi arabia': 'sa', 'kingdom of saudi arabia': 'sa', 'ksa': 'sa', 'saudi': 'sa',
+        'kuwait': 'kw',
+        'united arab emirates': 'ae', 'uae': 'ae',
+        'bahrain': 'bh',
+        'oman': 'om',
+        'qatar': 'qa',
+        // Arabic common variants
+        'المملكة العربية السعودية': 'sa', 'السعودية': 'sa', 'السعوديه': 'sa',
+        'الكويت': 'kw',
+        'الإمارات العربية المتحدة': 'ae', 'الإمارات': 'ae', 'الامارات': 'ae',
+        'البحرين': 'bh',
+        'عمان': 'om', 'عُمان': 'om', 'سلطنة عمان': 'om',
+        'قطر': 'qa'
+    };
+
+    const normalizeCountry = (val) => {
+        if (val === null || val === undefined) return null;
+        if (typeof val === 'number') val = String(val);
+        const s = String(val).trim();
+        if (!s) return null;
+
+        // Accept 2-letter ISO
+        if (/^[A-Za-z]{2}$/.test(s)) return s.toLowerCase();
+
+        // Accept numeric phone codes
+        if (/^[0-9]{2,4}$/.test(s)) {
+            const iso = PHONE_TO_ISO[s];
+            if (iso) return iso;
+        }
+
+        const lower = s.toLowerCase();
+
+        // Slug-like strings
+        if (SLUG_TO_ISO[lower]) return SLUG_TO_ISO[lower];
+
+        // Names (ar/en)
+        const normalizedName = lower.replace(/\s+/g, ' ').trim();
+        if (NAME_TO_ISO[normalizedName]) return NAME_TO_ISO[normalizedName];
+
+        return null;
+    };
+
     const alternates = {
         canonical: `${baseUrl}/${LOCALES[0]}${pathname}`,
         languages: {}
     };
 
-    // Get product's country code (assuming it's available in product.country)
-    let productCountryCode = null;
-    
-    if (product?.country?.slug) {
-        productCountryCode = product.country.slug.toLowerCase();
-    } else if (product?.country_slug) {
-        productCountryCode = product.country_slug.toLowerCase();
-    } else if (product?.country?.code) {
-        productCountryCode = product.country.code.toLowerCase();
-    }
+    const country = product?.country || {};
+    const rawCandidates = [
+        country?.slug,
+        product?.country_slug,
+        country?.code,
+        country?.iso_code,
+        country?.iso,
+        country?.isoCode,
+        country?.iso2,
+        product?.country_code,
+        country?.country_code, // often phone code
+        country?.name,
+        country?.english_name,
+        product?.country_name
+    ];
+
+    const normalizedCandidates = rawCandidates.map(normalizeCountry).filter(Boolean);
+    const productCountryCode = normalizedCandidates[0] || null;
 
     if (!productCountryCode) {
-        // Fallback to all locales if country is not available
+        if (process?.env?.NODE_ENV !== 'production') {
+            console.log('[hreflang][product] country missing, fallback to all locales', {
+                pathname,
+                rawCandidates,
+                countryObjKeys: country ? Object.keys(country) : null
+            });
+        }
         return generateHreflangAlternates(pathname, baseUrl);
     }
 
-    // Filter locales to only those matching the product's country
     const relevantLocales = LOCALES.filter(locale => {
-        const [country] = locale.split('-');
-        return country.toLowerCase() === productCountryCode;
+        const [countryPart] = locale.split('-');
+        return countryPart.toLowerCase() === productCountryCode;
     });
 
     if (relevantLocales.length === 0) {
-        // Fallback to all locales if no matching country found
+        if (process?.env?.NODE_ENV !== 'production') {
+            console.log('[hreflang][product] no matching locales for country, fallback to all', {
+                pathname,
+                productCountryCode,
+                rawCandidates
+            });
+        }
         return generateHreflangAlternates(pathname, baseUrl);
     }
 
-    // Add alternates only for the product's country locales
     relevantLocales.forEach(locale => {
-        const [country, lang] = locale.split('-');
-        
-        // Use full locale as key for more specific targeting
+        const [_, lang] = locale.split('-');
         alternates.languages[locale] = `${baseUrl}/${locale}${pathname}`;
-        
-        // Also add just language for broader targeting
         if (!alternates.languages[lang]) {
             alternates.languages[lang] = `${baseUrl}/${locale}${pathname}`;
         }
     });
 
-    // Use the first relevant locale for x-default
     alternates.languages['x-default'] = `${baseUrl}/${relevantLocales[0]}${pathname}`;
+    alternates.canonical = `${baseUrl}/${relevantLocales[0]}${pathname}`;
+
+    if (process?.env?.NODE_ENV !== 'production') {
+        const langsKeys = Object.keys(alternates.languages || {});
+        console.log('[hreflang][product] alternates', {
+            pathname,
+            productCountryCode,
+            relevantLocales,
+            languagesKeys: langsKeys,
+            canonical: alternates.canonical
+        });
+    }
 
     return alternates;
 }
