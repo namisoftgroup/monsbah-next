@@ -18,7 +18,7 @@ export async function generateMetadata({ searchParams }) {
   const pathname = safeSlug
     ? `/categories?category=${safeSlug}`
     : "/categories";
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = await generateHreflangAlternates(pathname);
 
   return {
     title: safeSlug

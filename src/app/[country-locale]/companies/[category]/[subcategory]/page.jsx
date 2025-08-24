@@ -31,7 +31,7 @@ export async function generateMetadata({ params }) {
   const subCategoryData = subCategories.find(
     (item) => item.slug === subCategoryDecoded
   );
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = await generateHreflangAlternates(pathname);
 
   return {
     title: `${t("companies.titleByCategorySub")} ${category} - ${subcategory}`,

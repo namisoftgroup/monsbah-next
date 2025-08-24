@@ -9,7 +9,7 @@ export async function generateMetadata({ params }) {
   const [country, locale] = countryLocale.split("-");
   const t = await getTranslations("meta");
 
-  const alternates = generateHreflangAlternates("/about");
+  const alternates = await generateHreflangAlternates("/about");
   return {
     title: { absolute: t("about.title") },
     description: t("about.description"),

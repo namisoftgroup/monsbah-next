@@ -12,7 +12,7 @@ export async function generateMetadata({ searchParams }) {
   const pathname = user_id
     ? `/chats?user_id=${encodeURIComponent(user_id)}`
     : "/chats";
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = await generateHreflangAlternates(pathname);
 
   return {
     title: t("chats.defaultTitle"),

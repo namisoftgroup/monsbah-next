@@ -11,7 +11,7 @@ import { getLocale } from "next-intl/server";
 import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
-  const alternates = generateHreflangAlternates("/");
+  const alternates = await generateHreflangAlternates("/");
   return {
     other: {
       "google-site-verification": "kOD-M71HEym30Cx4W8U0FqAJXpQy8f5TgdYkxqNXeAk",

@@ -18,7 +18,7 @@ export async function generateMetadata({ searchParams }) {
   if (category_id) params.set("category_id", category_id);
   const q = params.toString();
   const pathname = q ? `/search/companies?${q}` : "/search/companies";
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = await generateHreflangAlternates(pathname);
 
   return {
     title: hasFilters

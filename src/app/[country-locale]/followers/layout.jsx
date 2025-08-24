@@ -6,11 +6,13 @@ import { generateHreflangAlternates } from "@/utils/hreflang";
 
 export async function generateMetadata() {
   const t = await getTranslations("meta");
-  const alternates = generateHreflangAlternates("/followers");
+  const alternates = await generateHreflangAlternates("/followers");
 
   return {
     title: t("followers.title", { default: "Followers" }),
-    description: t("followers.description", { default: "Followers and followings" }),
+    description: t("followers.description", {
+      default: "Followers and followings",
+    }),
     alternates,
   };
 }

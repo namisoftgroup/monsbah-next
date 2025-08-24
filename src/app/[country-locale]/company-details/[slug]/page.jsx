@@ -17,9 +17,9 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const profile = await fetchCompany(Number(slug));
   const t = await getTranslations("meta");
-  
+
   const pathname = `/company-details/${slug}`;
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = await generateHreflangAlternates(pathname);
 
   return {
     title: `${profile?.client?.name} | ${t("companyProfile.titleSuffix")}`,

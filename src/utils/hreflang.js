@@ -1,3 +1,4 @@
+import { getLocale } from "next-intl/server";
 import { BASE_URL, META_LOCALES } from "./constants";
 
 /**
@@ -6,9 +7,10 @@ import { BASE_URL, META_LOCALES } from "./constants";
  * @param {string} baseUrl - The base URL of the website
  * @returns {Object} Object with alternates for hreflang
  */
-export function generateHreflangAlternates(pathname, baseUrl = BASE_URL) {
+export async function generateHreflangAlternates(pathname, baseUrl = BASE_URL) {
+  const locale = await getLocale();
   const alternates = {
-    canonical: `${baseUrl}/${META_LOCALES[0]}${pathname}`,
+    canonical: `${baseUrl}/${locale}${pathname}`,
     languages: {},
   };
 
@@ -45,7 +47,7 @@ export function generateHreflangAlternates(pathname, baseUrl = BASE_URL) {
 export function generateHreflangAlternatesForProduct(
   pathname,
   product,
-  baseUrl = "https://monsbah.com"
+  baseUrl = BASE_URL
 ) {
   // Helper mappers for various country representations
   const PHONE_TO_ISO = {
@@ -200,10 +202,7 @@ export function generateHreflangAlternatesForProduct(
  * @param {string} baseUrl - The base URL
  * @returns {Array} Array of link objects for hreflang
  */
-export function generateHreflangLinks(
-  pathname,
-  baseUrl = "https://monsbah.com"
-) {
+export function generateHreflangLinks(pathname, baseUrl = BASE_URL) {
   const links = [];
 
   META_LOCALES.forEach((locale) => {

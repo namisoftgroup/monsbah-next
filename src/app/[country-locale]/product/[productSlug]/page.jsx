@@ -21,7 +21,10 @@ export async function generateMetadata({ params }) {
   }
 
   const pathname = `/product/${productSlug}`;
-  const alternates = generateHreflangAlternatesForProduct(pathname, product);
+  const alternates = await generateHreflangAlternatesForProduct(
+    pathname,
+    product
+  );
 
   return {
     title: product.meta_title,

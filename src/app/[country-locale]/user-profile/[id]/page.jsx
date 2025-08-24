@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
   const user = profile?.data;
 
   const pathname = `/user-profile/${id}`;
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = await generateHreflangAlternates(pathname);
 
   return {
     title: user?.name

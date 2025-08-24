@@ -20,7 +20,7 @@ export async function generateMetadata({ params }) {
   const pathname = categoryDecoded ? `/${categoryDecoded}` : "/";
   const categories = await getCategories();
   const categoryData = categories.find((item) => item.slug === categoryDecoded);
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = await generateHreflangAlternates(pathname);
   return {
     alternates,
     robots: {

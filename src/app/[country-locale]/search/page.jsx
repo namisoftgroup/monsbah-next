@@ -9,8 +9,10 @@ export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
   const query = (await searchParams)?.search;
 
-  const pathname = query ? `/search?search=${encodeURIComponent(query)}` : "/search";
-  const alternates = generateHreflangAlternates(pathname);
+  const pathname = query
+    ? `/search?search=${encodeURIComponent(query)}`
+    : "/search";
+  const alternates = await generateHreflangAlternates(pathname);
 
   return {
     title: query

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
   const blog = await fetchBlogDetails(slug);
 
   const pathname = `/blogs/${slug}`;
-  const alternates = generateHreflangAlternates(pathname);
+  const alternates = await generateHreflangAlternates(pathname);
 
   return {
     title: blog?.meta_title,

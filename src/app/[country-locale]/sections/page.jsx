@@ -5,11 +5,10 @@ import Image from "next/image";
 import React from "react";
 import { generateHreflangAlternates } from "@/utils/hreflang";
 
-
 export async function generateMetadata() {
   const t = await getTranslations("meta");
 
-  const alternates = generateHreflangAlternates("/sections");
+  const alternates = await generateHreflangAlternates("/sections");
 
   return {
     title: t("companyCategories.title"),

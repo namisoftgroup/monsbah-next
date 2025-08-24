@@ -10,7 +10,7 @@ export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
   const category = (await searchParams)?.category;
   const sub_category = (await searchParams)?.sub_category;
-  const alternates = generateHreflangAlternates("/companies");
+  const alternates = await generateHreflangAlternates("/companies");
 
   if (category && sub_category) {
     return {

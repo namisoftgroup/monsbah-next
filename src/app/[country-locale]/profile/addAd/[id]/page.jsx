@@ -7,7 +7,9 @@ export async function generateMetadata({ params }) {
   const t = await getTranslations("meta");
   const { id } = await params;
 
-  const alternates = generateHreflangAlternates(`/profile/addAd/${encodeURIComponent(id)}`);
+  const alternates = await generateHreflangAlternates(
+    `/profile/addAd/${encodeURIComponent(id)}`
+  );
 
   return {
     title: t("editAd.title"),
@@ -20,5 +22,5 @@ export default async function page({ params }) {
   const { id } = await params;
   const product = await getProduct(id);
 
-  return <AddEditAdForm product={product}  />;
+  return <AddEditAdForm product={product} />;
 }

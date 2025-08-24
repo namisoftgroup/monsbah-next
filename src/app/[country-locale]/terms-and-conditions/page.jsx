@@ -5,7 +5,7 @@ import { generateHreflangAlternates } from "@/utils/hreflang";
 export async function generateMetadata() {
   const t = await getTranslations("meta");
 
-  const alternates = generateHreflangAlternates("/terms-and-conditions");
+  const alternates = await generateHreflangAlternates("/terms-and-conditions");
   return {
     title: t("terms.title"),
     description: t("terms.description"),
