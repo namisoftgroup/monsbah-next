@@ -1,7 +1,22 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const FCM = process.env.NEXT_PUBLIC_FCM_TOKEN;
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-export  const LOCALES = ["ar", "en"];
+export const LOCALES = ["ar", "en"];
+
+export const META_LOCALES = [
+  "ar-sa",
+  "en-sa",
+  "ar-kw",
+  "en-kw",
+  "ar-ae",
+  "en-ae",
+  "ar-bh",
+  "en-bh",
+  "ar-om",
+  "en-om",
+  "ar-qa",
+  "en-qa",
+];
 
 export const META_DATA_CONTENT = {
   en: {
