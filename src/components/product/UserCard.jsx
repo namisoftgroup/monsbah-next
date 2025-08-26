@@ -5,7 +5,7 @@ import { toggleFollowAction } from "@/libs/actions/followActions";
 import { useAuthModal } from "@/stores/useAuthModal";
 import { useAuthStore } from "@/stores/useAuthStore";
 import Image from "next/image";
-import { startTransition, useOptimistic } from "react";
+import { startTransition, useOptimistic, useState } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "use-intl";
 
@@ -40,6 +40,10 @@ export default function UserCard({ product }) {
       }
       return currentUser;
     }
+  );
+
+  const [imgSrc, setImgSrc] = useState(
+    optimisticUser?.image || "/images/icons/user_default.png"
   );
 
   const handleFollow = async () => {
@@ -86,7 +90,7 @@ export default function UserCard({ product }) {
               width={90}
               height={90}
               src={optimisticUser?.image}
-              onError={(e) => (e.target.src = "/images/icons/user_default.png")}
+              onError={() => setImgSrc("/images/icons/user_default.png")}
               loading="lazy"
               alt="user"
             />

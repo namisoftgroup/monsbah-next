@@ -1,8 +1,9 @@
 import SideBar from "@/components/categories/SideBar";
 import SubCategoriesList from "@/components/categories/SubCategoriesList";
+import { getCategories } from "@/services/categories/getCategories";
 import { getSubCategories } from "@/services/categories/getSubCategories";
-import { getTranslations } from "next-intl/server";
 import { generateHreflangAlternates } from "@/utils/hreflang";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ searchParams }) {
   const t = await getTranslations("meta");
@@ -33,13 +34,18 @@ export async function generateMetadata({ searchParams }) {
 
 export default async function Categories({ searchParams }) {
   const selectedCategory = (await searchParams).category ?? null;
+  const categories = await getCategories();
+  console.log(categories);
 
   return (
     <section className="categories-page explore_ads">
       <div className="container">
         <div className="row">
           <SideBar selectedCategory={selectedCategory} />
-          <SubCategoriesList selectedCategory={selectedCategory} />
+          <SubCategoriesList
+            categories={categories}
+            selectedCategory={selectedCategory}
+          />
         </div>
       </div>
     </section>
