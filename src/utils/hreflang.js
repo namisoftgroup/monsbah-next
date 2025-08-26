@@ -9,6 +9,8 @@ import { BASE_URL, META_LOCALES } from "./constants";
  */
 export async function generateHreflangAlternates(pathname, baseUrl = BASE_URL) {
   const locale = await getLocale();
+  console.log(pathname , baseUrl);
+  
   const alternates = {
     canonical: `${baseUrl}/${locale}${pathname}`,
     languages: {},
@@ -139,6 +141,8 @@ export function generateHreflangAlternatesForProduct(
   };
 
   const country = product?.country || {};
+  console.log(country);
+  
   const rawCandidates = [
     country?.slug,
     product?.country_slug,
@@ -158,6 +162,7 @@ export function generateHreflangAlternatesForProduct(
     .map(normalizeCountry)
     .filter(Boolean);
   const productCountryCode = normalizedCandidates[0] || null;
+console.log(productCountryCode);
 
   if (!productCountryCode) {
     if (process?.env?.NODE_ENV !== "production") {
@@ -166,9 +171,12 @@ export function generateHreflangAlternatesForProduct(
   }
 
   const relevantLocales = META_LOCALES.filter((locale) => {
-    const [countryPart] = locale.split("-");
+    const [lang ,countryPart] = locale.split("-");
+    console.log(countryPart);
+    
     return countryPart.toLowerCase() === productCountryCode;
   });
+console.log(relevantLocales);
 
   if (relevantLocales.length === 0) {
     if (process?.env?.NODE_ENV !== "production") {
@@ -179,9 +187,9 @@ export function generateHreflangAlternatesForProduct(
   relevantLocales.forEach((locale) => {
     const [_, lang] = locale.split("-");
     alternates.languages[locale] = `${baseUrl}/${locale}${pathname}`;
-    if (!alternates.languages[lang]) {
-      alternates.languages[lang] = `${baseUrl}/${locale}${pathname}`;
-    }
+    // if (!alternates.languages[lang]) {
+    //   alternates.languages[lang] = `${baseUrl}/${locale}${pathname}`;
+    // }
   });
 
   alternates.languages[
@@ -192,6 +200,7 @@ export function generateHreflangAlternatesForProduct(
   if (process?.env?.NODE_ENV !== "production") {
     const langsKeys = Object.keys(alternates.languages || {});
   }
+console.log(alternates.languages);
 
   return alternates;
 }
@@ -215,6 +224,8 @@ export function generateHreflangLinks(pathname, baseUrl = BASE_URL) {
       hrefLang: locale,
       href: url,
     });
+    console.log("hreflang  links",links);
+    
 
     // Add general language hreflang for the first occurrence
     const existingLang = links.find((link) => link.hrefLang === lang);
