@@ -6,15 +6,17 @@ import { getProduct } from "@/services/products/getProduct";
 import { cache } from "react";
 import { generateHreflangAlternatesForProduct } from "@/utils/hreflang";
 
-export const fetchProduct = cache(async (id) => {
-  return await getProduct(id);
+export const fetchProduct = cache(async (id ,country_slug ) => {
+  return await getProduct(id , country_slug);
 });
 
 export async function generateMetadata({ params }) {
-  const { productSlug } = await params;
+  const { productSlug , "country-locale":countryLocale } = await params;
   const decodedSlug = decodeURIComponent(productSlug);
+  const country_slug = countryLocale.split("-")[0];
+  
 
-  const product = await fetchProduct(decodedSlug);
+  const product = await fetchProduct(decodedSlug,country_slug);
 
   if (process?.env?.NODE_ENV !== "production") {
     const c = product?.country || {};
@@ -51,11 +53,12 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function page({ params }) {
-  const { productSlug } = await params;
+  const { productSlug ,"country-locale":countryLocale } = await params;
+  const country_slug = countryLocale.split("-")[0];
 
   const decodedSlug = decodeURIComponent(productSlug);
 
-  const product = await fetchProduct(decodedSlug);
+  const product = await fetchProduct(decodedSlug,country_slug);
 
   return (
     <section className="product_details">
