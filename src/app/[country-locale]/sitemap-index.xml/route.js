@@ -1,20 +1,20 @@
-import { LOCALES } from '@/i18n/routing';
-import getProducts from '@/services/products/getProducts';
+import { LOCALES } from "@/i18n/routing";
+import getProducts from "@/services/products/getProducts";
+import { BASE_URL } from "@/utils/constants";
 
-const BASE_URL = 'https://monsbah.com';
 const CHUNK_SIZE = 100;
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 async function getChunkCountForLocale(locale) {
   try {
-    const [country_slug, lang] = locale.split('-');
+    const [country_slug, lang] = locale.split("-");
 
     const data = await getProducts({
       pageParam: 1,
       lang,
       country_slug,
-      user: 'client',
+      user: "client",
     });
 
     const firstPageLength = data?.data?.data?.length || 0;
@@ -33,11 +33,11 @@ async function getChunkCountForLocale(locale) {
       data?.data?.total,
       data?.meta?.total,
       data?.data?.meta?.total,
-    ].filter((v) => typeof v === 'number');
+    ].filter((v) => typeof v === "number");
 
     let total = totalCandidates[0];
 
-    if (typeof total !== 'number') {
+    if (typeof total !== "number") {
       // Try to derive last_page from various shapes (Laravel-style paginator)
       const lastPageCandidates = [
         data?.meta?.last_page,
@@ -45,18 +45,18 @@ async function getChunkCountForLocale(locale) {
         (() => {
           try {
             const last = data?.links?.last || data?.data?.links?.last;
-            if (last) return Number(new URL(last).searchParams.get('page'));
+            if (last) return Number(new URL(last).searchParams.get("page"));
           } catch (_) {}
           return undefined;
         })(),
-      ].filter((v) => typeof v === 'number' && !Number.isNaN(v));
+      ].filter((v) => typeof v === "number" && !Number.isNaN(v));
 
       if (lastPageCandidates[0]) {
         total = lastPageCandidates[0] * perPage;
       }
     }
 
-    if (typeof total === 'number' && total > 0) {
+    if (typeof total === "number" && total > 0) {
       return Math.max(1, Math.ceil(total / CHUNK_SIZE));
     }
 
@@ -68,7 +68,7 @@ async function getChunkCountForLocale(locale) {
     // Fallback to 10 chunks if total cannot be determined
     return 10;
   } catch (e) {
-    console.error('Error estimating product chunks for', locale, e);
+    console.error("Error estimating product chunks for", locale, e);
     return 10;
   }
 }
@@ -99,18 +99,18 @@ export async function GET() {
     });
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPaths
-      .map((loc) => `  <sitemap>\n    <loc>${loc}</loc>\n  </sitemap>`) 
-      .join('\n')}\n</sitemapindex>`;
+      .map((loc) => `  <sitemap>\n    <loc>${loc}</loc>\n  </sitemap>`)
+      .join("\n")}\n</sitemapindex>`;
 
     return new Response(xml, {
       status: 200,
       headers: {
-        'Content-Type': 'text/xml',
-        'Cache-Control': 's-maxage=86400, stale-while-revalidate'
+        "Content-Type": "text/xml",
+        "Cache-Control": "s-maxage=86400, stale-while-revalidate",
       },
     });
   } catch (error) {
-    console.error('Error generating sitemap index:', error);
-    return new Response('Error generating sitemap index', { status: 500 });
+    console.error("Error generating sitemap index:", error);
+    return new Response("Error generating sitemap index", { status: 500 });
   }
 }
