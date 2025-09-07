@@ -78,10 +78,10 @@ export default async function page({ params }) {
               <div className="img">
                 <img src={blog?.image} alt="فساتين زفاف 2024" />
               </div>{" "}
-              {/* <div
+              <div
                 className="content-text"
                 dangerouslySetInnerHTML={{ __html: blog?.description }}
-              /> */}
+              />
             </div>
           </div>
           <div className="col-lg-3 col-12 p-2">

@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 import AboutCompany from "./AboutCompany";
 import LinksList from "./LinksList";
-// import DownLoadApp from "./DownLoadApp";
+import DownLoadApp from "./DownLoadApp";
 import CopyRights from "./CopyRights";
 import { SocialLinks } from "./SocialLinks";
 
@@ -83,7 +83,7 @@ export default async function Footer() {
 
           <div className="col-lg-2 col-12 p-2">
             <div className="col">
-              {/* <DownLoadApp /> */}
+             <DownLoadApp />
             </div>
           </div>
 
