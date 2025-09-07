@@ -89,10 +89,10 @@ const RegisterCompany = () => {
           ?.map((item) => `${item}<br />`)
           .join(" ");
         toast.error(
-          <div
-            style={{ textAlign: "start !important" }}
-            dangerouslySetInnerHTML={{ __html: message }}
-          />
+          // <div
+          //   style={{ textAlign: "start !important" }}
+          //   dangerouslySetInnerHTML={{ __html: message }}
+          // />
         );
       } else {
         toast.error(error.response.data.message);
