@@ -8,33 +8,34 @@ import { BASE_URL, META_LOCALES } from "./constants";
  * @returns {Object} Object with alternates for hreflang
  */
 export async function generateHreflangAlternates(pathname, baseUrl = BASE_URL) {
-  const locale = await getLocale();
-  console.log(pathname , baseUrl);
-  
+  const currentLocale = await getLocale(); // e.g., "sa-ar"
+
   const alternates = {
-    canonical: `${baseUrl}/${locale}${pathname}`,
+    canonical: `${baseUrl}/${currentLocale}${pathname}`,
     languages: {},
   };
 
-  // Add alternates for all locales
-  META_LOCALES.forEach((locale) => {
-    const [country, lang] = locale.split("-");
-    const langCode = lang; // "ar" or "en"
-    const countryCode = country.toUpperCase(); // "SA", "KW", etc.
+  const addedLangGeneric = new Set();
 
-    // Use full locale as key for more specific targeting
-    alternates.languages[locale] = `${baseUrl}/${locale}${pathname}`;
+  // META_LOCALES are in the form lang-country (e.g., ar-sa). We must map to path locale country-lang (sa-ar)
+  META_LOCALES.forEach((meta) => {
+    const [lang, country] = meta.split("-");
+    const pathLocale = `${country}-${lang}`;
+    const url = `${baseUrl}/${pathLocale}${pathname}`;
 
-    // // Also add just language for broader targeting
-    // if (!alternates.languages[langCode]) {
-    //   alternates.languages[langCode] = `${baseUrl}/${locale}${pathname}`;
-    // }
+    // Specific hreflang (e.g., ar-sa)
+    alternates.languages[meta] = url;
+
+    // Generic language tag once (ar / en)
+    if (!addedLangGeneric.has(lang)) {
+      alternates.languages[lang] = url;
+      addedLangGeneric.add(lang);
+    }
   });
 
-  // Add x-default to the default locale
-  alternates.languages[
-    "x-default"
-  ] = `${baseUrl}/${META_LOCALES[0]}${pathname}`;
+  // x-default points to the default locale's URL
+  const [defLang, defCountry] = META_LOCALES[0].split("-");
+  alternates.languages["x-default"] = `${baseUrl}/${defCountry}-${defLang}${pathname}`;
 
   return alternates;
 }
@@ -136,13 +137,12 @@ export function generateHreflangAlternatesForProduct(
   };
 
   const alternates = {
-    canonical: `${baseUrl}/${META_LOCALES[0]}${pathname}`,
+    canonical: "",
     languages: {},
   };
 
   const country = product?.country || {};
-  console.log(country);
-  
+
   const rawCandidates = [
     country?.slug,
     product?.country_slug,
@@ -158,49 +158,44 @@ export function generateHreflangAlternatesForProduct(
     product?.country_name,
   ];
 
-  const normalizedCandidates = rawCandidates
-    .map(normalizeCountry)
-    .filter(Boolean);
+  const normalizedCandidates = rawCandidates.map(normalizeCountry).filter(Boolean);
   const productCountryCode = normalizedCandidates[0] || null;
-console.log(productCountryCode);
 
   if (!productCountryCode) {
-    if (process?.env?.NODE_ENV !== "production") {
-    }
     return generateHreflangAlternates(pathname, baseUrl);
   }
 
-  const relevantLocales = META_LOCALES.filter((locale) => {
-    const [lang ,countryPart] = locale.split("-");
-    console.log(countryPart);
-    
+  const relevantLocales = META_LOCALES.filter((meta) => {
+    const [lang, countryPart] = meta.split("-");
     return countryPart.toLowerCase() === productCountryCode;
   });
-console.log(relevantLocales);
 
   if (relevantLocales.length === 0) {
-    if (process?.env?.NODE_ENV !== "production") {
-    }
     return generateHreflangAlternates(pathname, baseUrl);
   }
 
-  relevantLocales.forEach((locale) => {
-    const [_, lang] = locale.split("-");
-    alternates.languages[locale] = `${baseUrl}/${locale}${pathname}`;
-    // if (!alternates.languages[lang]) {
-    //   alternates.languages[lang] = `${baseUrl}/${locale}${pathname}`;
-    // }
+  const addedLangGeneric = new Set();
+
+  relevantLocales.forEach((meta) => {
+    const [lang, country] = meta.split("-");
+    const pathLocale = `${country}-${lang}`;
+    const url = `${baseUrl}/${pathLocale}${pathname}`;
+
+    // Specific hreflang for the product's country (both ar and en)
+    alternates.languages[meta] = url;
+
+    // Generic language tags (ar/en) once
+    if (!addedLangGeneric.has(lang)) {
+      alternates.languages[lang] = url;
+      addedLangGeneric.add(lang);
+    }
   });
 
-  alternates.languages[
-    "x-default"
-  ] = `${baseUrl}/${relevantLocales[0]}${pathname}`;
-  alternates.canonical = `${baseUrl}/${relevantLocales[0]}${pathname}`;
-
-  if (process?.env?.NODE_ENV !== "production") {
-    const langsKeys = Object.keys(alternates.languages || {});
-  }
-console.log(alternates.languages);
+  // Canonical and x-default -> first relevant (keeps order in META_LOCALES, typically ar-* first)
+  const [firstLang, firstCountry] = relevantLocales[0].split("-");
+  const firstPathLocale = `${firstCountry}-${firstLang}`;
+  alternates.canonical = `${baseUrl}/${firstPathLocale}${pathname}`;
+  alternates.languages["x-default"] = `${baseUrl}/${firstPathLocale}${pathname}`;
 
   return alternates;
 }
@@ -213,36 +208,37 @@ console.log(alternates.languages);
  */
 export function generateHreflangLinks(pathname, baseUrl = BASE_URL) {
   const links = [];
+  const addedLangGeneric = new Set();
 
-  META_LOCALES.forEach((locale) => {
-    const [country, lang] = locale.split("-");
-    const url = `${baseUrl}/${locale}${pathname}`;
+  META_LOCALES.forEach((meta) => {
+    const [lang, country] = meta.split("-");
+    const pathLocale = `${country}-${lang}`;
+    const url = `${baseUrl}/${pathLocale}${pathname}`;
 
-    // Add specific locale hreflang
+    // Add specific locale hreflang (e.g., ar-sa)
     links.push({
       rel: "alternate",
-      hrefLang: locale,
+      hrefLang: meta,
       href: url,
     });
-    console.log("hreflang  links",links);
-    
 
-    // Add general language hreflang for the first occurrence
-    const existingLang = links.find((link) => link.hrefLang === lang);
-    if (!existingLang) {
+    // Add generic language hreflang once (ar/en)
+    if (!addedLangGeneric.has(lang)) {
       links.push({
         rel: "alternate",
         hrefLang: lang,
         href: url,
       });
+      addedLangGeneric.add(lang);
     }
   });
 
-  // Add x-default
+  // Add x-default pointing to default locale
+  const [defLang, defCountry] = META_LOCALES[0].split("-");
   links.push({
     rel: "alternate",
     hrefLang: "x-default",
-    href: `${baseUrl}/${META_LOCALES[0]}${pathname}`,
+    href: `${baseUrl}/${defCountry}-${defLang}${pathname}`,
   });
 
   return links;
