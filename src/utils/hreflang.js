@@ -1,5 +1,5 @@
 import { getLocale } from "next-intl/server";
-import { BASE_URL, META_LOCALES } from "./constants";
+import { BASE_URL, META_LOCALES, META_LOCALES_DEF } from "./constants";
 
 /**
  * Generates hreflang URLs for all supported locales
@@ -34,8 +34,10 @@ export async function generateHreflangAlternates(pathname, baseUrl = BASE_URL) {
   });
 
   // x-default points to the default locale's URL
-  const [defLang, defCountry] = META_LOCALES[0].split("-");
-  alternates.languages["x-default"] = `${baseUrl}/${defCountry}-${defLang}${pathname}`;
+  const [defLang, defCountry] = META_LOCALES_DEF.split("-");
+  alternates.languages[
+    "x-default"
+  ] = `${baseUrl}/${defCountry}-${defLang}${pathname}`;
 
   return alternates;
 }
@@ -158,7 +160,9 @@ export function generateHreflangAlternatesForProduct(
     product?.country_name,
   ];
 
-  const normalizedCandidates = rawCandidates.map(normalizeCountry).filter(Boolean);
+  const normalizedCandidates = rawCandidates
+    .map(normalizeCountry)
+    .filter(Boolean);
   const productCountryCode = normalizedCandidates[0] || null;
 
   if (!productCountryCode) {
@@ -195,7 +199,9 @@ export function generateHreflangAlternatesForProduct(
   const [firstLang, firstCountry] = relevantLocales[0].split("-");
   const firstPathLocale = `${firstCountry}-${firstLang}`;
   alternates.canonical = `${baseUrl}/${firstPathLocale}${pathname}`;
-  alternates.languages["x-default"] = `${baseUrl}/${firstPathLocale}${pathname}`;
+  alternates.languages[
+    "x-default"
+  ] = `${baseUrl}/${firstPathLocale}${pathname}`;
 
   return alternates;
 }
@@ -234,7 +240,7 @@ export function generateHreflangLinks(pathname, baseUrl = BASE_URL) {
   });
 
   // Add x-default pointing to default locale
-  const [defLang, defCountry] = META_LOCALES[0].split("-");
+  const [defLang, defCountry] = META_LOCALES_DEF.split("-");
   links.push({
     rel: "alternate",
     hrefLang: "x-default",

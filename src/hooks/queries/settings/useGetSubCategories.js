@@ -18,6 +18,8 @@ function useGetSubCategories(category, enabled, page) {
           return res.data?.data?.data;
         }
       } catch (error) {
+        console.log(error);
+
         throw new Error(error);
       }
     },

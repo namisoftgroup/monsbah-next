@@ -23,7 +23,7 @@ export async function GET(request) {
   let userType = cookieStore.get("user_type")?.value;
 
   if (!token) {
-    return NextResponse.json({ message: t("noUserLoggedIn") }, { status: 401 });
+    return NextResponse.json({ message: t("noUserLoggedIn") }, { status: 200 });
   }
 
   let res = await fetchProfile(token, userType);
@@ -32,7 +32,7 @@ export async function GET(request) {
     const newTokenData = await refreshToken();
     if (!newTokenData?.token) {
       cookieStore.delete("token");
-      return NextResponse.json({ message: t("unauthorized") }, { status: 401 });
+      return NextResponse.json({ message: t("unauthorized") }, { status: 200 });
     }
     token = newTokenData.token;
     cookieStore.set("token", token, {

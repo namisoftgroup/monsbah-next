@@ -14,7 +14,7 @@ export const LOCALES = [
   "qa-ar",
   "qa-en",
 ];
-export const DEFAULT_LOCALE = "sa-ar";
+export const DEFAULT_LOCALE = "kw-ar";
 
 export const routing = defineRouting({
   locales: LOCALES,

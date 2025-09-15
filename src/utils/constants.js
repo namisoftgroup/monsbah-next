@@ -4,9 +4,9 @@ export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export const LOCALES = ["ar", "en"];
 
 export const META_LOCALES = [
+  "ar-kw",
   "ar-sa",
   "en-sa",
-  "ar-kw",
   "en-kw",
   "ar-ae",
   "en-ae",
@@ -17,6 +17,7 @@ export const META_LOCALES = [
   "ar-qa",
   "en-qa",
 ];
+export const META_LOCALES_DEF = "ar-kw";
 
 export const META_DATA_CONTENT = {
   en: {
