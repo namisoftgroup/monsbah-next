@@ -16,6 +16,7 @@ export default function ProductsSection({ userType }) {
     fetchNextPage,
     hasNextPage,
   } = useGetProducts(userType);
+  console.log(productsData);
 
   const allProducts =
     productsData?.pages?.flatMap((page) => page?.data?.data) ?? [];
